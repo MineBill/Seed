@@ -1,0 +1,36 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Seed.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Seed.Views.ProjectsView"
+             x:DataType="viewModels:ProjectsViewModel">
+    <Design.DataContext>
+        <viewModels:ProjectsViewModel/>
+    </Design.DataContext>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Command="{Binding NewProjectCommand}" Content="New Project"/>
+            <Button Command="{Binding AddProjectCommand}" Content="Add Project"/>
+        </StackPanel>
+        <ListBox 
+            Padding="5" 
+            ItemsSource="{Binding Projects}" 
+            SelectedItem="{Binding SelectedProject}"
+            IsVisible="{Binding Projects.Count}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+        <TextBlock 
+            Margin="0 50 0 0"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Center"
+            IsVisible="{Binding !Projects.Count}">
+            No projects found. Try creating one!
+        </TextBlock>
+    </DockPanel>
+</UserControl>
