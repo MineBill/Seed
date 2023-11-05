@@ -1,0 +1,464 @@
+{
+  "launcher": {
+    "version": 27,
+    "url": "https://vps2.flaxengine.com/store/builds/Launcher_27.zip"
+  },
+  "download": "https://vps2.flaxengine.com/store/builds/InstallFlax.exe",
+  "versions": [
+    {
+      "name": "1.7",
+      "version": "1.7.6404",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_07_06404/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Source/Platforms/Windows",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_07_06404/Windows.zip"
+        },
+        {
+          "name": "Linux (target platform)",
+          "targetPath": "Source/Platforms/Linux",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_07_06404/Linux.zip"
+        },
+        {
+          "name": "Android (target platform)",
+          "targetPath": "Source/Platforms/Android",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_07_06404/Android.zip"
+        }
+      ]
+    },
+    {
+      "name": "1.6",
+      "version": "1.6.6344",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_06_06344/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Source/Platforms/Windows",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_06_06344/Windows.zip"
+        },
+        {
+          "name": "Linux (target platform)",
+          "targetPath": "Source/Platforms/Linux",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_06_06344/Linux.zip"
+        },
+        {
+          "name": "Android (target platform)",
+          "targetPath": "Source/Platforms/Android",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_06_06344/Android.zip"
+        }
+      ]
+    },
+    {
+      "name": "1.5",
+      "version": "1.5.6339",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_05_06339/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Source/Platforms/Windows",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_05_06339/Windows.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "Source/Platforms/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_05_06339/UWP.zip"
+        },
+        {
+          "name": "Linux (target platform)",
+          "targetPath": "Source/Platforms/Linux",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_05_06339/Linux.zip"
+        },
+        {
+          "name": "Android (target platform)",
+          "targetPath": "Source/Platforms/Android",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_05_06339/Android.zip"
+        }
+      ]
+    },
+    {
+      "name": "1.4",
+      "version": "1.4.6334",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_04_06334/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Source/Platforms/Windows",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_04_06334/Windows.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "Source/Platforms/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_04_06334/UWP.zip"
+        },
+        {
+          "name": "Linux (target platform)",
+          "targetPath": "Source/Platforms/Linux",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_04_06334/Linux.zip"
+        },
+        {
+          "name": "Android (target platform)",
+          "targetPath": "Source/Platforms/Android",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_04_06334/Android.zip"
+        }
+      ]
+    },
+    {
+      "name": "1.3",
+      "version": "1.3.6228",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_03_06228/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Source/Platforms/Windows",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_03_06228/Windows.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "Source/Platforms/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_03_06228/UWP.zip"
+        },
+        {
+          "name": "Linux (target platform)",
+          "targetPath": "Source/Platforms/Linux",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_03_06228/Linux.zip"
+        },
+        {
+          "name": "Android (target platform)",
+          "targetPath": "Source/Platforms/Android",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_03_06228/Android.zip"
+        }
+      ]
+    },
+    {
+      "name": "1.2",
+      "version": "1.2.6224",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_02_06224/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Source/Platforms/Windows",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_02_06224/Windows.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "Source/Platforms/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_02_06224/UWP.zip"
+        },
+        {
+          "name": "Linux (target platform)",
+          "targetPath": "Source/Platforms/Linux",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_02_06224/Linux.zip"
+        },
+        {
+          "name": "Android (target platform)",
+          "targetPath": "Source/Platforms/Android",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_02_06224/Android.zip"
+        }
+      ]
+    },
+    {
+      "name": "1.1",
+      "version": "1.1.6218",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_01_06218/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Source/Platforms/Windows",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_01_06218/Windows.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "Source/Platforms/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_01_06218/UWP.zip"
+        },
+        {
+          "name": "Linux (target platform)",
+          "targetPath": "Source/Platforms/Linux",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_01_06218/Linux.zip"
+        },
+        {
+          "name": "Android (target platform)",
+          "targetPath": "Source/Platforms/Android",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_01_06218/Android.zip"
+        }
+      ]
+    },
+    {
+      "name": "1.0",
+      "version": "1.0.6216",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_00_06216/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Source/Platforms/Windows",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_00_06216/Windows.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "Source/Platforms/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_00_06216/UWP.zip"
+        },
+        {
+          "name": "Linux (target platform)",
+          "targetPath": "Source/Platforms/Linux",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_00_06216/Linux.zip"
+        },
+        {
+          "name": "Android (target platform)",
+          "targetPath": "Source/Platforms/Android",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_1_00_06216/Android.zip"
+        }
+      ]
+    },
+    {
+      "name": "0.7",
+      "version": "0.7.6196",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_07_06196/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "FlaxDeps/Windows",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_07_06196/Windows.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "FlaxDeps/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_07_06196/UWP.zip"
+        },
+        {
+          "name": "Linux (target platform)",
+          "targetPath": "FlaxDeps/Linux",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_07_06196/Linux.zip"
+        }
+      ]
+    },
+    {
+      "name": "0.6",
+      "version": "0.6.6192",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_06_06192/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "FlaxDeps/Win",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_06_06192/Win.zip"
+        },
+        {
+          "name": "Xbox One (target platform)",
+          "targetPath": "FlaxDeps/XboxOne",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_06_06192/XboxOne.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "FlaxDeps/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_06_06192/UWP.zip"
+        },
+        {
+          "name": "Linux (target platform)",
+          "targetPath": "FlaxDeps/Linux",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_06_06192/Linux.zip"
+        }
+      ]
+    },
+    {
+      "name": "0.5",
+      "version": "0.5.6187",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_05_06187/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Editor/PlatformData/Win",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_05_06187/Win.zip"
+        },
+        {
+          "name": "Xbox One (target platform)",
+          "targetPath": "Editor/PlatformData/XboxOne",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_05_06187/XboxOne.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "Editor/PlatformData/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_05_06187/UWP.zip"
+        }
+      ]
+    },
+    {
+      "name": "0.4",
+      "version": "0.4.6181",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_04_06181/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Editor/PlatformData/Win",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_04_06181/Win.zip"
+        },
+        {
+          "name": "Xbox One (target platform)",
+          "targetPath": "Editor/PlatformData/XboxOne",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_04_06181/XboxOne.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "Editor/PlatformData/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_04_06181/UWP.zip"
+        }
+      ]
+    },
+    {
+      "name": "0.3",
+      "version": "0.3.6176",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_03_06176/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Editor/PlatformData/Win",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_03_06176/Win.zip"
+        },
+        {
+          "name": "Xbox One (target platform)",
+          "targetPath": "Editor/PlatformData/XboxOne",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_03_06176/XboxOne.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "Editor/PlatformData/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_03_06176/UWP.zip"
+        }
+      ]
+    },
+    {
+      "name": "0.2",
+      "version": "0.2.6169",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_02_06169/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Editor/PlatformData/Win",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_02_06169/Win.zip"
+        },
+        {
+          "name": "Xbox One (target platform)",
+          "targetPath": "Editor/PlatformData/XboxOne",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_02_06169/XboxOne.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "Editor/PlatformData/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_02_06169/UWP.zip"
+        }
+      ]
+    },
+    {
+      "name": "0.1",
+      "version": "0.1.6163",
+      "packages": [
+        {
+          "name": "Editor",
+          "requried": true,
+          "targetPath": "",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_01_06163/Editor.zip"
+        },
+        {
+          "name": "Windows (target platform)",
+          "default": true,
+          "targetPath": "Editor/PlatformData/Win",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_01_06163/Win.zip"
+        },
+        {
+          "name": "Xbox One (target platform)",
+          "targetPath": "Editor/PlatformData/XboxOne",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_01_06163/XboxOne.zip"
+        },
+        {
+          "name": "Windows Store (target platform)",
+          "targetPath": "Editor/PlatformData/UWP",
+          "url": "https://vps2.flaxengine.com/store/builds/Package_0_01_06163/UWP.zip"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Seed.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="150" d:DesignHeight="200"
+             x:Class="Seed.Views.EngineView"
+             x:DataType="vm:EngineViewModel">
+    <Design.DataContext>
+        <vm:EngineViewModel/>
+    </Design.DataContext>
+    <StackPanel 
+        Margin="2" 
+        Spacing="5" 
+        ToolTip.Tip="{Binding Path}"
+        Width="150">
+        <Border CornerRadius="5" ClipToBounds="True">
+            <Panel Background="{StaticResource BackgroundBrush}">
+                <Image Source="/Assets/Logo_Icon_1500.png" Height="150" Stretch="Uniform" />
+                <Panel Height="150">
+                </Panel>
+            </Panel>
+        </Border>    
+        <TextBlock 
+            FontWeight="Bold"
+            HorizontalAlignment="Center"
+            Text="{Binding Version}"/>
+    </StackPanel>
+</UserControl>

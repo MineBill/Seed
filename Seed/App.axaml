@@ -2,16 +2,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="Seed.App"
              xmlns:local="using:Seed"
-             RequestedThemeVariant="Dark">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
+             RequestedThemeVariant="Default">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Assets/Colors.axaml"></ResourceInclude>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+    
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <local:ViewLocator />
     </Application.DataTemplates>
-  
+
     <Application.Styles>
         <FluentTheme />
         <!-- <StyleInclude Source="avares://Semi.Avalonia/Themes/Index.axaml" /> -->
-        <StyleInclude Source="Icons.axaml"></StyleInclude>
+        <StyleInclude Source="/Assets/Icons.axaml"/>
+        <StyleInclude Source="/Assets/Styles.axaml"/>
     </Application.Styles>
 </Application>

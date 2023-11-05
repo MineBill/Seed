@@ -2,17 +2,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModels="clr-namespace:Seed.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="clr-namespace:Seed.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="150" d:DesignHeight="200"
              x:Class="Seed.Views.ProjectView"
-             x:DataType="viewModels:ProjectViewModel">
+             x:DataType="vm:ProjectViewModel">
     <Design.DataContext>
-        <viewModels:ProjectViewModel/>
+        <vm:ProjectViewModel/>
     </Design.DataContext>
     <StackPanel Margin="2" Spacing="5" Width="150">
         <Border CornerRadius="5" ClipToBounds="True">
             <Panel Background="CornflowerBlue">
-                <Image Source="{Binding Icon}" Width="150" Stretch="Uniform" />
+                <Image Source="{Binding Icon}" Height="150" Stretch="Uniform" />
                 <Panel Height="150" IsVisible="{Binding Icon, Converter={x:Static ObjectConverters.IsNull}}">
                 </Panel>
             </Panel>

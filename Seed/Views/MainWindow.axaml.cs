@@ -1,8 +1,4 @@
-using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.ReactiveUI;
-using ReactiveUI;
-using Seed.ViewModels;
 
 namespace Seed.Views;
 

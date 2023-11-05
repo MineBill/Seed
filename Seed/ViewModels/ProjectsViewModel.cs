@@ -1,13 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading;
 using System.Windows.Input;
-using Avalonia.Controls;
 using Avalonia.Platform.Storage;
-using Microsoft.Extensions.DependencyInjection;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using Seed.Models;
 using Seed.Services;
@@ -16,15 +17,18 @@ namespace Seed.ViewModels;
 
 public class ProjectsViewModel: ViewModelBase
 {
-    private static readonly ProjectDiscoveryService ProjectDiscoveryService = new();
-    
     private ProjectViewModel? _selectedProject;
     private CancellationTokenSource? _cancellationTokenSource;
-    private ProjectInfo _projectInfo;
+    
+    private IFilesService _filesService;
+    private IEngineLocatorService _engineLocator;
+    private IProjectLocatorService _projectLocator;
 
     public ObservableCollection<ProjectViewModel> Projects { get; } = new();
     public ICommand NewProjectCommand { get; private set; }
     public ICommand AddProjectCommand { get; private set; }
+
+    public Interaction<AddProjectViewModel, ProjectViewModel?> ShowAddProjectDialog { get; } = new();
 
     public ProjectViewModel? SelectedProject
     {
@@ -32,13 +36,19 @@ public class ProjectsViewModel: ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _selectedProject, value);
     }
 
-    public ProjectsViewModel()
+    public ProjectsViewModel(
+        IFilesService filesService, 
+        IEngineLocatorService engineLocator,
+        IProjectLocatorService projectLocator)
     {
+        _filesService = filesService;
+        _engineLocator = engineLocator;
+        _projectLocator = projectLocator;
+        
         NewProjectCommand = ReactiveCommand.Create(NewProject_Clicked);
         AddProjectCommand = ReactiveCommand.Create(AddProject_Clicked);
         
-        _projectInfo = ProjectDiscoveryService.Load() ?? new ProjectInfo();
-        foreach (var project in _projectInfo.Projects)
+        foreach (var project in _projectLocator.GetProjects())
         {
             Projects.Add(new ProjectViewModel(project));
         }
@@ -48,6 +58,14 @@ public class ProjectsViewModel: ViewModelBase
         _cancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = _cancellationTokenSource.Token;
         LoadIcons(cancellationToken);
+    }
+
+    public ProjectsViewModel()
+    {
+        Projects = new()
+        {
+            new(new Project("Pepeges", "/home/minebill/dev/FlaxProjects/Pepeges"))
+        };
     }
     
     // Call this after loading all the projects
@@ -66,31 +84,54 @@ public class ProjectsViewModel: ViewModelBase
 
     private void NewProject_Clicked()
     {
-        
+        var installed = _engineLocator.GetInstalledEngines();
+        if (installed is null || installed.Count == 0)
+        {
+            ShowNoEngineDialog();
+            return;
+        }
+        // Do stuff
     }
     
     private async void AddProject_Clicked()
     {
-        var filesService = App.Current.Services.GetService<IFilesService>();
-        if (filesService == null) return;
-
-        var file = await filesService.OpenFileAsync();
+        // var installed = _engineLocator.GetInstalledEngines();
+        // if (installed is null || installed.Count == 0)
+        // {
+        //     ShowNoEngineDialog();
+        //     return;
+        // }
+        var file = await _filesService.OpenFileAsync();
         if (file is null) return;
 
         var projectJson = JsonNode.Parse(await file.OpenReadAsync());
         var name = projectJson?["Name"]?.ToString()!;
         var projectPath = Path.GetDirectoryName(file.TryGetLocalPath()!)!;
-        var project = new Project
-        {
-            Name = name,
-            Version = new EngineVersion(0, 0, 0, 0),
-            IconPath = Path.Combine(projectPath, "Cache", "icon.png"),
-            Path = projectPath
-        };
-        
-        _projectInfo.Projects.Add(project);
-        Projects.Add(new ProjectViewModel(project));
-        
-        ProjectDiscoveryService.Save(_projectInfo);
+
+        // TODO: Pass a list of available engine versions over here
+        var vm = new AddProjectViewModel(projectPath);
+
+        var result = await ShowAddProjectDialog.Handle(vm);
+        if (result is not null)
+            Projects.Add(result);
+        // var project = new Project
+        // (
+        //     name,
+        //     projectPath
+        // );
+        //
+        // _projectInfo.Projects.Add(project);
+        // Projects.Add(new ProjectViewModel(project));
+        //
+        // ProjectDiscoveryService.Save(_projectInfo);
+    }
+
+    private static async void ShowNoEngineDialog()
+    {
+        var box = MessageBoxManager.GetMessageBoxStandard(
+            "Warning", 
+            "No installed engine version detected. Please install an engine version first.", 
+            icon: Icon.Warning);
+        await box.ShowWindowDialogAsync(App.Current.MainWindow);
     }
 }

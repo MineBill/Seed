@@ -2,12 +2,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Seed.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Seed.Views.EnginesView">
+             x:Class="Seed.Views.EnginesView"
+             x:DataType="vm:EnginesViewModel">
+    <Design.DataContext>
+        <vm:EnginesViewModel/>
+    </Design.DataContext>
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Add Version"/>
+        <StackPanel 
+            DockPanel.Dock="Top" 
+            Orientation="Horizontal" 
+            HorizontalAlignment="Right">
+            <Button
+                Command="{Binding DownloadVersionCommand}"
+                Classes="CoolButton" 
+                Content="Download Version"/>
         </StackPanel>
-        <ListBox/>
+        <ListBox
+            Padding="5"
+            ItemsSource="{Binding Engines}"
+            SelectedItem="{Binding SelectedEngine}"
+            IsVisible="{Binding Engines.Count}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
     </DockPanel>
 </UserControl>

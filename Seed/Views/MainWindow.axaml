@@ -9,18 +9,19 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Seed"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Width="1000" Height="650">
 
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
     
-    <TabControl TabStripPlacement="Left">
+    <TabControl TabStripPlacement="Left" Margin="0" Padding="0">
         <TabItem Header="Projects">
-            <views:ProjectsView/>
+            <views:ProjectsView DataContext="{Binding ProjectsViewModel}"/>
         </TabItem>
         <TabItem Header="Engines">
-            <views:EnginesView/>
+            <views:EnginesView DataContext="{Binding EnginesViewModel}"/>
         </TabItem>
         <TabItem Header="News">
             <!-- <WebView Url="https://flaxengine.com/blog/"></WebView> -->

@@ -1,22 +1,12 @@
-﻿namespace Seed.Models;
+﻿using System;
 
-public class Project
+namespace Seed.Models;
+
+public record Project(string Name, string Path, Version? Version = null)
 {
-    public string Name { get; set; } = string.Empty;
-    public EngineVersion Version { get; set; } = new(0, 0, 0, 0);
-    public string IconPath { get; set; } = string.Empty;
-
-    public string Path { get; set; } = string.Empty;
-
-    public Project(string name, EngineVersion version, string iconPath)
-    {
-        Name = name;
-        Version = version;
-        IconPath = iconPath;
-    }
-
-    public Project()
-    {
-        
-    }
+    public string Name { get; set; } = Name;
+    public string Path { get; set; } = Path;
+    public Version? Version { get; set; } = Version;
+    
+    public string IconPath => System.IO.Path.Combine(Path, "Cache", "icon.png");
 }

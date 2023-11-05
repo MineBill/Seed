@@ -7,9 +7,9 @@ namespace Seed;
 
 public class ViewLocator : IDataTemplate
 {
-    public Control Build(object data)
+    public Control Build(object? data)
     {
-        var name = data.GetType().FullName!.Replace("ViewModel", "View");
+        var name = data.GetType().FullName.Replace("ViewModel", "View");
         var type = Type.GetType(name);
 
         if (type != null)

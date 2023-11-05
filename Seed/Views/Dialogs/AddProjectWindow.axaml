@@ -1,0 +1,65 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Seed.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="300"
+        x:Class="Seed.Views.Dialogs.AddProjectWindow"
+        x:DataType="vm:AddProjectViewModel"
+        Width="500" Height="300"
+        Title="Add Project">
+    <DockPanel Margin="5">
+        <StackPanel
+            DockPanel.Dock="Bottom"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Width="80" 
+                HorizontalContentAlignment="Center">Ok</Button>
+            <Button 
+                Command="{Binding CloseWindowCommand}"
+                Width="80" 
+                HorizontalContentAlignment="Center">Cancel</Button>
+        </StackPanel>
+        <Grid
+            HorizontalAlignment="Center"
+            ColumnDefinitions="Auto, Auto, Auto"
+            RowDefinitions="Auto, Auto">
+            <Label 
+                Grid.Row="0" 
+                Grid.Column="0" 
+                VerticalAlignment="Center"
+                ToolTip.Tip="The folder path where the project is located.">
+                Path
+            </Label>
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5 0 5 0"
+                Padding="5"
+                VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
+                Text="{Binding ProjectPath}"
+                ToolTip.Tip="The folder path where the project is located."/>
+            <Button
+                Grid.Row="0"
+                Grid.Column="2" VerticalAlignment="Center"
+                ToolTip.Tip="Change the folder path of the project.">
+                Change
+            </Button>
+            <Label 
+                Grid.Row="1" 
+                Grid.Column="0" 
+                VerticalAlignment="Center">
+                Engine Version
+            </Label>
+            <ComboBox 
+                Grid.Row="1" 
+                Grid.Column="1" 
+                Margin="5 0 5 0"
+                Padding="5"
+                ItemsSource="{Binding AvailableEngineVersions}"
+                SelectedItem="{Binding SelectedVersion}" />
+        </Grid>
+    </DockPanel>
+</Window>

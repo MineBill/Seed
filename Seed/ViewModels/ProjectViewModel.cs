@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Avalonia.Media.Imaging;
 using GLib;
 using ReactiveUI;
@@ -9,14 +10,14 @@ namespace Seed.ViewModels;
 
 public class ProjectViewModel: ViewModelBase
 {
-    private Project _project = new() { Name = "Project Title", Version = new EngineVersion(2, 3, 0000, 1) };
-    private Bitmap _icon;
+    private Project? _project;
+    private Bitmap? _icon;
     
-    public string Name => _project.Name;
+    public string? Name => _project?.Name;
     
-    public EngineVersion EngineVersion => _project.Version;
+    public Version? EngineVersion => _project?.Version;
 
-    public Bitmap Icon
+    public Bitmap? Icon
     {
         get => _icon;
         private set => this.RaiseAndSetIfChanged(ref _icon, value);
@@ -29,12 +30,16 @@ public class ProjectViewModel: ViewModelBase
 
     public ProjectViewModel()
     {
+        _project = new Project("Big AAA Game", "/home/user/dev/projects/Big AAA Game", new Version(1, 6, 6032, 4));
     }
 
     public async Task LoadIcon()
     {
+        if (_project is null)
+            return;
         if (string.IsNullOrEmpty(_project.IconPath))
             return;
+        
         Icon = await Task.Run(() => new Bitmap(_project.IconPath));
     }
 }
