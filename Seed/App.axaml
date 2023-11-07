@@ -17,6 +17,7 @@
     </Application.DataTemplates>
 
     <Application.Styles>
+        <!-- <SimpleTheme/> -->
         <FluentTheme />
         <!-- <StyleInclude Source="avares://Semi.Avalonia/Themes/Index.axaml" /> -->
         <StyleInclude Source="/Assets/Icons.axaml"/>

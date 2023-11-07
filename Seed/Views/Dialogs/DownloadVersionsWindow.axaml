@@ -6,7 +6,8 @@
         mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="300"
         x:Class="Seed.Views.Dialogs.DownloadVersionsWindow"
         x:DataType="vm:DownloadVersionsViewModel"
-        Title="Download Engine">
+        Title="Download Engine"
+        SizeToContent="WidthAndHeight">
     <DockPanel>
         <StackPanel
             DockPanel.Dock="Bottom"
@@ -59,14 +60,21 @@
                     VerticalAlignment="Center">
                     Platform Tools
                 </TextBlock>
-                <StackPanel
+                <ItemsControl
                     Grid.Row="1"
                     Grid.Column="1"
+                    ItemsSource="{Binding SelectedVersion.Packages}"
                     VerticalAlignment="Center">
-                    <CheckBox IsEnabled="{Binding !IsWindows}" IsChecked="{Binding InstallWindowsTools}">Windows</CheckBox>
-                    <CheckBox IsEnabled="{Binding !IsLinux}" IsChecked="{Binding InstallLinuxTools}">Linux</CheckBox>
-                    <CheckBox IsChecked="{Binding InstallAndroidTools}">Android</CheckBox>
-                </StackPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox
+                                IsVisible="{Binding !IsEditorPackage}"
+                                IsEnabled="{Binding !IsCurrentPlatform}"
+                                IsChecked="{Binding IsChecked}"
+                                Content="{Binding Name}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
         </StackPanel>
     </DockPanel>

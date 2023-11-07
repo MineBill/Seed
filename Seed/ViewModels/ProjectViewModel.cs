@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Avalonia.Media.Imaging;
-using GLib;
 using ReactiveUI;
 using Seed.Models;
 using Task = System.Threading.Tasks.Task;

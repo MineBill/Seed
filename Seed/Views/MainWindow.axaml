@@ -15,17 +15,18 @@
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
-    
-    <TabControl TabStripPlacement="Left" Margin="0" Padding="0">
-        <TabItem Header="Projects">
-            <views:ProjectsView DataContext="{Binding ProjectsViewModel}"/>
-        </TabItem>
-        <TabItem Header="Engines">
-            <views:EnginesView DataContext="{Binding EnginesViewModel}"/>
-        </TabItem>
-        <TabItem Header="News">
-            <!-- <WebView Url="https://flaxengine.com/blog/"></WebView> -->
-            Maybe show news page here
-        </TabItem>
-    </TabControl>
+
+    <DockPanel Margin="2">
+        <views:DownloadInfoView DataContext="{Binding DownloadInfoViewModel}" DockPanel.Dock="Bottom" />
+        <TabControl TabStripPlacement="Left" Margin="0" Padding="0">
+            <TabItem Header="Projects">
+                <views:ProjectsView DataContext="{Binding ProjectsViewModel}" />
+            </TabItem>
+            <TabItem Header="Engines">
+                <views:EnginesView DataContext="{Binding EnginesViewModel}" />
+            </TabItem>
+            <TabItem Header="News">
+            </TabItem>
+        </TabControl>
+    </DockPanel>
 </Window>

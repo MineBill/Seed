@@ -10,7 +10,7 @@ namespace Seed.Models;
 /// A package is a download available from the flax servers. It can be
 /// an Editor or Platform Tools.
 /// </summary>
-public class Package
+public class RemotePackage
 {
     /// <summary>
     /// 
@@ -21,7 +21,7 @@ public class Package
     /// <summary>
     /// 
     /// </summary>
-    [JsonPropertyName("required")]
+    [JsonPropertyName("requried")] // This is not a typo here, it's a typo in the api response.
     public bool? Required { get; set; }
     
     /// <summary>
@@ -83,7 +83,7 @@ public class Package
         }
     }
     
-    public Package(string name, string targetPath, string url)
+    public RemotePackage(string name, string targetPath, string url)
     {
         Name = name;
         TargetPath = targetPath;
@@ -112,33 +112,17 @@ public class RemoteEngine: IComparable<RemoteEngine>
     /// The packages available for this engine version.
     /// </summary>
     [JsonPropertyName("packages")]
-    public List<Package> Packages { get; set; }
+    public List<RemotePackage> Packages { get; set; }
+
+    public List<RemotePackage> PlatformTools => Packages.FindAll(x => !x.IsEditorPackage);
 
     /// <summary>
     /// Get the editor package for this engine.
     /// </summary>
     /// <returns></returns>
-    public Package GetEditorPackage(OSPlatform platform)
+    public RemotePackage GetEditorPackage()
     {
         return Packages.First(x => x.IsEditorPackage);
-    }
-
-    public Package GetPlatformTools(OSPlatform platform)
-    {
-        if (platform == OSPlatform.Windows)
-        {
-            
-        }
-        else if (platform == OSPlatform.Linux)
-        {
-            
-        }
-        else if (platform == OSPlatform.OSX)
-        {
-            
-        }
-        
-        throw new ArgumentException($"Unsupported os: {platform}");
     }
 
     public int CompareTo(RemoteEngine? other)

@@ -28,6 +28,8 @@ public class ProjectsViewModel: ViewModelBase
     public ICommand NewProjectCommand { get; private set; }
     public ICommand AddProjectCommand { get; private set; }
 
+    public bool HasAnyProjects => Projects.Count > 0;
+
     public Interaction<AddProjectViewModel, ProjectViewModel?> ShowAddProjectDialog { get; } = new();
 
     public ProjectViewModel? SelectedProject

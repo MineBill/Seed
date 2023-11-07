@@ -3,10 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Seed.ViewModels;
 using Seed.Views;
-using AvaloniaWebView;
-using Gtk;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Seed.Services;
 using Application = Avalonia.Application;
 using Window = Avalonia.Controls.Window;
@@ -32,6 +29,7 @@ public partial class App : Application
         services.AddSingleton<IEngineLocatorService>(_ => new EngineLocatorService());
         services.AddSingleton<IEngineDownloaderService>(_ => new EngineDownloaderService());
         services.AddSingleton<IProjectLocatorService>(_ => new ProjectLocatorService());
+        services.AddSingleton<IEngineManager>(_ => new EngineManager());
         Services = services.BuildServiceProvider();
 
         MainWindow.DataContext = new MainWindowViewModel(Services);
@@ -42,12 +40,5 @@ public partial class App : Application
         }
 
         base.OnFrameworkInitializationCompleted();
-    }
-
-    public override void RegisterServices()
-    {
-        base.RegisterServices();
-        
-        AvaloniaWebViewBuilder.Initialize(default);
     }
 }

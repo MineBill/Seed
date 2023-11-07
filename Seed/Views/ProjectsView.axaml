@@ -6,31 +6,33 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Seed.Views.ProjectsView"
              x:DataType="viewModels:ProjectsViewModel">
-    <Design.DataContext>
-        <viewModels:ProjectsViewModel/>
-    </Design.DataContext>
+    <!-- <Design.DataContext> -->
+    <!--     <viewModels:ProjectsViewModel/> -->
+    <!-- </Design.DataContext> -->
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Classes="CoolButton" Command="{Binding NewProjectCommand}" Content="New Project"/>
             <Button Classes="CoolButton" Command="{Binding AddProjectCommand}" Content="Add Project"/>
         </StackPanel>
-        <TextBlock 
-            Margin="0 50 0 0"
-            VerticalAlignment="Top"
-            HorizontalAlignment="Center"
-            IsVisible="{Binding !Projects.Count}">
-            No projects found. Try creating one!
-        </TextBlock>
         <ListBox
             Padding="5"
             ItemsSource="{Binding Projects}"
             SelectedItem="{Binding SelectedProject}"
-            IsVisible="{Binding Projects.Count}">
+            Background="Red"
+            IsVisible="{Binding HasAnyProjects}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel></WrapPanel>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
+        <TextBlock 
+            Margin="0 50 0 0"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Center"
+            FontSize="20"
+            IsVisible="{Binding !HasAnyProjects}">
+            No projects found. Try creating one!
+        </TextBlock>
     </DockPanel>
 </UserControl>

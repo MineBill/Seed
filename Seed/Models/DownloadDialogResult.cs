@@ -12,14 +12,14 @@ public class DownloadDialogResult
     /// <summary>
     /// The editor package to install.
     /// </summary>
-    public Package Editor { get; set; }
+    public RemotePackage Editor { get; set; }
 
     /// <summary>
     /// Which platform tools to install.
     /// </summary>
-    public List<Package> PlatformTools { get; set; }
+    public List<RemotePackage> PlatformTools { get; set; }
 
-    public DownloadDialogResult(RemoteEngine engine, Package editor, List<Package> tools)
+    public DownloadDialogResult(RemoteEngine engine, RemotePackage editor, List<RemotePackage> tools)
     {
         Engine = engine;
         Editor = editor;

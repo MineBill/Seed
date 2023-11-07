@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Seed.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="50"
+             x:Class="Seed.Views.DownloadInfoView"
+             x:DataType="vm:DownloadInfoViewModel">
+    <DockPanel>
+        <TextBlock 
+            Margin="5"
+            DockPanel.Dock="Left"
+            VerticalAlignment="Center"
+            Text="{Binding CurrentAction}"/>
+        <ProgressBar
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            ShowProgressText="True"
+            Maximum="1"
+            Minimum="0"
+            Value="{Binding Progress}"/>
+    </DockPanel>
+</UserControl>

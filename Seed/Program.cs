@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using System;
-using Avalonia.WebView.Desktop;
 
 namespace Seed;
 
@@ -20,6 +19,5 @@ class Program
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace()
-            .UseReactiveUI()
-            .UseDesktopWebView();
+            .UseReactiveUI();
 }

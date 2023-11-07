@@ -25,8 +25,6 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0-rc.2.23479.6" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-rc.2.23479.6" />
         <PackageReference Include="Semi.Avalonia" Version="11.0.1" />
-        <PackageReference Include="WebView.Avalonia" Version="11.0.0.1" />
-        <PackageReference Include="WebView.Avalonia.Desktop" Version="11.0.0.1" />
     </ItemGroup>
 
 
