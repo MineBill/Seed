@@ -4,7 +4,7 @@ using Seed.Models;
 
 namespace Seed.Services.Dummies;
 
-public class DummyEngineLocatorService: IEngineLocatorService
+public class DummyEngineManagerService: IEngineManager
 {
     public List<Engine> GetInstalledEngines()
     {
@@ -21,5 +21,9 @@ public class DummyEngineLocatorService: IEngineLocatorService
                 Version = new Version(1, 7, 6045, 3)
             }
         };
+    }
+
+    public void AddEngine(Engine engine)
+    {
     }
 }

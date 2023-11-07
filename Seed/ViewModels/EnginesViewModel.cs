@@ -46,6 +46,12 @@ public class EnginesViewModel: ViewModelBase
 
     public EnginesViewModel()
     {
+        _engineManager = new DummyEngineManagerService();
+        var engines = _engineManager.GetInstalledEngines();
+        foreach (var engine in engines)
+        {
+            Engines.Add(new EngineViewModel(engine));
+        }
     }
 
     private async Task DownloadVersion_Clicked()
@@ -56,6 +62,8 @@ public class EnginesViewModel: ViewModelBase
             // TODO: Log failure to read API
             return;
         }
+        
+        // TODO: Exclude already installed version from being installed again.
 
         var downloadViewModel = new DownloadVersionsViewModel(versions);
         

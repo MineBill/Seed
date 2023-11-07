@@ -19,6 +19,14 @@
                 Classes="CoolButton" 
                 Content="Download Version"/>
         </StackPanel>
+        <TextBlock 
+            Margin="0 50 0 0"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Center"
+            FontSize="20"
+            IsVisible="{Binding !HasAnyEngines}">
+            No engines found. Try downloading one!
+        </TextBlock>
         <ListBox
             Padding="5"
             ItemsSource="{Binding Engines}"
@@ -30,13 +38,5 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
-        <TextBlock 
-            Margin="0 50 0 0"
-            VerticalAlignment="Top"
-            HorizontalAlignment="Center"
-            FontSize="20"
-            IsVisible="{Binding !HasAnyEngines}">
-            No engines found. Try downloading one!
-        </TextBlock>
     </DockPanel>
 </UserControl>

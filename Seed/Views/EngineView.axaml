@@ -16,7 +16,7 @@
         Width="150">
         <Border CornerRadius="5" ClipToBounds="True">
             <Panel Background="{StaticResource BackgroundBrush}">
-                <Image Source="/Assets/Logo_Icon_1500.png" Height="150" Stretch="Uniform" />
+                <Image Source="/Assets/flax-logo-white.png" Margin="2" Height="150" Stretch="Uniform" />
                 <Panel Height="150">
                 </Panel>
             </Panel>
@@ -25,5 +25,6 @@
             FontWeight="Bold"
             HorizontalAlignment="Center"
             Text="{Binding Version}"/>
+        
     </StackPanel>
 </UserControl>

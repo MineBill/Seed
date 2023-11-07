@@ -31,7 +31,7 @@ public class Engine
     /// <returns>True if the engine installation is valid, false otherwise.</returns>
     public bool ValidateInstallation()
     {
-        return false;
+        return true;
     }
 }
 
@@ -49,6 +49,6 @@ public class Package
 
     public bool ValidateInstallation()
     {
-        return false;
+        return true;
     }
 }
