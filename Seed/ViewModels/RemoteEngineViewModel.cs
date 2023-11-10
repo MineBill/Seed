@@ -7,7 +7,7 @@ using Seed.Models;
 
 namespace Seed.ViewModels;
 
-public class RemoteEngineViewModel: ViewModelBase
+public class RemoteEngineViewModel : ViewModelBase
 {
     public RemoteEngine RemoteEngine { get; }
 
@@ -19,7 +19,7 @@ public class RemoteEngineViewModel: ViewModelBase
     {
         RemoteEngine = remoteEngine;
 
-        foreach (var package in RemoteEngine.Packages)
+        foreach (var package in RemoteEngine.SupportedPlatformTools)
         {
             Packages.Add(new PackageViewModel(package));
         }
@@ -31,6 +31,7 @@ public class PackageViewModel : ViewModelBase
     public RemotePackage RemotePackage { get; }
 
     private bool _isChecked;
+
     public bool IsChecked
     {
         get => _isChecked;
@@ -41,7 +42,8 @@ public class PackageViewModel : ViewModelBase
 
     public bool IsEditorPackage => RemotePackage.IsEditorPackage;
 
-    public bool IsCurrentPlatform {
+    public bool IsCurrentPlatform
+    {
         get
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -51,7 +53,7 @@ public class PackageViewModel : ViewModelBase
             throw new ArgumentException($"Unsupported os platform: {Environment.OSVersion}");
         }
     }
-    
+
     public PackageViewModel(RemotePackage remotePackage)
     {
         RemotePackage = remotePackage;

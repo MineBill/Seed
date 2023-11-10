@@ -7,36 +7,51 @@
              x:Class="Seed.Views.EnginesView"
              x:DataType="vm:EnginesViewModel">
     <Design.DataContext>
-        <vm:EnginesViewModel/>
+        <vm:EnginesViewModel />
     </Design.DataContext>
-    <DockPanel>
-        <StackPanel 
-            DockPanel.Dock="Top" 
-            Orientation="Horizontal" 
-            HorizontalAlignment="Right">
-            <Button
-                Command="{Binding DownloadVersionCommand}"
-                Classes="CoolButton" 
-                Content="Download Version"/>
-        </StackPanel>
-        <TextBlock 
-            Margin="0 50 0 0"
-            VerticalAlignment="Top"
-            HorizontalAlignment="Center"
-            FontSize="20"
-            IsVisible="{Binding !HasAnyEngines}">
-            No engines found. Try downloading one!
-        </TextBlock>
-        <ListBox
-            Padding="5"
-            ItemsSource="{Binding Engines}"
-            SelectedItem="{Binding SelectedEngine}"
-            IsVisible="{Binding HasAnyEngines}">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
-    </DockPanel>
+
+    <Border Padding="20 0 0 0"
+            Background="{DynamicResource ItemsControlBackground}">
+        <DockPanel>
+            <DockPanel
+                Background="{DynamicResource ItemsControlBackground}"
+                DockPanel.Dock="Top">
+                <Button
+                    DockPanel.Dock="Right"
+                    Command="{Binding DownloadVersionCommand}"
+                    Classes="CoolButton">
+                    <TextBlock>
+                        <PathIcon Width="15" Height="15" Data="{StaticResource IconArrowDownloadRegular}" />
+                        Download
+                    </TextBlock>
+                </Button>
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="27">
+                    Engine Versions
+                </TextBlock>
+            </DockPanel>
+            <TextBlock
+                Margin="0 50 0 0"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                FontSize="20"
+                IsVisible="{Binding !Engines.Count}">
+                No engines found. Try downloading one!
+            </TextBlock>
+            <ItemsControl
+                Padding="5"
+                BorderThickness="0 1 0 0"
+                BorderBrush="#5A5A5A"
+                Background="{DynamicResource ItemsControlBackground}"
+                ItemsSource="{Binding Engines}"
+                IsVisible="{Binding Engines.Count}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </DockPanel>
+    </Border>
 </UserControl>

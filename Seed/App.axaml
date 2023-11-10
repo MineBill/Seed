@@ -7,20 +7,19 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="/Assets/Colors.axaml"></ResourceInclude>
+                <ResourceInclude Source="/Resources/Resources.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
-    
+
     <Application.DataTemplates>
         <local:ViewLocator />
     </Application.DataTemplates>
 
     <Application.Styles>
-        <!-- <SimpleTheme/> -->
+        <!-- <SimpleTheme /> -->
         <FluentTheme />
-        <!-- <StyleInclude Source="avares://Semi.Avalonia/Themes/Index.axaml" /> -->
-        <StyleInclude Source="/Assets/Icons.axaml"/>
-        <StyleInclude Source="/Assets/Styles.axaml"/>
+        <StyleInclude Source="/Resources/Icons.axaml" />
+        <StyleInclude Source="/Resources/Styles.axaml" />
     </Application.Styles>
 </Application>

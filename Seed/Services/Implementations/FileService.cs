@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 
-namespace Seed.Services;
+namespace Seed.Services.Implementations;
 
 public class FilesService : IFilesService
 {
@@ -13,12 +16,13 @@ public class FilesService : IFilesService
         _target = target;
     }
 
-    public async Task<IStorageFile?> OpenFileAsync()
+    public async Task<IStorageFile?> OpenFileAsync(string title, IReadOnlyList<FilePickerFileType> options)
     {
         var files = await _target.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
         {
-            Title = "Open Text File",
-            AllowMultiple = false
+            Title = title,
+            AllowMultiple = false,
+            FileTypeFilter = options
         });
 
         return files.Count >= 1 ? files[0] : null;
@@ -30,5 +34,15 @@ public class FilesService : IFilesService
         {
             Title = "Save Text File"
         });
+    }
+
+    public void OpenFolder(string path)
+    {
+        var info = new ProcessStartInfo
+        {
+            FileName = OperatingSystem.IsLinux() ? "xdg-open" : "explorer.exe",
+            ArgumentList = { path },
+        };
+        Process.Start(info);
     }
 }

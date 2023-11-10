@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using ReactiveUI;
+using Seed.Models;
 using Seed.ViewModels;
 using Seed.Views.Dialogs;
 
@@ -23,16 +24,16 @@ public partial class ProjectsView : UserControl
         }
     }
 
-    private async Task DoShowDialogAsync(InteractionContext<AddProjectViewModel, ProjectViewModel?> interaction)
+    private async Task DoShowDialogAsync(InteractionContext<AddProjectViewModel, Project?> interaction)
     {
-         var dialog = new AddProjectWindow
-         {
-             DataContext = interaction.Input
-         };
+        var dialog = new AddProjectWindow
+        {
+            DataContext = interaction.Input
+        };
 
-         // TODO: AAAAAAAAAA WHY NO WINDOW??
-         var result = await dialog.ShowDialog<ProjectViewModel?>(App.Current.MainWindow);
-         Console.WriteLine($"Is: {result}");
-         interaction.SetOutput(result);
+        // TODO: AAAAAAAAAA WHY NO WINDOW??
+        var result = await dialog.ShowDialog<Project?>(App.Current.MainWindow);
+        Console.WriteLine($"Is: {result}");
+        interaction.SetOutput(result);
     }
 }

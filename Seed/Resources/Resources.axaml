@@ -1,0 +1,14 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Add Resources Here -->
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key='Light'>
+            <SolidColorBrush x:Key="ItemsControlBackground">#C1C1C1</SolidColorBrush>
+            <SolidColorBrush x:Key="TabPanelBackground">#D2D2D2</SolidColorBrush>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key='Dark'>
+            <SolidColorBrush x:Key="ItemsControlBackground">#1C1C1C</SolidColorBrush>
+            <SolidColorBrush x:Key="TabPanelBackground">#2D2D30</SolidColorBrush>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

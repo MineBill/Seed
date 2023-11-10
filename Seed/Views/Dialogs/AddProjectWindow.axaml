@@ -14,20 +14,25 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button
-                Width="80" 
-                HorizontalContentAlignment="Center">Ok</Button>
-            <Button 
+                Command="{Binding AddProjectCommand}"
+                Width="80"
+                HorizontalContentAlignment="Center">
+                Ok
+            </Button>
+            <Button
                 Command="{Binding CloseWindowCommand}"
-                Width="80" 
-                HorizontalContentAlignment="Center">Cancel</Button>
+                Width="80"
+                HorizontalContentAlignment="Center">
+                Cancel
+            </Button>
         </StackPanel>
         <Grid
             HorizontalAlignment="Center"
             ColumnDefinitions="Auto, Auto, Auto"
             RowDefinitions="Auto, Auto">
-            <Label 
-                Grid.Row="0" 
-                Grid.Column="0" 
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
                 VerticalAlignment="Center"
                 ToolTip.Tip="The folder path where the project is located.">
                 Path
@@ -40,22 +45,22 @@
                 VerticalAlignment="Center"
                 VerticalContentAlignment="Center"
                 Text="{Binding ProjectPath}"
-                ToolTip.Tip="The folder path where the project is located."/>
+                ToolTip.Tip="The folder path where the project is located." />
             <Button
                 Grid.Row="0"
                 Grid.Column="2" VerticalAlignment="Center"
                 ToolTip.Tip="Change the folder path of the project.">
                 Change
             </Button>
-            <Label 
-                Grid.Row="1" 
-                Grid.Column="0" 
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
                 VerticalAlignment="Center">
                 Engine Version
             </Label>
-            <ComboBox 
-                Grid.Row="1" 
-                Grid.Column="1" 
+            <ComboBox
+                Grid.Row="1"
+                Grid.Column="1"
                 Margin="5 0 5 0"
                 Padding="5"
                 ItemsSource="{Binding AvailableEngineVersions}"

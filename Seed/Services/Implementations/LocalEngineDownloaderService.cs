@@ -1,8 +1,6 @@
-#define USE_JSON_FILE
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
@@ -12,13 +10,38 @@ using Seed.Models;
 
 namespace Seed.Services.Implementations;
 
-public class EngineDownloaderService : IEngineDownloaderService
+public class LocalEngineDownloaderService : IEngineDownloaderService
 {
-    public const string ApiUrl = "https://api.flaxengine.com/launcher/engine";
+    private readonly Dictionary<string, string> _urlToLocalMapping = new()
+    {
+        {
+            "https://vps2.flaxengine.com/store/builds/Package_1_07_06404/FlaxEditorLinux.zip",
+            "/home/minebill/Downloads/FlaxPlatformTools/1.7/FlaxEditorLinux.zip"
+        },
+        {
+            "https://vps2.flaxengine.com/store/builds/Package_1_06_06344/FlaxEditorLinux.zip",
+            "/home/minebill/Downloads/FlaxPlatformTools/1.6/FlaxEditorLinux.zip"
+        },
+        {
+            "https://vps2.flaxengine.com/store/builds/Package_1_07_06404/Windows.zip",
+            "/home/minebill/Downloads/FlaxPlatformTools/1.7/Windows.zip"
+        },
+        {
+            "https://vps2.flaxengine.com/store/builds/Package_1_07_06404/Linux.zip",
+            "/home/minebill/Downloads/FlaxPlatformTools/1.7/Linux.zip"
+        },
+        {
+            "https://vps2.flaxengine.com/store/builds/Package_1_06_06344/Windows.zip",
+            "/home/minebill/Downloads/FlaxPlatformTools/1.6/Windows.zip"
+        },
+        {
+            "https://vps2.flaxengine.com/store/builds/Package_1_06_06344/Linux.zip",
+            "/home/minebill/Downloads/FlaxPlatformTools/1.6/Linux.zip"
+        },
+    };
 
     public event Action<string> ActionChanged;
 
-    private HttpClient _client = new();
     private Progress<float> _progress = new();
     public Progress<float> Progress => _progress;
     private string _currentAction;
@@ -33,21 +56,13 @@ public class EngineDownloaderService : IEngineDownloaderService
         }
     }
 
-    public EngineDownloaderService()
+    public LocalEngineDownloaderService()
     {
     }
 
     public async Task<List<RemoteEngine>?> GetAvailableVersions()
     {
-#if USE_JSON_FILE
         var json = await File.ReadAllTextAsync("/home/minebill/git/Seed/Seed/Assets/api.json");
-#else
-        _client.DefaultRequestHeaders.Accept.Clear();
-        _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        _client.DefaultRequestHeaders.Add("User-Agent", "Seed Launcher for Flax");
-
-        var json = await _client.GetStringAsync(ApiUrl);
-#endif
         try
         {
             var tree = JsonNode.Parse(json);
@@ -72,16 +87,9 @@ public class EngineDownloaderService : IEngineDownloaderService
         string installFolderPath)
     {
         var tempEditorFile = Path.GetTempFileName();
-#if NODEBUG
-        var editorUrl = "/home/minebill/Downloads/FlaxEditorLinux.zip";
-        File.Move(editorUrl, tempEditorFile, true);
-#else
-        CurrentAction = $"Downloading {engine.Name}";
-        var editorUrl = engine.GetEditorPackage().EditorUrl;
-        await using (var file = new FileStream(tempEditorFile, FileMode.Create, FileAccess.Write, FileShare.None))
-            await _client.DownloadDataAsync(editorUrl, file, _progress);
-        // await DownloadFile(editorUrl, tempEditorFile);
-#endif
+
+        File.Copy(_urlToLocalMapping[engine.GetEditorPackage().EditorUrl], tempEditorFile, overwrite: true);
+
         // create sub folder for this engine installation
         var editorInstallFolder = Path.Combine(installFolderPath, engine.Name);
 
@@ -99,8 +107,7 @@ public class EngineDownloaderService : IEngineDownloaderService
         {
             CurrentAction = $"Downloading platform tools for {tools.Name}";
             var tmpFile = Path.GetTempFileName();
-            await using (var file = new FileStream(tmpFile, FileMode.Create, FileAccess.Write, FileShare.None))
-                await _client.DownloadDataAsync(tools.Url, file, _progress);
+            File.Copy(_urlToLocalMapping[tools.Url], tmpFile, overwrite: true);
 
             var installFolder = Path.Combine(editorInstallFolder, tools.TargetPath);
             CurrentAction = $"Extracting {tools.Name}";
@@ -119,18 +126,5 @@ public class EngineDownloaderService : IEngineDownloaderService
             Version = engine.Version,
             InstalledPackages = installedPackages
         };
-    }
-
-    private async Task DownloadFile(string uri, string outputFile)
-    {
-        if (!Uri.TryCreate(uri, UriKind.Absolute, out var uriResult))
-            throw new InvalidOperationException("URI is invalid.");
-
-        using var response = await _client.GetAsync(uriResult, HttpCompletionOption.ResponseHeadersRead);
-        response.EnsureSuccessStatusCode();
-
-        await using var fileStream = File.OpenWrite(outputFile);
-        await using var httpStream = await response.Content.ReadAsStreamAsync();
-        await httpStream.CopyToAsync(fileStream);
     }
 }

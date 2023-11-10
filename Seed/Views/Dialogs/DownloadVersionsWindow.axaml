@@ -27,7 +27,7 @@
             </Button>
         </StackPanel>
         <StackPanel Margin="10">
-            <TextBlock 
+            <TextBlock
                 HorizontalAlignment="Center"
                 Margin="10">
                 Choose an engine version and press 'Install' to continue.
@@ -43,7 +43,7 @@
                     ToolTip.Tip="The folder path where the project is located.">
                     Version
                 </Label>
-                <ComboBox 
+                <ComboBox
                     ItemsSource="{Binding AvailableEngines}"
                     SelectedItem="{Binding SelectedVersion}"
                     Grid.Row="0"
@@ -55,6 +55,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <TextBlock
+                    IsVisible="{Binding SelectedVersion.Packages.Count}"
                     Grid.Row="1"
                     Grid.Column="0"
                     VerticalAlignment="Center">
@@ -68,10 +69,9 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <CheckBox
-                                IsVisible="{Binding !IsEditorPackage}"
                                 IsEnabled="{Binding !IsCurrentPlatform}"
                                 IsChecked="{Binding IsChecked}"
-                                Content="{Binding Name}"/>
+                                Content="{Binding Name}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

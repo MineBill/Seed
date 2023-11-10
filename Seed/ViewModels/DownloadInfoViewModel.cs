@@ -3,11 +3,12 @@ using Seed.Services;
 
 namespace Seed.ViewModels;
 
-public class DownloadInfoViewModel: ViewModelBase
+public class DownloadInfoViewModel : ViewModelBase
 {
     private IEngineDownloaderService _engineDownloader;
 
     private float _progress;
+
     public float Progress
     {
         get => _progress;
@@ -15,6 +16,7 @@ public class DownloadInfoViewModel: ViewModelBase
     }
 
     private string _currentVersion;
+
     public string CurrentAction
     {
         get => _currentVersion;

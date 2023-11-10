@@ -10,9 +10,10 @@ using System;
 
 namespace Seed.ViewModels;
 
-public class DownloadVersionsViewModel: ViewModelBase
+public class DownloadVersionsViewModel : ViewModelBase
 {
     private RemoteEngineViewModel _selectedVersion;
+
     public RemoteEngineViewModel SelectedVersion
     {
         get => _selectedVersion;
@@ -30,13 +31,13 @@ public class DownloadVersionsViewModel: ViewModelBase
     {
         DownloadCommand = ReactiveCommand.Create<DownloadDialogResult?>(() =>
         {
-            var editor = SelectedVersion.Packages.First(x => x.IsEditorPackage);
             var tools = SelectedVersion.Packages.FindAll(x => x.IsChecked);
 
-            return new DownloadDialogResult(SelectedVersion.RemoteEngine, editor.RemotePackage, tools.ConvertAll(x => x.RemotePackage));
+            return new DownloadDialogResult(SelectedVersion.RemoteEngine, tools.ConvertAll(x => x.RemotePackage));
         });
         CloseWindowCommand = ReactiveCommand.Create(() => { });
-        
+
+        engines.RemoveAll(x => x.SupportedPlatformTools.Count <= 0);
         engines.Sort((a, b) => b.CompareTo(a));
         foreach (var engine in engines)
         {
@@ -53,6 +54,11 @@ public class DownloadVersionsViewModel: ViewModelBase
 
     private void OnSelectedVersionChanged(RemoteEngineViewModel viewModel)
     {
+        if (viewModel.Packages.Count == 0)
+        {
+            // No platform packages == no editor too.
+        }
+
         foreach (var packageVm in viewModel.Packages)
         {
             if (packageVm.IsCurrentPlatform)

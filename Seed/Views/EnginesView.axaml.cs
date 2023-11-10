@@ -15,7 +15,7 @@ public partial class EnginesView : UserControl
         InitializeComponent();
         DataContextProperty.Changed.Subscribe(OnDataContextChanged);
     }
-    
+
     private void OnDataContextChanged(object _)
     {
         if (DataContext is EnginesViewModel viewModel)
@@ -24,7 +24,8 @@ public partial class EnginesView : UserControl
         }
     }
 
-    private async Task DoShowDialogAsync(InteractionContext<DownloadVersionsViewModel, DownloadDialogResult?> interaction)
+    private async Task DoShowDialogAsync(
+        InteractionContext<DownloadVersionsViewModel, DownloadDialogResult?> interaction)
     {
         var dialog = new DownloadVersionsWindow
         {

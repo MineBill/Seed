@@ -6,25 +6,30 @@ using System.Threading.Tasks;
 
 namespace Seed;
 
-public static class HttpClientProgressExtensions 
+public static class HttpClientProgressExtensions
 {
-    public static async Task DownloadDataAsync (
-        this HttpClient client, 
-        string requestUrl, 
-        Stream destination, 
-        IProgress<float>? progress = null, 
+    public static async Task DownloadDataAsync(
+        this HttpClient client,
+        string requestUrl,
+        Stream destination,
+        IProgress<float>? progress = null,
         CancellationToken cancellationToken = default)
     {
-        using (var response = await client.GetAsync (requestUrl, HttpCompletionOption.ResponseHeadersRead)) {
+        using (var response = await client.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead))
+        {
             var contentLength = response.Content.Headers.ContentLength;
-            using (var download = await response.Content.ReadAsStreamAsync ()) {
+            using (var download = await response.Content.ReadAsStreamAsync())
+            {
                 // no progress... no contentLength... very sad
-                if (progress is null || !contentLength.HasValue) {
+                if (progress is null || !contentLength.HasValue)
+                {
                     await download.CopyToAsync(destination);
                     return;
                 }
+
                 // Such progress and contentLength much reporting Wow!
-                var progressWrapper = new Progress<long> (totalBytes => progress.Report (GetProgressPercentage (totalBytes, contentLength.Value)));
+                var progressWrapper = new Progress<long>(totalBytes =>
+                    progress.Report(GetProgressPercentage(totalBytes, contentLength.Value)));
                 await download.CopyToAsync(destination, 81920, progressWrapper, cancellationToken);
             }
         }
@@ -33,10 +38,10 @@ public static class HttpClientProgressExtensions
     }
 
     public static async Task CopyToAsync(
-        this Stream source, 
-        Stream destination, 
-        int bufferSize, 
-        IProgress<long>? progress = null, 
+        this Stream source,
+        Stream destination,
+        int bufferSize,
+        IProgress<long>? progress = null,
         CancellationToken cancellationToken = default)
     {
         if (bufferSize < 0)
@@ -53,10 +58,12 @@ public static class HttpClientProgressExtensions
         var buffer = new byte[bufferSize];
         long totalBytesRead = 0;
         int bytesRead;
-        while ((bytesRead = await source.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false)) != 0) {
+        while ((bytesRead =
+                   await source.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false)) != 0)
+        {
             await destination.WriteAsync(buffer, 0, bytesRead, cancellationToken).ConfigureAwait(false);
             totalBytesRead += bytesRead;
-            progress?.Report (totalBytesRead);
+            progress?.Report(totalBytesRead);
         }
     }
 }

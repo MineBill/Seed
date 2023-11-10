@@ -18,10 +18,8 @@ public partial class AddProjectWindow : Window
     {
         if (DataContext is AddProjectViewModel viewModel)
         {
-            viewModel.CloseWindowCommand.Subscribe(_ =>
-            {
-                Close();
-            });
+            viewModel.CloseWindowCommand.Subscribe(_ => { Close(); });
+            viewModel.AddProjectCommand.Subscribe(Close);
         }
     }
 }

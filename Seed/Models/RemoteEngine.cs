@@ -13,31 +13,31 @@ namespace Seed.Models;
 public class RemotePackage
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
-    
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [JsonPropertyName("requried")] // This is not a typo here, it's a typo in the api response.
     public bool? Required { get; set; }
-    
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [JsonPropertyName("default")]
     public bool? Default { get; set; }
-    
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [JsonPropertyName("targetPath")]
     public string TargetPath { get; set; }
-    
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [JsonPropertyName("url")]
     public string Url { get; set; }
@@ -48,13 +48,11 @@ public class RemotePackage
     public bool IsEditorPackage => Name.Equals("Editor");
 
     public bool IsLinuxTools => !IsEditorPackage && Name.Contains("Linux");
-    
+
     public bool IsWindowsTools => !IsEditorPackage && Name.Contains("Windows");
-    
-    public bool IsMacTools => !IsEditorPackage && Name.Contains("Mac");
 
     public bool IsAndroidTools => !IsEditorPackage && Name.Contains("Android");
-    
+
     /// <summary>
     /// If this is an editor package, it will return the
     /// appropriate url for the current platform. Otherwise,
@@ -65,15 +63,18 @@ public class RemotePackage
         get
         {
             var mainPath = Url[..Url.LastIndexOf('/')];
-            
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return Url;
             }
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 return $"{mainPath}/FlaxEditorLinux.zip";
             }
+
+            // TODO: Maybe remove this too, can't test this anyway.
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 return $"{mainPath}/FlaxEditor.dmg";
@@ -82,7 +83,7 @@ public class RemotePackage
             return string.Empty;
         }
     }
-    
+
     public RemotePackage(string name, string targetPath, string url)
     {
         Name = name;
@@ -94,27 +95,27 @@ public class RemotePackage
 /// <summary>
 /// Describes a remote engine as described by the api the official Flax launcher uses.
 /// </summary>
-public class RemoteEngine: IComparable<RemoteEngine>
+public class RemoteEngine : IComparable<RemoteEngine>
 {
     /// <summary>
     /// The name of the engine.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
-    
+
     /// <summary>
     /// The version of the engine.
     /// </summary>
     [JsonPropertyName("version")]
     public Version Version { get; set; }
-    
+
     /// <summary>
     /// The packages available for this engine version.
     /// </summary>
     [JsonPropertyName("packages")]
     public List<RemotePackage> Packages { get; set; }
 
-    public List<RemotePackage> PlatformTools => Packages.FindAll(x => !x.IsEditorPackage);
+    public List<RemotePackage> SupportedPlatformTools => Packages.FindAll(x => !x.IsEditorPackage && CanBuildFor(x));
 
     /// <summary>
     /// Get the editor package for this engine.
@@ -130,5 +131,21 @@ public class RemoteEngine: IComparable<RemoteEngine>
         if (ReferenceEquals(this, other)) return 0;
         if (ReferenceEquals(null, other)) return 1;
         return Version.CompareTo(other.Version);
+    }
+
+    private static bool CanBuildFor(RemotePackage package)
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return package.IsWindowsTools || package.IsLinuxTools || package.IsAndroidTools;
+        }
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+            RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+        {
+            return package.IsLinuxTools || package.IsAndroidTools;
+        }
+
+        return false;
     }
 }

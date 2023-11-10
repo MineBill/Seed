@@ -6,25 +6,49 @@
              mc:Ignorable="d" d:DesignWidth="150" d:DesignHeight="200"
              x:Class="Seed.Views.EngineView"
              x:DataType="vm:EngineViewModel">
+    <UserControl.Resources>
+        <MenuFlyout x:Key="ProjectContextMenu" Placement="BottomEdgeAlignedLeft">
+            <MenuItem Command="{Binding DeleteCommand}" Header="Delete"></MenuItem>
+        </MenuFlyout>
+    </UserControl.Resources>
+
     <Design.DataContext>
-        <vm:EngineViewModel/>
+        <vm:EngineViewModel />
     </Design.DataContext>
-    <StackPanel 
-        Margin="2" 
-        Spacing="5" 
-        ToolTip.Tip="{Binding Path}"
-        Width="150">
-        <Border CornerRadius="5" ClipToBounds="True">
-            <Panel Background="{StaticResource BackgroundBrush}">
-                <Image Source="/Assets/flax-logo-white.png" Margin="2" Height="150" Stretch="Uniform" />
-                <Panel Height="150">
+    <Border Padding="5">
+        <DockPanel
+            ToolTip.Tip="{Binding Path}"
+            ContextFlyout="{StaticResource ProjectContextMenu}"
+            Width="150">
+            <StackPanel
+                DockPanel.Dock="Bottom">
+                <TextBlock
+                    FontWeight="Bold"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{Binding Name}" />
+                <DockPanel>
+                    <TextBlock
+                        Text="{Binding Version}"
+                        DockPanel.Dock="Left"
+                        VerticalAlignment="Center" />
+                    <Button
+                        DockPanel.Dock="Right"
+                        Flyout="{StaticResource ProjectContextMenu}">
+                        <PathIcon
+                            Width="15" Height="15"
+                            Padding="0" Margin="0"
+                            Data="{StaticResource IconLineHorizontal3Regular}">
+                        </PathIcon>
+                    </Button>
+                    <Panel />
+                </DockPanel>
+            </StackPanel>
+            <Border CornerRadius="5" ClipToBounds="True">
+                <Panel Background="{StaticResource ButtonBackground}">
+                    <Image Source="/Assets/flax-logo-white.png" Margin="2" Height="125" Stretch="Uniform" />
                 </Panel>
-            </Panel>
-        </Border>    
-        <TextBlock 
-            FontWeight="Bold"
-            HorizontalAlignment="Center"
-            Text="{Binding Version}"/>
-        
-    </StackPanel>
+            </Border>
+        </DockPanel>
+    </Border>
 </UserControl>

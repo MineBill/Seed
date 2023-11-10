@@ -8,6 +8,7 @@
 
     <!-- Add Styles Here -->
     <Style Selector="Button.CoolButton">
-        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="BorderThickness" Value="2"></Setter>
     </Style>
 </Styles>

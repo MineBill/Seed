@@ -12,26 +12,24 @@
         <AvaloniaResource Include="Assets\**"/>
     </ItemGroup>
 
-
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.0.5" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.5" />
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.5" />
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.5" />
+        <PackageReference Include="Avalonia" Version="11.0.5"/>
+        <PackageReference Include="Avalonia.Desktop" Version="11.0.5"/>
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.5"/>
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.5"/>
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.5"/>
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.5" />
-        <PackageReference Include="MessageBox.Avalonia" Version="3.1.5.1" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0-rc.2.23479.6" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-rc.2.23479.6" />
-        <PackageReference Include="Semi.Avalonia" Version="11.0.1" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.5"/>
+        <PackageReference Include="Avalonia.Themes.Simple" Version="11.0.5"/>
+        <PackageReference Include="MessageBox.Avalonia" Version="3.1.5.1"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0-rc.2.23479.6"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-rc.2.23479.6"/>
     </ItemGroup>
 
-
     <ItemGroup>
-      <Compile Update="Views\ProjectView.axaml.cs">
-        <DependentUpon>ProjectViewModel.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
+        <Compile Update="Views\ProjectView.axaml.cs">
+            <DependentUpon>ProjectViewModel.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 </Project>

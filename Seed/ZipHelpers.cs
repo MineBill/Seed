@@ -1,6 +1,9 @@
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,9 +12,9 @@ namespace Seed;
 public static class ZipHelpers
 {
     public static async Task ExtractToDirectoryAsync(
-        string pathZip, 
-        string pathDestination, 
-        IProgress<float> progress, 
+        string pathZip,
+        string pathDestination,
+        IProgress<float> progress,
         CancellationToken cancellationToken = default)
     {
         using var archive = System.IO.Compression.ZipFile.OpenRead(pathZip);
@@ -29,13 +32,45 @@ public static class ZipHelpers
 
             // Create folder anyway since a folder may not have an entry
             Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-            using (var file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
-            using (var entryStream = entry.Open())
+            await using var file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            await using (var entryStream = entry.Open())
             {
-                var relativeProgress = new Progress<long>(fileProgressBytes => progress.Report((float)(fileProgressBytes + currentProgression) / totalLength));
+                var relativeProgress = new Progress<long>(fileProgressBytes =>
+                    progress.Report((float)(fileProgressBytes + currentProgression) / totalLength));
                 await entryStream.CopyToAsync(file, 81920, relativeProgress, cancellationToken);
             }
+
+            if (OperatingSystem.IsLinux())
+                ExtractExternalAttributes(file, entry);
+
             currentProgression += entry.Length;
         }
     }
+
+    // https://github.com/dotnet/runtime/pull/55531/files
+    [SupportedOSPlatform("linux")]
+    internal static void ExtractExternalAttributes(FileStream fs, ZipArchiveEntry entry)
+    {
+        // Only extract USR, GRP, and OTH file permissions, and ignore
+        // S_ISUID, S_ISGID, and S_ISVTX bits. This matches unzip's default behavior.
+        // It is off by default because of this comment:
+
+        // "It's possible that a file in an archive could have one of these bits set
+        // and, unknown to the person unzipping, could allow others to execute the
+        // file as the user or group. The new option -K bypasses this check."
+        const int extractPermissionMask = 0x1FF;
+        var permissions = (entry.ExternalAttributes >> 16) & extractPermissionMask;
+
+        // If the permissions weren't set at all, don't write the file's permissions,
+        // since the .zip could have been made using a previous version of .NET, which didn't
+        // include the permissions, or was made on Windows.
+        if (permissions != 0)
+        {
+            fchmod(fs.SafeFileHandle.DangerousGetHandle().ToInt32(), permissions);
+        }
+    }
+
+    [SupportedOSPlatform("linux")]
+    [DllImport("libc", SetLastError = true)]
+    static extern void fchmod(int fd, int mode);
 }

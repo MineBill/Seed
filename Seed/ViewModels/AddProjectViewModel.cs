@@ -1,24 +1,42 @@
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Reactive;
+using System.Text.Json.Nodes;
+using System.Threading.Tasks;
+using Avalonia.Platform.Storage;
 using Microsoft.Extensions.DependencyInjection;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using ReactiveUI;
+using Seed.Models;
 using Seed.Services;
 
 namespace Seed.ViewModels;
 
-public class AddProjectViewModel: ViewModelBase
+public class AddProjectViewModel : ViewModelBase
 {
     public ObservableCollection<Version> AvailableEngineVersions { get; } = new();
 
     private string _projectPath = string.Empty;
+
     public string ProjectPath
     {
         get => _projectPath;
         set => this.RaiseAndSetIfChanged(ref _projectPath, value);
     }
-    
+
+    private string _name;
+
+    public string Name
+    {
+        get => _name;
+        set => this.RaiseAndSetIfChanged(ref _name, value);
+    }
+
     private Version? _selectedVersion = null;
+
     public Version? SelectedVersion
     {
         get => _selectedVersion;
@@ -27,18 +45,42 @@ public class AddProjectViewModel: ViewModelBase
 
     // TODO: This feels hacky. Maybe an Interaction<> would be better.
     public ReactiveCommand<Unit, Unit> CloseWindowCommand { get; } = ReactiveCommand.Create(() => { });
+    public ReactiveCommand<Unit, Project> AddProjectCommand { get; }
 
-    public AddProjectViewModel(string path)
+    public AddProjectViewModel(IStorageFile file)
     {
-        ProjectPath = path;
-
-        var locator = App.Current.Services.GetService<IEngineLocatorService>();
-        if (locator is not null)
+        Task.Run(async () =>
         {
-            foreach (var engine in locator.GetInstalledEngines()!)
+            var projectJson = JsonNode.Parse(await file.OpenReadAsync());
+            // very fucking hacky, i know
+            var name = projectJson?[nameof(Name)]?.ToString()!;
+            var versionStr = projectJson?["Version"]?.ToString()!;
+            var version = Version.Parse(versionStr);
+            var projectPath = Path.GetDirectoryName(file.TryGetLocalPath()!)!;
+
+            Name = name;
+            ProjectPath = projectPath;
+
+            var locator = App.Current.Services.GetService<IEngineManager>()!;
+            foreach (var engine in locator.Engines)
             {
                 AvailableEngineVersions.Add(engine.Version);
             }
-        }
+
+            SelectedVersion = AvailableEngineVersions.FirstOrDefault(x => x == version);
+            if (SelectedVersion is null)
+            {
+                // No compatible engine version found.
+                var box = MessageBoxManager.GetMessageBoxStandard(
+                    "Error",
+                    "No compatible engine found for this project",
+                    icon: Icon.Error);
+                await box.ShowWindowDialogAsync(App.Current.MainWindow);
+                CloseWindowCommand.Execute();
+            }
+        });
+
+        AddProjectCommand =
+            ReactiveCommand.Create(() => { return new Project(Name, ProjectPath, SelectedVersion); });
     }
 }

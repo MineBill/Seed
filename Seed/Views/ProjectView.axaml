@@ -7,17 +7,27 @@
              x:Class="Seed.Views.ProjectView"
              x:DataType="vm:ProjectViewModel">
     <Design.DataContext>
-        <vm:ProjectViewModel/>
+        <vm:ProjectViewModel />
     </Design.DataContext>
     <StackPanel Margin="2" Spacing="5" Width="150">
+        <StackPanel.ContextMenu>
+            <ContextMenu>
+                <MenuItem Command="{Binding RunProjectCommand}" Header="Run Project"></MenuItem>
+                <MenuItem Command="{Binding OpenProjectFolderCommand}" Header="Open in file explorer"></MenuItem>
+                <MenuItem Header="Edit startup arguments"></MenuItem>
+                <MenuItem Command="{Binding RemoveProjectCommand}" Header="Remove Project"></MenuItem>
+            </ContextMenu>
+        </StackPanel.ContextMenu>
         <Border CornerRadius="5" ClipToBounds="True">
-            <Panel Background="CornflowerBlue">
-                <Image Source="{Binding Icon}" Height="150" Stretch="Uniform" />
-                <Panel Height="150" IsVisible="{Binding Icon, Converter={x:Static ObjectConverters.IsNull}}">
-                </Panel>
+            <Panel Background="{StaticResource ButtonBackground}">
+                <Image Source="{Binding Icon}" Height="150" Stretch="UniformToFill" />
             </Panel>
-        </Border>    
-        <TextBlock HorizontalAlignment="Center" Text="{Binding Name}"/>
-        <TextBlock HorizontalAlignment="Right" Text="{Binding EngineVersion}"/>
+        </Border>
+        <TextBlock HorizontalAlignment="Center" Text="{Binding Name}" />
+        <StackPanel
+            IsVisible="{Binding !VersionInstalled}">
+            <TextBlock Foreground="Red" HorizontalAlignment="Right" Text="{Binding EngineVersion}" />
+        </StackPanel>
+        <TextBlock IsVisible="{Binding VersionInstalled}" HorizontalAlignment="Right" Text="{Binding EngineVersion}" />
     </StackPanel>
 </UserControl>
