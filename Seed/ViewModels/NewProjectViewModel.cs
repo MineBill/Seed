@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -11,7 +12,10 @@ using ReactiveUI;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
 using Seed.Models;
+using Seed.Models.ProjectTemplates;
 using Seed.Services;
+using Seed.Views;
+using Uri = System.Uri;
 
 namespace Seed.ViewModels;
 
@@ -19,7 +23,7 @@ public class NewProjectViewModel : ReactiveValidationObject
 {
     private readonly IEngineManager _engineManager;
 
-    public ProjectContainerViewModel ProjectContainerViewModel { get; }
+    // public ProjectContainerViewModel ProjectContainerViewModel { get; }
 
     private string _projectName = string.Empty;
 
@@ -49,6 +53,16 @@ public class NewProjectViewModel : ReactiveValidationObject
 
     public ObservableCollection<Engine> Engines => _engineManager.Engines;
 
+    private TemplateViewModel _selectedTemplate;
+
+    public TemplateViewModel SelectedTemplate
+    {
+        get => _selectedTemplate;
+        set => this.RaiseAndSetIfChanged(ref _selectedTemplate, value);
+    }
+
+    public ObservableCollection<TemplateViewModel> Templates { get; } = new();
+
     public ReactiveCommand<Unit, NewProjectDialogResult> CreateProjectCommand { get; }
 
     // TODO: I don't like this. Maybe there is a better way to communicate with the window.
@@ -58,12 +72,12 @@ public class NewProjectViewModel : ReactiveValidationObject
     public NewProjectViewModel(IProjectManager projectManager, IFilesService filesService, IEngineManager engineManager)
     {
         _engineManager = engineManager;
-        ProjectContainerViewModel = new ProjectContainerViewModel(projectManager);
+        // ProjectContainerViewModel = new ProjectContainerViewModel(projectManager);
 
         CreateProjectCommand =
             ReactiveCommand.Create(() => new NewProjectDialogResult(
                 new Project(ProjectName, Path.Combine(ProjectPath, ProjectName), SelectedEngine?.Version),
-                ProjectContainerViewModel.SelectedProject!.Project));
+                SelectedTemplate.ProjectTemplate));
         SelectFolderCommand = ReactiveCommand.CreateFromTask(async () =>
         {
             var folder = await filesService.SelectFolderAsync();
@@ -72,16 +86,26 @@ public class NewProjectViewModel : ReactiveValidationObject
 
         SelectedEngine = Engines[0];
 
-        // TODO: Maybe don't try and inject this here but abstract it?
-        ProjectContainerViewModel.Projects.Insert(0,
-            new ProjectViewModel(
-                new Project("Blank Scene", "file://"),
-                new Bitmap(AssetLoader.Open(new Uri("avares://Seed/Assets/BlankScene.png")))));
-        ProjectContainerViewModel.Projects.Insert(1,
-            new ProjectViewModel(
-                new Project("BasicScene", "avares://Seed/Assets/BasicScene.zip"),
-                new Bitmap(AssetLoader.Open(new Uri("avares://Seed/Assets/BasicScene.png")))));
+        var templates = new List<TemplateViewModel>();
+        foreach (var project in projectManager.Projects)
+        {
+            if (project.IsTemplate)
+                templates.Add(new TemplateViewModel(new LocalTemplate(project)));
+        }
 
+        // TODO: Maybe don't try and inject this here but abstract it?
+        var blankScene = new BuiltinTemplate("Blank Scene", null, SelectedEngine.Version,
+            new Bitmap(AssetLoader.Open(new Uri("avares://Seed/Assets/BlankScene.png"))));
+        templates.Add(new TemplateViewModel(blankScene));
+
+        var basicScene = new BuiltinTemplate("Basic Scene", new Uri("avares://Seed/Assets/BasicScene.zip"),
+            SelectedEngine.Version, new Bitmap(AssetLoader.Open(new Uri("avares://Seed/Assets/BasicScene.png"))));
+        templates.Add(new TemplateViewModel(basicScene));
+        templates.Sort((a, b) => a.ProjectTemplate.Order - b.ProjectTemplate.Order);
+
+        Templates = new ObservableCollection<TemplateViewModel>(templates);
+
+        SelectedTemplate = Templates[0];
         SetupValidation();
     }
 
@@ -122,17 +146,17 @@ public class NewProjectViewModel : ReactiveValidationObject
         this.ValidationRule(x => ProjectName, a, state => !Directory.Exists(Path.Combine(state.Path, state.Name)),
             _ => "A folder with that name already exists in the selected folder");
 
-        this.ValidationRule(x => x.ProjectContainerViewModel.SelectedProject, project => project is not null,
+        this.ValidationRule(x => x.SelectedTemplate, project => project is not null,
             "Project cannot be null");
 
-        var t = this.WhenAnyValue(x => x.SelectedEngine, x => x.ProjectContainerViewModel.SelectedProject,
-            (engine, model) => new { Engine = engine, Project = model })
+        var t = this.WhenAnyValue(x => x.SelectedEngine, x => x.SelectedTemplate,
+                (engine, model) => new { Engine = engine, Template = model })
             .Throttle(TimeSpan.FromMilliseconds(100));
         this.ValidationRule(x => x.SelectedEngine, t, state =>
         {
-            if (state.Engine is null || state.Project is null)
+            if (state.Engine is null)
                 return false;
-            return state.Engine.Version >= state.Project.EngineVersion;
+            return state.Engine.Version >= state.Template.ProjectTemplate.GetEngineVersion();
         }, _ => "Selected template project needs to be upgrade to support this engine.");
     }
 }

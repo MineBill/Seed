@@ -1,0 +1,41 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Seed.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="150" d:DesignHeight="200"
+             x:Class="Seed.Views.TemplateView"
+             x:DataType="vm:TemplateViewModel">
+    <Design.DataContext>
+        <vm:ProjectViewModel />
+    </Design.DataContext>
+    <Border
+        Padding="5"
+        CornerRadius="3"
+        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+        <StackPanel Width="150">
+            <Border CornerRadius="3" ClipToBounds="True">
+                <Panel Background="{StaticResource ButtonBackground}">
+                    <Image Source="{Binding Icon^}" Height="150" Stretch="UniformToFill" />
+                </Panel>
+            </Border>
+            <Viewbox>
+                <TextBlock Classes="ProjectName" HorizontalAlignment="Center" Text="{Binding Name}" />
+            </Viewbox>
+            <Panel>
+                <StackPanel
+                    IsVisible="False"
+                    Classes="VersionNumber"><!-- IsVisible="{Binding !VersionInstalled}" -->
+                    <TextBlock
+                        Foreground="Red"
+                        HorizontalAlignment="Right"
+                        Text="{Binding EngineVersion}" />
+                </StackPanel>
+                <TextBlock
+                    Classes="VersionNumber"
+                    HorizontalAlignment="Right"
+                    Text="{Binding EngineVersion}" /><!-- IsVisible="{Binding VersionInstalled}" -->
+            </Panel>
+        </StackPanel>
+    </Border>
+</UserControl>

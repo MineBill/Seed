@@ -33,5 +33,9 @@
             <DependentUpon>ProjectViewModel.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
+        <Compile Update="Views\TemplateView.axaml.cs">
+          <DependentUpon>TemplateView.axaml</DependentUpon>
+          <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 </Project>

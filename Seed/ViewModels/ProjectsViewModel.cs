@@ -128,7 +128,8 @@ public class ProjectsViewModel : ViewModelBase
         Console.WriteLine($"\tPath          = {result.NewProject.Path}");
         Console.WriteLine($"\tEngineVersion = {result.NewProject.EngineVersion}");
 
-        _engineManager.CreateProject(result.NewProject, result.Template);
+        // _engineManager.CreateProject(result.NewProject, result.Template);
+        result.Template.Create(result.NewProject);
     }
 
     private async void AddProject_Clicked()

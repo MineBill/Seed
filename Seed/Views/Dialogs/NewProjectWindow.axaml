@@ -4,10 +4,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:Seed.ViewModels"
         xmlns:views="using:Seed.Views"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+        mc:Ignorable="d" d:DesignWidth="830" d:DesignHeight="500"
         x:Class="Seed.Views.Dialogs.NewProjectWindow"
         x:DataType="vm:NewProjectViewModel"
-        Width="800" Height="500"
+        Width="830" Height="500"
         Title="New Project">
     <DockPanel>
         <DataValidationErrors />
@@ -52,12 +52,22 @@
             </StackPanel>
         </DockPanel>
         <DockPanel Margin="5">
-            <TextBlock Padding="5" DockPanel.Dock="Top">Select a project template:</TextBlock>
-            <StackPanel>
-
-                <views:ProjectContainerView DataContext="{Binding ProjectContainerViewModel}" />
-                <views:ProjectContainerView DataContext="{Binding ProjectContainerViewModel}" />
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock Padding="0">Hover over a template to see a small description.</TextBlock>
+                <TextBlock Padding="0">Select a project template:</TextBlock>
             </StackPanel>
+            <Panel>
+                <ListBox ItemsSource="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}"
+                         BorderBrush="{StaticResource SystemAccentColor}" BorderThickness="2"
+                         CornerRadius="2">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+                <DataValidationErrors />
+            </Panel>
         </DockPanel>
     </DockPanel>
 </Window>
