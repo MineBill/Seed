@@ -29,4 +29,6 @@ public interface IProjectManager
     /// </summary>
     /// <param name="project"></param>
     public void RunProject(Project project);
+
+    public void Save();
 }

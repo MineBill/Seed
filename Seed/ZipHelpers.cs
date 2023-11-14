@@ -17,7 +17,43 @@ public static class ZipHelpers
         IProgress<float> progress,
         CancellationToken cancellationToken = default)
     {
-        using var archive = System.IO.Compression.ZipFile.OpenRead(pathZip);
+        using var archive = ZipFile.OpenRead(pathZip);
+        var totalLength = archive.Entries.Sum(entry => entry.Length);
+        long currentProgression = 0;
+        foreach (var entry in archive.Entries)
+        {
+            // Check if entry is a folder
+            string filePath = Path.Combine(pathDestination, entry.FullName);
+            if (entry.FullName.EndsWith('/') || entry.FullName.EndsWith('\\'))
+            {
+                Directory.CreateDirectory(filePath);
+                continue;
+            }
+
+            // Create folder anyway since a folder may not have an entry
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            await using var file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            await using (var entryStream = entry.Open())
+            {
+                var relativeProgress = new Progress<long>(fileProgressBytes =>
+                    progress.Report((float)(fileProgressBytes + currentProgression) / totalLength));
+                await entryStream.CopyToAsync(file, 81920, relativeProgress, cancellationToken);
+            }
+
+            if (OperatingSystem.IsLinux())
+                ExtractExternalAttributes(file, entry);
+
+            currentProgression += entry.Length;
+        }
+    }
+
+    public static async Task ExtractToDirectoryAsync(
+        Stream zipStream,
+        string pathDestination,
+        IProgress<float> progress,
+        CancellationToken cancellationToken = default)
+    {
+        using var archive = new ZipArchive(zipStream);
         var totalLength = archive.Entries.Sum(entry => entry.Length);
         long currentProgression = 0;
         foreach (var entry in archive.Entries)

@@ -5,7 +5,7 @@ namespace Seed.ViewModels;
 
 public class DownloadInfoViewModel : ViewModelBase
 {
-    private IEngineDownloaderService _engineDownloader;
+    private readonly IEngineDownloaderService _engineDownloader;
 
     private float _progress;
 
@@ -15,7 +15,7 @@ public class DownloadInfoViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _progress, value);
     }
 
-    private string _currentVersion;
+    private string _currentVersion = string.Empty;
 
     public string CurrentAction
     {

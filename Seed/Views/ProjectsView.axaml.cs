@@ -21,19 +21,29 @@ public partial class ProjectsView : UserControl
         if (DataContext is ProjectsViewModel viewModel)
         {
             viewModel.ShowAddProjectDialog.RegisterHandler(DoShowDialogAsync);
+            viewModel.ShowNewProjectDialog.RegisterHandler(DoShowNewProjectDialogAsync);
         }
     }
 
-    private async Task DoShowDialogAsync(InteractionContext<AddProjectViewModel, Project?> interaction)
+    private static async Task DoShowDialogAsync(InteractionContext<AddProjectViewModel, Project?> interaction)
     {
         var dialog = new AddProjectWindow
         {
             DataContext = interaction.Input
         };
 
-        // TODO: AAAAAAAAAA WHY NO WINDOW??
         var result = await dialog.ShowDialog<Project?>(App.Current.MainWindow);
-        Console.WriteLine($"Is: {result}");
+        interaction.SetOutput(result);
+    }
+
+    private static async Task DoShowNewProjectDialogAsync(InteractionContext<NewProjectViewModel, NewProjectDialogResult?> interaction)
+    {
+        var dialog = new NewProjectWindow
+        {
+            DataContext = interaction.Input
+        };
+
+        var result = await dialog.ShowDialog<NewProjectDialogResult?>(App.Current.MainWindow);
         interaction.SetOutput(result);
     }
 }

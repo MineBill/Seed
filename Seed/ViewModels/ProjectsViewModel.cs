@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
@@ -11,6 +12,7 @@ using ReactiveUI;
 using Seed.Models;
 using Seed.Services;
 using Seed.Services.Dummies;
+using Seed.Services.Implementations;
 
 namespace Seed.ViewModels;
 
@@ -27,9 +29,8 @@ public class ProjectsViewModel : ViewModelBase
     public ICommand NewProjectCommand { get; private set; }
     public ICommand AddProjectCommand { get; private set; }
 
-    public bool HasAnyProjects => Projects.Count > 0;
-
     public Interaction<AddProjectViewModel, Project?> ShowAddProjectDialog { get; } = new();
+    public Interaction<NewProjectViewModel, NewProjectDialogResult?> ShowNewProjectDialog { get; } = new();
 
     public ProjectViewModel? SelectedProject
     {
@@ -49,7 +50,7 @@ public class ProjectsViewModel : ViewModelBase
         NewProjectCommand = ReactiveCommand.Create(NewProject_Clicked);
         AddProjectCommand = ReactiveCommand.Create(AddProject_Clicked);
 
-        _projectManager.Projects.CollectionChanged += (sender, args) =>
+        _projectManager.Projects.CollectionChanged += (_, args) =>
         {
             if (args.NewItems != null)
                 foreach (var project in args.NewItems)
@@ -77,6 +78,11 @@ public class ProjectsViewModel : ViewModelBase
     public ProjectsViewModel()
     {
         _projectManager = new DummyProjectManager();
+        _engineManager = new DummyEngineManagerService();
+        _filesService = new FilesService(App.Current.MainWindow);
+
+        NewProjectCommand = ReactiveCommand.Create(() => { });
+        AddProjectCommand = ReactiveCommand.Create(() => { });
         LoadProjects();
     }
 
@@ -103,7 +109,7 @@ public class ProjectsViewModel : ViewModelBase
         }
     }
 
-    private void NewProject_Clicked()
+    private async void NewProject_Clicked()
     {
         if (_engineManager.Engines.Count == 0)
         {
@@ -111,6 +117,18 @@ public class ProjectsViewModel : ViewModelBase
             return;
         }
         // Do stuff
+
+        var newProjectViewModel = new NewProjectViewModel(_projectManager, _filesService, _engineManager);
+
+        var result = await ShowNewProjectDialog.Handle(newProjectViewModel);
+        if (result is null)
+            return;
+        Console.WriteLine("New Project Information:");
+        Console.WriteLine($"\tName          = {result.NewProject.Name}");
+        Console.WriteLine($"\tPath          = {result.NewProject.Path}");
+        Console.WriteLine($"\tEngineVersion = {result.NewProject.EngineVersion}");
+
+        _engineManager.CreateProject(result.NewProject, result.Template);
     }
 
     private async void AddProject_Clicked()
@@ -121,7 +139,7 @@ public class ProjectsViewModel : ViewModelBase
             return;
         }
 
-        var file = await _filesService.OpenFileAsync("Choose a Flax project file", new[]
+        var file = await _filesService.SelectFileAsync("Choose a Flax project file", new[]
         {
             new FilePickerFileType("Flax Project")
             {

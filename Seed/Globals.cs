@@ -5,6 +5,7 @@ namespace Seed;
 
 public static class Globals
 {
+    public static readonly Uri RepoUrl = new Uri("https://github.com/MineBill/Seed");
     public const string AppName = "SeedLauncher";
     public const string EnginesSaveFileName = "Engines.json";
     public const string ProjectsSaveFileName = "Projects.json";

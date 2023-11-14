@@ -94,13 +94,8 @@ public class LocalEngineDownloaderService : IEngineDownloaderService
         var editorInstallFolder = Path.Combine(installFolderPath, engine.Name);
 
         // TODO: Check for errors
-        // ZipFile.ExtractToDirectory(tempEditorFile, editorInstallFolder);
         CurrentAction = "Extracting editor";
         await ZipHelpers.ExtractToDirectoryAsync(tempEditorFile, editorInstallFolder, _progress);
-
-#if DELETE_TMP_FILES
-        File.Delete(tempEditorFile);
-#endif
 
         var installedPackages = new List<Package>(platformTools.Count);
         foreach (var tools in platformTools)
@@ -114,10 +109,9 @@ public class LocalEngineDownloaderService : IEngineDownloaderService
             await ZipHelpers.ExtractToDirectoryAsync(tmpFile, installFolder, _progress);
 
             installedPackages.Add(new Package(tools.Name, installFolder));
-#if DELETE_TMP_FILES
-            File.Delete(tmpFile);
-#endif
         }
+
+        CurrentAction = "Done!";
 
         return new Engine
         {

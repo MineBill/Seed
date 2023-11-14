@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
@@ -95,6 +96,7 @@ public class RemotePackage
 /// <summary>
 /// Describes a remote engine as described by the api the official Flax launcher uses.
 /// </summary>
+// ReSharper disable once ClassNeverInstantiated.Global
 public class RemoteEngine : IComparable<RemoteEngine>
 {
     /// <summary>

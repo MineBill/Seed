@@ -2,7 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using Avalonia.Input;
 using Avalonia.Media.Imaging;
+using MsBox.Avalonia;
 using ReactiveUI;
 using Seed.Models;
 using Seed.Services;
@@ -12,11 +14,12 @@ namespace Seed.ViewModels;
 
 public class ProjectViewModel : ViewModelBase
 {
-    private IProjectManager _projectManager;
-    private Project? _project;
+    private readonly IProjectManager _projectManager;
 
-    public string? Name => _project?.Name;
-    public Version? EngineVersion => _project?.EngineVersion;
+    public Project Project { get; }
+
+    public string Name => Project.Name;
+    public Version? EngineVersion => Project.EngineVersion;
 
     private Bitmap? _icon;
 
@@ -34,46 +37,96 @@ public class ProjectViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _versionInstalled, value);
     }
 
-    public ICommand RemoveProjectCommand { get; }
-    public ICommand RunProjectCommand { get; }
-    public ICommand OpenProjectFolderCommand { get; }
+    private bool _isTemplate;
+
+    public bool IsTemplate
+    {
+        get => _isTemplate;
+        set => this.RaiseAndSetIfChanged(ref _isTemplate, value);
+    }
+
+    public bool IsProjectTemplate => Project.IsTemplate;
+
+    public ICommand? RemoveProjectCommand { get; }
+    public ICommand? RunProjectCommand { get; }
+    public ICommand? MarkAsTemplateCommand { get; }
+    public ICommand? OpenProjectFolderCommand { get; }
 
     public ProjectViewModel(IEngineManager engineManager, IProjectManager projectManager, IFilesService filesService,
         Project project)
     {
         _projectManager = projectManager;
-        _project = project;
-        RemoveProjectCommand = ReactiveCommand.Create(() =>
-        {
-            //
-            _projectManager.RemoveProject(project);
-        });
+        Project = project;
 
-        RunProjectCommand = ReactiveCommand.Create(() => { _projectManager.RunProject(_project); });
-
-        OpenProjectFolderCommand = ReactiveCommand.Create(() => { filesService.OpenFolder(_project.Path); });
-        engineManager.Engines.CollectionChanged += (sender, args) =>
+        engineManager.Engines.CollectionChanged += (_, _) =>
         {
             VersionInstalled =
-                engineManager.Engines.Any(x => x.Version == _project.EngineVersion);
+                engineManager.Engines.Any(x => x.Version == Project.EngineVersion);
         };
 
         VersionInstalled =
-            engineManager.Engines.Any(x => x.Version == _project.EngineVersion);
+            engineManager.Engines.Any(x => x.Version == Project.EngineVersion);
+
+        RemoveProjectCommand = ReactiveCommand.Create(() => { projectManager.RemoveProject(project); });
+
+        RunProjectCommand = ReactiveCommand.Create(RunProject);
+
+        OpenProjectFolderCommand = ReactiveCommand.Create(() => { filesService.OpenFolder(Project.Path); });
+
+        MarkAsTemplateCommand = ReactiveCommand.Create(() =>
+        {
+            Project.IsTemplate = !Project.IsTemplate;
+            this.RaisePropertyChanged(nameof(IsProjectTemplate));
+            _projectManager.Save();
+        });
+    }
+
+    public ProjectViewModel(Project project, Bitmap? bitmap = null)
+    {
+        Project = project;
+        IsTemplate = true;
+
+        Icon = bitmap;
+        if (Icon is null)
+            Task.Run(LoadIcon);
     }
 
     public ProjectViewModel()
     {
-        _project = new Project("Big AAA Game", "/home/user/dev/projects/Big AAA Game", new Version(1, 6, 6032, 4));
+        Project = new Project("Big AAA Game", "/home/user/dev/projects/Big AAA Game", new Version(1, 6, 6032, 4));
     }
 
     public async Task LoadIcon()
     {
-        if (_project is null || string.IsNullOrWhiteSpace(_project.IconPath))
+        if (string.IsNullOrWhiteSpace(Project.IconPath))
             return;
-        if (!File.Exists(_project.IconPath))
+        if (!File.Exists(Project.IconPath))
             return;
 
-        Icon = await Task.Run(() => new Bitmap(_project.IconPath));
+        Icon = await Task.Run(() => new Bitmap(Project.IconPath));
+    }
+
+    public void OnDoubleTapped(object? sender, TappedEventArgs? e)
+    {
+        _ = sender;
+        _ = e;
+        RunProject();
+    }
+
+    private void RunProject()
+    {
+        if (VersionInstalled)
+            _projectManager.RunProject(Project);
+        else
+        {
+            var box = MessageBoxManager.GetMessageBoxStandard(
+                "Missing Engine",
+                """
+                The engine this project was last opened in, is missing. Either re-install it, or
+                change the associated engine version with this project in the project settings.
+                """,
+                icon: MsBox.Avalonia.Enums.Icon.Error);
+            box.ShowWindowDialogAsync(App.Current.MainWindow);
+        }
     }
 }

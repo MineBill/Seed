@@ -15,7 +15,11 @@
     <Design.DataContext>
         <vm:EngineViewModel />
     </Design.DataContext>
-    <Border Padding="5">
+    <Border
+        Padding="5"
+        Margin="5"
+        CornerRadius="3"
+        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
         <DockPanel
             ToolTip.Tip="{Binding Path}"
             ContextFlyout="{StaticResource ProjectContextMenu}"
@@ -34,6 +38,7 @@
                         VerticalAlignment="Center" />
                     <Button
                         DockPanel.Dock="Right"
+                        Background="Transparent"
                         Flyout="{StaticResource ProjectContextMenu}">
                         <PathIcon
                             Width="15" Height="15"
@@ -45,7 +50,7 @@
                 </DockPanel>
             </StackPanel>
             <Border CornerRadius="5" ClipToBounds="True">
-                <Panel Background="{StaticResource ButtonBackground}">
+                <Panel>
                     <Image Source="/Assets/flax-logo-white.png" Margin="2" Height="125" Stretch="Uniform" />
                 </Panel>
             </Border>

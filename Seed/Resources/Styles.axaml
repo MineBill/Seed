@@ -1,4 +1,5 @@
 <Styles xmlns="https://github.com/avaloniaui"
+        xmlns:vm="using:Seed.Views"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <Border Padding="20">
@@ -7,8 +8,46 @@
     </Design.PreviewWith>
 
     <!-- Add Styles Here -->
-    <Style Selector="Button.CoolButton">
+    <Style Selector="Button.IconButton">
+        <!-- Notice the space separating between TextBlock and PathIcon. That's the
+        Any Descendant Operator. We use this instead of '>', because there is an
+        InlineUiControl inserted between the TextBlock and PathIcon. -->
+        <Style Selector="^ TextBlock PathIcon">
+            <Setter Property="Width" Value="15" />
+            <Setter Property="Height" Value="15" />
+        </Style>
         <Setter Property="Padding" Value="10" />
-        <Setter Property="BorderThickness" Value="2"></Setter>
+        <Setter Property="BorderThickness" Value="2" />
+    </Style>
+
+    <Style Selector="Button.DismissDownload">
+
+    </Style>
+
+    <Style Selector="TextBlock.TabPageHeader">
+        <Setter Property="FontSize" Value="33" />
+        <Setter Property="FontWeight" Value="DemiBold" />
+    </Style>
+
+    <Style Selector="TextBlock.DialogTitle">
+        <Setter Property="FontSize" Value="30" />
+    </Style>
+
+    <Style Selector="TabControl > TabItem">
+        <Setter Property="Margin" Value="20 0 20 0"></Setter>
+    </Style>
+
+    <Style Selector="TextBlock.VersionNumber">
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style Selector="TextBlock.ProjectName">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
+    </Style>
+
+    <Style Selector="Border.TemplateLine">
+        <Setter Property="BorderBrush" Value="{StaticResource TemplateLineColor}"/>
+        <Setter Property="BorderThickness" Value="1 1 1 5"></Setter>
     </Style>
 </Styles>

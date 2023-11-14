@@ -6,31 +6,33 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Seed.Views.EnginesView"
              x:DataType="vm:EnginesViewModel">
-    <Design.DataContext>
-        <vm:EnginesViewModel />
-    </Design.DataContext>
+    <!-- <Design.DataContext> -->
+    <!--     <vm:EnginesViewModel /> -->
+    <!-- </Design.DataContext> -->
 
-    <Border Padding="20 0 0 0"
-            Background="{DynamicResource ItemsControlBackground}">
+    <Border Padding="0 0 0 0">
         <DockPanel>
-            <DockPanel
-                Background="{DynamicResource ItemsControlBackground}"
-                DockPanel.Dock="Top">
-                <Button
-                    DockPanel.Dock="Right"
-                    Command="{Binding DownloadVersionCommand}"
-                    Classes="CoolButton">
-                    <TextBlock>
-                        <PathIcon Width="15" Height="15" Data="{StaticResource IconArrowDownloadRegular}" />
-                        Download
+            <Border
+                DockPanel.Dock="Top"
+                BorderThickness="0 0 0 1"
+                BorderBrush="#5A5A5A">
+                <DockPanel>
+                    <Button
+                        DockPanel.Dock="Right"
+                        Command="{Binding DownloadVersionCommand}"
+                        Classes="IconButton">
+                        <TextBlock>
+                            <PathIcon Data="{StaticResource IconArrowDownloadRegular}" />
+                            Download
+                        </TextBlock>
+                    </Button>
+                    <TextBlock
+                        Classes="TabPageHeader"
+                        VerticalAlignment="Center">
+                        Engine Versions
                     </TextBlock>
-                </Button>
-                <TextBlock
-                    VerticalAlignment="Center"
-                    FontSize="27">
-                    Engine Versions
-                </TextBlock>
-            </DockPanel>
+                </DockPanel>
+            </Border>
             <TextBlock
                 Margin="0 50 0 0"
                 VerticalAlignment="Top"
@@ -41,9 +43,7 @@
             </TextBlock>
             <ItemsControl
                 Padding="5"
-                BorderThickness="0 1 0 0"
-                BorderBrush="#5A5A5A"
-                Background="{DynamicResource ItemsControlBackground}"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                 ItemsSource="{Binding Engines}"
                 IsVisible="{Binding Engines.Count}">
                 <ItemsControl.ItemsPanel>

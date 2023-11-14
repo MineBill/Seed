@@ -3,31 +3,50 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Seed.ViewModels"
+             DoubleTapped="InputElement_OnDoubleTapped"
              mc:Ignorable="d" d:DesignWidth="150" d:DesignHeight="200"
              x:Class="Seed.Views.ProjectView"
              x:DataType="vm:ProjectViewModel">
     <Design.DataContext>
         <vm:ProjectViewModel />
     </Design.DataContext>
-    <StackPanel Margin="2" Spacing="5" Width="150">
-        <StackPanel.ContextMenu>
-            <ContextMenu>
-                <MenuItem Command="{Binding RunProjectCommand}" Header="Run Project"></MenuItem>
-                <MenuItem Command="{Binding OpenProjectFolderCommand}" Header="Open in file explorer"></MenuItem>
-                <MenuItem Header="Edit startup arguments"></MenuItem>
-                <MenuItem Command="{Binding RemoveProjectCommand}" Header="Remove Project"></MenuItem>
-            </ContextMenu>
-        </StackPanel.ContextMenu>
-        <Border CornerRadius="5" ClipToBounds="True">
-            <Panel Background="{StaticResource ButtonBackground}">
-                <Image Source="{Binding Icon}" Height="150" Stretch="UniformToFill" />
+    <Border
+        Padding="5"
+        CornerRadius="3"
+        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+        <StackPanel Width="150">
+            <StackPanel.ContextMenu>
+                <ContextMenu IsEnabled="{Binding !IsTemplate}" IsVisible="{Binding !IsTemplate}">
+                    <MenuItem Command="{Binding RunProjectCommand}" Header="Run Project"></MenuItem>
+                    <MenuItem Command="{Binding OpenProjectFolderCommand}" Header="Open in file explorer"></MenuItem>
+                    <MenuItem Command="{Binding MarkAsTemplateCommand}" Header="Mark as template"></MenuItem>
+                    <MenuItem Header="Edit startup arguments(Not implemented)"></MenuItem>
+                    <MenuItem Command="{Binding RemoveProjectCommand}" Header="Remove Project"></MenuItem>
+                </ContextMenu>
+            </StackPanel.ContextMenu>
+            <Border CornerRadius="3" ClipToBounds="True" Classes.TemplateLine="{Binding IsProjectTemplate}">
+                <Panel Background="{StaticResource ButtonBackground}">
+                    <Image Source="{Binding Icon}" Height="150" Stretch="UniformToFill" />
+                </Panel>
+            </Border>
+            <Viewbox>
+                <TextBlock Classes="ProjectName" HorizontalAlignment="Center" Text="{Binding Name}" />
+            </Viewbox>
+            <Panel IsVisible="{Binding !IsTemplate}">
+                <StackPanel
+                    Classes="VersionNumber"
+                    IsVisible="{Binding !VersionInstalled}">
+                    <TextBlock
+                        Foreground="Red"
+                        HorizontalAlignment="Right"
+                        Text="{Binding EngineVersion}" />
+                </StackPanel>
+                <TextBlock
+                    Classes="VersionNumber"
+                    IsVisible="{Binding VersionInstalled}"
+                    HorizontalAlignment="Right"
+                    Text="{Binding EngineVersion}" />
             </Panel>
-        </Border>
-        <TextBlock HorizontalAlignment="Center" Text="{Binding Name}" />
-        <StackPanel
-            IsVisible="{Binding !VersionInstalled}">
-            <TextBlock Foreground="Red" HorizontalAlignment="Right" Text="{Binding EngineVersion}" />
         </StackPanel>
-        <TextBlock IsVisible="{Binding VersionInstalled}" HorizontalAlignment="Right" Text="{Binding EngineVersion}" />
-    </StackPanel>
+    </Border>
 </UserControl>

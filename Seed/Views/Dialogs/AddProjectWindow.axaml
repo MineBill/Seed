@@ -8,7 +8,7 @@
         x:DataType="vm:AddProjectViewModel"
         Width="500" Height="300"
         Title="Add Project">
-    <DockPanel Margin="5">
+    <DockPanel Margin="5" HorizontalAlignment="Stretch">
         <StackPanel
             DockPanel.Dock="Bottom"
             HorizontalAlignment="Center"
@@ -26,45 +26,42 @@
                 Cancel
             </Button>
         </StackPanel>
-        <Grid
-            HorizontalAlignment="Center"
-            ColumnDefinitions="Auto, Auto, Auto"
-            RowDefinitions="Auto, Auto">
-            <Label
-                Grid.Row="0"
-                Grid.Column="0"
-                VerticalAlignment="Center"
-                ToolTip.Tip="The folder path where the project is located.">
-                Path
-            </Label>
-            <TextBox
-                Grid.Row="0"
-                Grid.Column="1"
-                Margin="5 0 5 0"
-                Padding="5"
-                VerticalAlignment="Center"
-                VerticalContentAlignment="Center"
-                Text="{Binding ProjectPath}"
-                ToolTip.Tip="The folder path where the project is located." />
-            <Button
-                Grid.Row="0"
-                Grid.Column="2" VerticalAlignment="Center"
-                ToolTip.Tip="Change the folder path of the project.">
-                Change
-            </Button>
-            <Label
-                Grid.Row="1"
-                Grid.Column="0"
-                VerticalAlignment="Center">
-                Engine Version
-            </Label>
-            <ComboBox
-                Grid.Row="1"
-                Grid.Column="1"
-                Margin="5 0 5 0"
-                Padding="5"
-                ItemsSource="{Binding AvailableEngineVersions}"
-                SelectedItem="{Binding SelectedVersion}" />
-        </Grid>
+        <StackPanel
+            HorizontalAlignment="Stretch">
+            <StackPanel>
+                <Label
+                    VerticalAlignment="Center"
+                    ToolTip.Tip="The folder path where the project is located.">
+                    Path
+                </Label>
+                <StackPanel>
+                    <TextBox
+                        Margin="5 0 5 0"
+                        Padding="5"
+                        VerticalAlignment="Center"
+                        TextWrapping="Wrap"
+                        Text="{Binding ProjectPath}"
+                        ToolTip.Tip="The folder path where the project is located." />
+                    <Button
+                        Margin="5"
+                        HorizontalAlignment="Center"
+                        ToolTip.Tip="Change the folder path of the project.">
+                        Change
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel>
+                <Label
+                    VerticalAlignment="Center">
+                    Engine Version
+                </Label>
+                <ComboBox
+                    Margin="5 0 5 0"
+                    Padding="5"
+                    HorizontalAlignment="Stretch"
+                    ItemsSource="{Binding AvailableEngineVersions}"
+                    SelectedItem="{Binding SelectedVersion}" />
+            </StackPanel>
+        </StackPanel>
     </DockPanel>
 </Window>

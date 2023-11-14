@@ -18,15 +18,16 @@
 
     <DockPanel>
         <views:DownloadInfoView DataContext="{Binding DownloadInfoViewModel}" DockPanel.Dock="Bottom" />
-        <TabControl TabStripPlacement="Left" Margin="0" Padding="0" Background="{DynamicResource TabPanelBackground}">
+        <TabControl Padding="0" TabStripPlacement="Left">
             <TabItem Header="Projects">
                 <views:ProjectsView DataContext="{Binding ProjectsViewModel}" />
             </TabItem>
             <TabItem Header="Engines">
                 <views:EnginesView DataContext="{Binding EnginesViewModel}" />
             </TabItem>
-            <!-- <TabItem Header="News"> -->
-            <!-- </TabItem> -->
+            <TabItem Header="Samples">
+                <views:SamplesView />
+            </TabItem>
         </TabControl>
     </DockPanel>
 </Window>

@@ -1,7 +1,5 @@
 using System;
-using System.Reactive;
 using Avalonia.Controls;
-using ReactiveUI;
 using Seed.ViewModels;
 
 namespace Seed.Views.Dialogs;

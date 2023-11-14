@@ -32,12 +32,18 @@ public record Project(string Name, string Path, Version? EngineVersion = null)
     /// <summary>
     /// Utility to get the project
     /// </summary>
+    [JsonIgnore]
     public string IconPath => System.IO.Path.Combine(Path, "Cache", "icon.png");
 
     /// <summary>
     /// Last time the project was opened from the launcher.
     /// </summary>
     public DateTime LastOpenedTime { get; set; }
+
+    /// <summary>
+    /// Indicates whether this project can be used as a template when creating a new project.
+    /// </summary>
+    public bool IsTemplate { get; set; }
 
     /// <summary>
     /// Check if this project exists on disk right now.

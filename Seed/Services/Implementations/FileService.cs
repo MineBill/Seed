@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
@@ -16,7 +18,7 @@ public class FilesService : IFilesService
         _target = target;
     }
 
-    public async Task<IStorageFile?> OpenFileAsync(string title, IReadOnlyList<FilePickerFileType> options)
+    public async Task<IStorageFile?> SelectFileAsync(string title, IReadOnlyList<FilePickerFileType> options)
     {
         var files = await _target.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
         {
@@ -34,6 +36,19 @@ public class FilesService : IFilesService
         {
             Title = "Save Text File"
         });
+    }
+
+    public async Task<IStorageFolder?> SelectFolderAsync(string? path = null)
+    {
+        var folders = await _target.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+        {
+            AllowMultiple = false,
+            SuggestedStartLocation =
+                await _target.StorageProvider.TryGetFolderFromPathAsync(path ??
+                                                                        Environment.GetFolderPath(Environment
+                                                                            .SpecialFolder.UserProfile))
+        });
+        return folders.Count > 0 ? folders[0] : null;
     }
 
     public void OpenFolder(string path)

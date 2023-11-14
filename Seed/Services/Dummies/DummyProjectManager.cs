@@ -23,4 +23,8 @@ public class DummyProjectManager : IProjectManager
     public void RunProject(Project project)
     {
     }
+
+    public void Save()
+    {
+    }
 }

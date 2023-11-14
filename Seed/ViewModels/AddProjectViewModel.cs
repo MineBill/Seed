@@ -27,7 +27,7 @@ public class AddProjectViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _projectPath, value);
     }
 
-    private string _name;
+    private string _name = string.Empty;
 
     public string Name
     {
@@ -35,7 +35,7 @@ public class AddProjectViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _name, value);
     }
 
-    private Version? _selectedVersion = null;
+    private Version? _selectedVersion;
 
     public Version? SelectedVersion
     {
@@ -81,6 +81,6 @@ public class AddProjectViewModel : ViewModelBase
         });
 
         AddProjectCommand =
-            ReactiveCommand.Create(() => { return new Project(Name, ProjectPath, SelectedVersion); });
+            ReactiveCommand.Create(() => new Project(Name, ProjectPath, SelectedVersion));
     }
 }

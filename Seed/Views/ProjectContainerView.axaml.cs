@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace Seed.Views;
 
-public partial class DownloadInfoView : UserControl
+public partial class ProjectContainerView : UserControl
 {
-    public DownloadInfoView()
+    public ProjectContainerView()
     {
         InitializeComponent();
     }

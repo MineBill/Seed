@@ -11,4 +11,5 @@
             <SolidColorBrush x:Key="TabPanelBackground">#2D2D30</SolidColorBrush>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+    <SolidColorBrush x:Key="TemplateLineColor">#5AE2DE</SolidColorBrush>
 </ResourceDictionary>

@@ -51,4 +51,16 @@ public class DummyEngineManagerService : IEngineManager
     public void DeleteEngine(Engine engine)
     {
     }
+
+    public void CreateProject(Project newProject, Project template)
+    {
+    }
+
+    public void CreateProject(Engine engine, Project project, bool useBasicScene)
+    {
+    }
+
+    public void CreateProject(Engine engine, Project newProject, Project template)
+    {
+    }
 }

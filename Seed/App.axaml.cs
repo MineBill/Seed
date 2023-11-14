@@ -13,6 +13,8 @@ namespace Seed;
 
 public partial class App : Application
 {
+    public const bool UseLocalDownloader = true;
+
     public new static App Current => (Application.Current as App)!;
     public IServiceProvider Services { get; private set; }
     public Window MainWindow { get; private set; }
@@ -27,8 +29,8 @@ public partial class App : Application
         MainWindow = new MainWindow();
         var services = new ServiceCollection();
         services.AddSingleton<IFilesService>(_ => new FilesService(MainWindow));
-        // services.AddSingleton<IEngineDownloaderService>(_ => new EngineDownloaderService());
-        services.AddSingleton<IEngineDownloaderService>(_ => new LocalEngineDownloaderService());
+        services.AddSingleton<IEngineDownloaderService>(_ =>
+            UseLocalDownloader ? new LocalEngineDownloaderService() : new EngineDownloaderService());
         var engineManager = new EngineManager();
         services.AddSingleton<IEngineManager>(_ => engineManager);
         services.AddSingleton<IProjectManager>(_ => new ProjectManager(engineManager));

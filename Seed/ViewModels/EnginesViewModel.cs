@@ -9,17 +9,18 @@ using ReactiveUI;
 using Seed.Models;
 using Seed.Services;
 using Seed.Services.Dummies;
+using Seed.Services.Implementations;
 
 namespace Seed.ViewModels;
 
 public class EnginesViewModel : ViewModelBase
 {
-    private IEngineManager _engineManager;
+    private readonly IEngineManager _engineManager;
     private readonly IEngineDownloaderService _engineDownloader;
     private Engine? _selectedEngine;
 
-    public ObservableCollection<EngineViewModel> Engines { get; private set; } = new();
-    public ICommand DownloadVersionCommand { get; }
+    public ObservableCollection<EngineViewModel> Engines { get; } = new();
+    public ICommand? DownloadVersionCommand { get; }
     public Interaction<DownloadVersionsViewModel, DownloadDialogResult?> ShowDownloadVersionDialog { get; } = new();
 
     public Engine? SelectedEngine
@@ -27,8 +28,6 @@ public class EnginesViewModel : ViewModelBase
         get => _selectedEngine;
         set => this.RaiseAndSetIfChanged(ref _selectedEngine, value);
     }
-
-    public bool HasAnyEngines => Engines.Count > 0;
 
     public EnginesViewModel(
         IEngineManager engineManager,
@@ -40,18 +39,18 @@ public class EnginesViewModel : ViewModelBase
         DownloadVersionCommand = ReactiveCommand.CreateFromTask(OnDownloadVersionButtonClicked);
 
         // We subscribe se we can update the viewmodel too.
-        _engineManager.Engines.CollectionChanged += (sender, args) =>
+        _engineManager.Engines.CollectionChanged += (_, args) =>
         {
             if (args.NewItems != null)
                 foreach (var engine in args.NewItems)
                 {
-                    Engines.Add(new EngineViewModel(_engineManager, engine as Engine));
+                    Engines.Add(new EngineViewModel(_engineManager, (engine as Engine)!));
                 }
 
             if (args.OldItems != null)
                 foreach (var engine in args.OldItems)
                 {
-                    var old = Engines.Where(x => x.Version == (engine as Engine).Version);
+                    var old = Engines.Where(x => x.Version == ((engine as Engine)!).Version);
                     Engines.RemoveMany(old);
                 }
         };
@@ -61,6 +60,7 @@ public class EnginesViewModel : ViewModelBase
     public EnginesViewModel()
     {
         _engineManager = new DummyEngineManagerService();
+        _engineDownloader = new LocalEngineDownloaderService();
         LoadAvailableEngines();
     }
 

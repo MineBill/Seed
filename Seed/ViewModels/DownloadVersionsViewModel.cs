@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Runtime.InteropServices;
@@ -12,9 +11,9 @@ namespace Seed.ViewModels;
 
 public class DownloadVersionsViewModel : ViewModelBase
 {
-    private RemoteEngineViewModel _selectedVersion;
+    private RemoteEngineViewModel? _selectedVersion;
 
-    public RemoteEngineViewModel SelectedVersion
+    public RemoteEngineViewModel? SelectedVersion
     {
         get => _selectedVersion;
         set => this.RaiseAndSetIfChanged(ref _selectedVersion, value);
@@ -31,7 +30,7 @@ public class DownloadVersionsViewModel : ViewModelBase
     {
         DownloadCommand = ReactiveCommand.Create<DownloadDialogResult?>(() =>
         {
-            var tools = SelectedVersion.Packages.FindAll(x => x.IsChecked);
+            var tools = SelectedVersion!.Packages.FindAll(x => x.IsChecked);
 
             return new DownloadDialogResult(SelectedVersion.RemoteEngine, tools.ConvertAll(x => x.RemotePackage));
         });
@@ -52,9 +51,9 @@ public class DownloadVersionsViewModel : ViewModelBase
             .Subscribe(OnSelectedVersionChanged);
     }
 
-    private void OnSelectedVersionChanged(RemoteEngineViewModel viewModel)
+    private void OnSelectedVersionChanged(RemoteEngineViewModel? viewModel)
     {
-        if (viewModel.Packages.Count == 0)
+        if (viewModel!.Packages.Count == 0)
         {
             // No platform packages == no editor too.
         }

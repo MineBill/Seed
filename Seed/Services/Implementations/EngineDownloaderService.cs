@@ -1,8 +1,8 @@
-#define USE_JSON_FILE
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
@@ -39,29 +39,25 @@ public class EngineDownloaderService : IEngineDownloaderService
 
     public async Task<List<RemoteEngine>?> GetAvailableVersions()
     {
-#if USE_JSON_FILE
-        var json = await File.ReadAllTextAsync("/home/minebill/git/Seed/Seed/Assets/api.json");
-#else
         _client.DefaultRequestHeaders.Accept.Clear();
         _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         _client.DefaultRequestHeaders.Add("User-Agent", "Seed Launcher for Flax");
 
         var json = await _client.GetStringAsync(ApiUrl);
-#endif
         try
         {
             var tree = JsonNode.Parse(json);
             if (tree is null)
                 return null;
 
-            var engines = tree["versions"].Deserialize<List<RemoteEngine>>();
+            var engines = tree["version"].Deserialize<List<RemoteEngine>>();
             return engines;
         }
         catch (JsonException je)
         {
             var box = MessageBoxManager.GetMessageBoxStandard(
                 "Exception",
-                "An exception occured while deserializing information from the Flax API. It's possible the API changed. Please make an issue at <url-repo>.",
+                $"An exception occured while deserializing information from the Flax API. It's possible the API has changed. Please make an issue at {Globals.RepoUrl}.",
                 icon: Icon.Error);
             await box.ShowWindowDialogAsync(App.Current.MainWindow);
             return null;
@@ -90,10 +86,6 @@ public class EngineDownloaderService : IEngineDownloaderService
         CurrentAction = "Extracting editor";
         await ZipHelpers.ExtractToDirectoryAsync(tempEditorFile, editorInstallFolder, _progress);
 
-#if DELETE_TMP_FILES
-        File.Delete(tempEditorFile);
-#endif
-
         var installedPackages = new List<Package>(platformTools.Count);
         foreach (var tools in platformTools)
         {
@@ -107,10 +99,9 @@ public class EngineDownloaderService : IEngineDownloaderService
             await ZipHelpers.ExtractToDirectoryAsync(tmpFile, installFolder, _progress);
 
             installedPackages.Add(new Package(tools.Name, installFolder));
-#if DELETE_TMP_FILES
-            File.Delete(tmpFile);
-#endif
         }
+
+        CurrentAction = "Done!";
 
         return new Engine
         {
@@ -119,18 +110,5 @@ public class EngineDownloaderService : IEngineDownloaderService
             Version = engine.Version,
             InstalledPackages = installedPackages
         };
-    }
-
-    private async Task DownloadFile(string uri, string outputFile)
-    {
-        if (!Uri.TryCreate(uri, UriKind.Absolute, out var uriResult))
-            throw new InvalidOperationException("URI is invalid.");
-
-        using var response = await _client.GetAsync(uriResult, HttpCompletionOption.ResponseHeadersRead);
-        response.EnsureSuccessStatusCode();
-
-        await using var fileStream = File.OpenWrite(outputFile);
-        await using var httpStream = await response.Content.ReadAsStreamAsync();
-        await httpStream.CopyToAsync(fileStream);
     }
 }

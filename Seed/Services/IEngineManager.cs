@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Seed.Models;
 
@@ -7,6 +5,9 @@ namespace Seed.Services;
 
 public interface IEngineManager
 {
+    /// <summary>
+    /// The list of known projects. Useful to subscribe to updates.
+    /// </summary>
     public ObservableCollection<Engine> Engines { get; }
 
     /// <summary>
@@ -21,4 +22,6 @@ public interface IEngineManager
     /// </summary>
     /// <param name="engine">The engine to remove.</param>
     public void DeleteEngine(Engine engine);
+
+    public void CreateProject(Project newProject, Project template);
 }

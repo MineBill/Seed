@@ -9,7 +9,6 @@ namespace Seed.ViewModels;
 public class EngineViewModel : ViewModelBase
 {
     private readonly Engine _engine;
-    private IEngineManager _engineManager;
 
     public string Name => _engine.Name;
     public string Path => _engine.Path;
@@ -19,9 +18,8 @@ public class EngineViewModel : ViewModelBase
 
     public EngineViewModel(IEngineManager engineManager, Engine engine)
     {
-        _engineManager = engineManager;
         _engine = engine;
-        DeleteCommand = ReactiveCommand.Create(() => { _engineManager.DeleteEngine(_engine); });
+        DeleteCommand = ReactiveCommand.Create(() => { engineManager.DeleteEngine(_engine); });
     }
 
     public EngineViewModel()

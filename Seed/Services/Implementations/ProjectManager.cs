@@ -11,7 +11,7 @@ namespace Seed.Services.Implementations;
 
 public class ProjectManager : IProjectManager
 {
-    private IEngineManager _engineManager;
+    private readonly IEngineManager _engineManager;
 
     public ObservableCollection<Project> Projects { get; private set; } = new();
 
@@ -44,13 +44,28 @@ public class ProjectManager : IProjectManager
 
         var engine = _engineManager.Engines.First(x => x.Version == project.EngineVersion);
 
-        var info = new ProcessStartInfo
+        if (OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD())
         {
-            FileName = engine.GetExecutablePath("Release"),
-            ArgumentList = { "-project", Path.GetFullPath(project.Path) }
-        };
+            var info = new ProcessStartInfo
+            {
+                FileName = "/bin/sh",
+                Arguments =
+                    $" -c \"setsid {engine.GetExecutablePath("Release")} -project {Path.GetFullPath(project.Path)}\"",
+                CreateNoWindow = true,
+            };
 
-        Process.Start(info);
+            Process.Start(info);
+        }
+        else if (OperatingSystem.IsWindows())
+        {
+            var info = new ProcessStartInfo
+            {
+                FileName = engine.GetExecutablePath("Release"),
+                Arguments = $"-project {Path.GetFullPath(project.Path)}",
+            };
+
+            Process.Start(info);
+        }
     }
 
     private void LoadProjects()
@@ -82,7 +97,6 @@ public class ProjectManager : IProjectManager
         catch (JsonException je)
         {
             Console.WriteLine($"Exception while attempting to deserialize project info: {je}");
-            return;
         }
     }
 
@@ -95,7 +109,7 @@ public class ProjectManager : IProjectManager
         }
     }
 
-    private void Save()
+    public void Save()
     {
         var configFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             Globals.AppName);
