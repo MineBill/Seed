@@ -9,6 +9,8 @@ public static class Globals
     public const string AppName = "SeedLauncher";
     public const string EnginesSaveFileName = "Engines.json";
     public const string ProjectsSaveFileName = "Projects.json";
+    public const string UserPreferencesSaveFileName = "Preferences.json";
+    public const string LogFileName = "Log.txt";
 
     public static string GetDefaultEngineInstallLocation()
     {
@@ -18,6 +20,19 @@ public static class Globals
 
     public static string GetDefaultProjectLocation()
     {
-        return "";
+        var documents = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        return Path.Combine(documents, "FlaxProjects");
+    }
+
+    public static string GetPreferencesFileLocation()
+    {
+        var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        return Path.Combine(appData, AppName, UserPreferencesSaveFileName);
+    }
+
+    public static string GetLogFileLocation()
+    {
+        var appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        return Path.Combine(appData, AppName, LogFileName);
     }
 }

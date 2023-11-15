@@ -34,6 +34,7 @@ public partial class App : Application
         var engineManager = new EngineManager();
         services.AddSingleton<IEngineManager>(_ => engineManager);
         services.AddSingleton<IProjectManager>(_ => new ProjectManager(engineManager));
+        services.AddSingleton<IPreferencesSaver>(_ => new JsonPreferencesSaver());
         Services = services.BuildServiceProvider();
 
         MainWindow.DataContext = new MainWindowViewModel(Services);

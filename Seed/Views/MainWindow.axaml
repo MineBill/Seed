@@ -28,6 +28,9 @@
             <TabItem Header="Samples">
                 <views:SamplesView />
             </TabItem>
+            <TabItem Classes="SettingsTabItem" Header="Settings">
+                <views:SettingsView DataContext="{Binding SettingsViewModel}" />
+            </TabItem>
         </TabControl>
     </DockPanel>
 </Window>

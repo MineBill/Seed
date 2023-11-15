@@ -1,0 +1,67 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="using:Seed.ViewModels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Seed.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+    <Border>
+        <TabControl Padding="0" Margin="0" SelectedIndex="1">
+            <TabItem Header="Launcher">
+                <Border Classes="SettingsPanel">
+                    <DockPanel>
+                        <Button
+                            HorizontalAlignment="Center"
+                            DockPanel.Dock="Bottom">
+                            Save
+                        </Button>
+                        <StackPanel Spacing="10">
+                            <StackPanel>
+                                <TextBlock Classes="OptionName">Default engine install location</TextBlock>
+                                <DockPanel>
+                                    <Button Command="{Binding SelectEngineFolderCommand}"
+                                            DockPanel.Dock="Right">
+                                        Change
+                                    </Button>
+                                    <Border
+                                        Padding="3"
+                                        CornerRadius="3"
+                                        Background="{DynamicResource SystemControlBackgroundAltMediumBrush}">
+                                        <TextBlock
+                                            FontWeight="Light"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding EngineInstallLocation}">
+                                        </TextBlock>
+                                    </Border>
+                                </DockPanel>
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Classes="OptionName">Default project location</TextBlock>
+                                <DockPanel>
+                                    <Button Command="{Binding SelectNewProjectFolderCommand}"
+                                            DockPanel.Dock="Right">
+                                        Change
+                                    </Button>
+                                    <Border
+                                        Padding="3"
+                                        CornerRadius="3"
+                                        Background="{DynamicResource SystemControlBackgroundAltMediumBrush}">
+                                        <TextBlock
+                                            FontWeight="Light"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding NewProjectLocation}">
+                                        </TextBlock>
+                                    </Border>
+                                    <!-- <TextBox VerticalAlignment="Center" MinWidth="200" -->
+                                    <!--          Text="{Binding NewProjectLocation}"> -->
+                                    <!-- </TextBox> -->
+                                </DockPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+            </TabItem>
+        </TabControl>
+    </Border>
+</UserControl>

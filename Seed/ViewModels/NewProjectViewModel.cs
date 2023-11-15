@@ -8,6 +8,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
@@ -73,6 +74,9 @@ public class NewProjectViewModel : ReactiveValidationObject
     {
         _engineManager = engineManager;
         // ProjectContainerViewModel = new ProjectContainerViewModel(projectManager);
+
+        var preferencesSaver = App.Current.Services.GetService<IPreferencesSaver>()!;
+        ProjectPath = preferencesSaver.Preferences.NewProjectLocation ?? Globals.GetDefaultProjectLocation();
 
         CreateProjectCommand =
             ReactiveCommand.Create(() => new NewProjectDialogResult(

@@ -37,17 +37,30 @@
         <Setter Property="Margin" Value="20 0 20 0"></Setter>
     </Style>
 
+    <Style Selector="TabControl > TabItem.SettingsTabItem">
+        <Setter Property="Margin" Value="20 20 20 0"></Setter>
+    </Style>
+
     <Style Selector="TextBlock.VersionNumber">
-        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontSize" Value="12" />
     </Style>
 
     <Style Selector="TextBlock.ProjectName">
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="FontWeight" Value="DemiBold"/>
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontWeight" Value="DemiBold" />
     </Style>
 
     <Style Selector="Border.TemplateLine">
-        <Setter Property="BorderBrush" Value="{StaticResource TemplateLineColor}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource TemplateLineColor}" />
         <Setter Property="BorderThickness" Value="1 1 1 5"></Setter>
+    </Style>
+
+    <Style Selector="Border.SettingsPanel">
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumBrush}" />
+    </Style>
+
+    <Style Selector="TextBlock.OptionName">
+        <Setter Property="Padding" Value="0 0 0 5" />
     </Style>
 </Styles>
