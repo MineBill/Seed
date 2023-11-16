@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 
@@ -26,4 +27,6 @@ public interface IFilesService
     /// </summary>
     /// <param name="path">The location to open the explorer at.</param>
     public void OpenFolder(string path);
+
+    public void OpenUri(Uri uri);
 }

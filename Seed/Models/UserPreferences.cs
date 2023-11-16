@@ -22,6 +22,11 @@ public class UserPreferences
     /// The default project location for new project. Can be overriden in the project creation dialog.
     /// </summary>
     public string? NewProjectLocation { get; set; } = string.Empty;
+
+    /// <summary>
+    ///
+    /// </summary>
+    public string? GithubAccessToken { get; set; }
 }
 
 [JsonSourceGenerationOptions(WriteIndented = true)]

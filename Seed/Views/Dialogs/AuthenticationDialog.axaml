@@ -1,0 +1,82 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:Seed.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="700" Height="400"
+        x:Class="Seed.Views.Dialogs.AuthenticationDialog"
+        x:DataType="vm:AuthenticationDialogViewModel"
+        Title="Github Authentication">
+    <Border Padding="10">
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Classes="DialogTitle">Authenticate with Github</TextBlock>
+            <ScrollViewer>
+                <Panel>
+                    <StackPanel
+                        IsVisible="{Binding AuthenticationComplete}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            Margin="0 30 0 0" TextWrapping="Wrap">
+                            Authentication complete! Press the button below to continue.
+                        </TextBlock>
+                        <Button
+                            Classes="IconButton"
+                            HorizontalAlignment="Center"
+                            Margin="20">
+                            Continue
+                        </Button>
+                    </StackPanel>
+                    <StackPanel
+                        Margin="0 10 0 0"
+                        Orientation="Vertical"
+                        HorizontalAlignment="Center"
+                        IsVisible="{Binding !AuthenticationComplete}"
+                        Spacing="16">
+                        <TextBlock TextWrapping="Wrap">
+                            To obtain daily CI builds from the Flax repository, authentication with Github is required.
+                            This process ensures the creation of a personalized access token. This access token is necessary to
+                            grant the launcher permissions to access and download resources.
+                        </TextBlock>
+                        <Expander Header="More information | Privacy" ExpandDirection="Down">
+                            <StackPanel>
+                                <TextBlock TextWrapping="Wrap">
+                                    This authentication token grants the launcher exclusive read access to public repositories,
+                                    including Flax, and download access to artifact(builds) from  Continuous Integration (CI)
+                                    from these repositories. Importantly, this token is restricted from accessing private
+                                    repositories or any confidential information. It never leaves your computer and is stored
+                                    in your preferences file, and you have the option to replace it with a personally
+                                    generated token.
+                                </TextBlock>
+                            </StackPanel>
+                        </Expander>
+                        <TextBlock TextWrapping="Wrap">
+                            To authenticate click the button below to open the authentication page on your
+                            default browser and paste the following code:
+                        </TextBlock>
+                        <SelectableTextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="40"
+                            FontWeight="Bold"
+                            Text="{Binding UserCode}" />
+                        <ProgressBar IsIndeterminate="True"></ProgressBar>
+                        <Button HorizontalAlignment="Center" Classes="IconButton"
+                                Command="{Binding OpenInBrowserCommand}">
+                            <TextBlock>
+                                <PathIcon Data="{StaticResource IconOpenInBrowserRegular}" />
+                                Open authentication page
+                            </TextBlock>
+                        </Button>
+                        <StackPanel>
+                            <TextBlock>Alternatively, copy-paste the link instead of clicking the button:</TextBlock>
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock>Verification URL:</TextBlock>
+                                <SelectableTextBlock Foreground="DodgerBlue" Text="{Binding Url}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Panel>
+            </ScrollViewer>
+        </DockPanel>
+    </Border>
+</Window>

@@ -1,0 +1,81 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:Seed.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="500" Height="300"
+        x:Class="Seed.Views.Dialogs.DownloadWorkflowsWindow"
+        x:DataType="vm:DownloadWorkflowsViewModel"
+        Title="Select a commit to download">
+    <DockPanel>
+        <StackPanel
+            DockPanel.Dock="Bottom"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Command="{Binding CloseWindowCommand}"
+                Width="80"
+                HorizontalContentAlignment="Center">
+                Cancel
+            </Button>
+            <Button
+                Command="{Binding DownloadCommand}"
+                Width="80"
+                HorizontalContentAlignment="Center">
+                Install
+            </Button>
+        </StackPanel>
+        <StackPanel Margin="10">
+            <TextBlock
+                HorizontalAlignment="Center"
+                Margin="10">
+                Choose an engine version and press 'Install' to continue.
+            </TextBlock>
+            <Grid
+                HorizontalAlignment="Stretch"
+                ColumnDefinitions="*, *"
+                RowDefinitions="*, *">
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    ToolTip.Tip="The folder path where the project is located.">
+                    Version
+                </Label>
+                <ComboBox
+                    ItemsSource="{Binding AvailableWorkflows}"
+                    SelectedItem="{Binding SelectedWorkflow}"
+                    Grid.Row="0"
+                    Grid.Column="1">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock
+                    IsVisible="{Binding SelectedWorkflow.Artifacts.Count}"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    VerticalAlignment="Center">
+                    Platform Tools
+                </TextBlock>
+                <ItemsControl
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    ItemsSource="{Binding SelectedWorkflow.Artifacts}"
+                    VerticalAlignment="Center">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox
+                                IsEnabled="{Binding !IsCurrentPlatform}"
+                                IsChecked="{Binding IsChecked}"
+                                Content="{Binding Name}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </StackPanel>
+    </DockPanel>
+</Window>

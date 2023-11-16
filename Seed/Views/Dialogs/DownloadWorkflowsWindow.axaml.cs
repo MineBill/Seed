@@ -4,14 +4,14 @@ using Seed.ViewModels;
 
 namespace Seed.Views.Dialogs;
 
-public partial class DownloadVersionsWindow : Window
+public partial class DownloadWorkflowsWindow : Window
 {
-    public DownloadVersionsWindow()
+    public DownloadWorkflowsWindow()
     {
         InitializeComponent();
         DataContextChanged += (_, _) =>
         {
-            if (DataContext is not DownloadVersionsViewModel viewModel) return;
+            if (DataContext is not DownloadWorkflowsViewModel viewModel) return;
             viewModel.DownloadCommand.Subscribe(Close);
             viewModel.CloseWindowCommand.Subscribe(_ => Close());
         };

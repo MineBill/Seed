@@ -19,20 +19,18 @@ public class DownloadVersionsViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _selectedVersion, value);
     }
 
-    public bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-    public bool IsLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-
     public ObservableCollection<RemoteEngineViewModel> AvailableEngines { get; } = new();
-    public ReactiveCommand<Unit, DownloadDialogResult?> DownloadCommand { get; }
+    public ReactiveCommand<Unit, DownloadDialogResult<RemoteEngine, RemotePackage>?> DownloadCommand { get; }
     public ReactiveCommand<Unit, Unit> CloseWindowCommand { get; }
 
     public DownloadVersionsViewModel(List<RemoteEngine> engines)
     {
-        DownloadCommand = ReactiveCommand.Create<DownloadDialogResult?>(() =>
+        DownloadCommand = ReactiveCommand.Create<DownloadDialogResult<RemoteEngine, RemotePackage>?>(() =>
         {
             var tools = SelectedVersion!.Packages.FindAll(x => x.IsChecked);
 
-            return new DownloadDialogResult(SelectedVersion.RemoteEngine, tools.ConvertAll(x => x.RemotePackage));
+            return new DownloadDialogResult<RemoteEngine, RemotePackage>(SelectedVersion.RemoteEngine,
+                tools.ConvertAll(x => x.RemotePackage));
         });
         CloseWindowCommand = ReactiveCommand.Create(() => { });
 

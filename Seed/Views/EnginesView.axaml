@@ -23,7 +23,16 @@
                         Classes="IconButton">
                         <TextBlock>
                             <PathIcon Data="{StaticResource IconArrowDownloadRegular}" />
-                            Download
+                            Download Stable Versions
+                        </TextBlock>
+                    </Button>
+                    <Button
+                        DockPanel.Dock="Right"
+                        Command="{Binding DownloadWorkflowCommand}"
+                        Classes="IconButton">
+                        <TextBlock>
+                            <PathIcon Data="{StaticResource IconArrowDownloadRegular}" />
+                            Download CI Builds
                         </TextBlock>
                     </Button>
                     <TextBlock

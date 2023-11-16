@@ -60,4 +60,27 @@ public class FilesService : IFilesService
         };
         Process.Start(info);
     }
+
+    public void OpenUri(Uri uri)
+    {
+        try
+        {
+            Process.Start(uri.ToString());
+        }
+        catch
+        {
+            if (OperatingSystem.IsLinux())
+            {
+                Process.Start("xdg-open", uri.ToString());
+            }
+            else if (OperatingSystem.IsMacOS())
+            {
+                Process.Start("open", uri.ToString());
+            }
+            else
+            {
+                throw;
+            }
+        }
+    }
 }

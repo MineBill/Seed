@@ -13,7 +13,7 @@ namespace Seed;
 
 public partial class App : Application
 {
-    public const bool UseLocalDownloader = true;
+    public const bool UseLocalDownloader = false;
 
     public new static App Current => (Application.Current as App)!;
     public IServiceProvider Services { get; private set; }
@@ -35,6 +35,7 @@ public partial class App : Application
         services.AddSingleton<IEngineManager>(_ => engineManager);
         services.AddSingleton<IProjectManager>(_ => new ProjectManager(engineManager));
         services.AddSingleton<IPreferencesSaver>(_ => new JsonPreferencesSaver());
+        services.AddSingleton<GithubAuthenticator>();
         Services = services.BuildServiceProvider();
 
         MainWindow.DataContext = new MainWindowViewModel(Services);

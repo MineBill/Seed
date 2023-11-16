@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using Seed.Models;
+using Seed.ViewModels;
 
 namespace Seed.Services.Implementations;
 
@@ -83,6 +84,11 @@ public class LocalEngineDownloaderService : IEngineDownloaderService
         }
     }
 
+    public Task<List<Workflow>?> GetGithubWorkflows()
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Engine> DownloadVersion(RemoteEngine engine, List<RemotePackage> platformTools,
         string installFolderPath)
     {
@@ -120,5 +126,10 @@ public class LocalEngineDownloaderService : IEngineDownloaderService
             Version = engine.Version,
             InstalledPackages = installedPackages
         };
+    }
+
+    public Task<Engine> DownloadFromWorkflow(Workflow artifact, List<Artifact> platformTools, string installFolderPath)
+    {
+        throw new NotImplementedException();
     }
 }

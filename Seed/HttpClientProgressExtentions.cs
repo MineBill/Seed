@@ -13,15 +13,16 @@ public static class HttpClientProgressExtensions
         string requestUrl,
         Stream destination,
         IProgress<float>? progress = null,
+        long? contentLength = null,
         CancellationToken cancellationToken = default)
     {
         using (var response = await client.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead))
         {
-            var contentLength = response.Content.Headers.ContentLength;
+            var length = response.Content.Headers.ContentLength ?? contentLength;
             using (var download = await response.Content.ReadAsStreamAsync())
             {
                 // no progress... no contentLength... very sad
-                if (progress is null || !contentLength.HasValue)
+                if (progress is null || !length.HasValue)
                 {
                     await download.CopyToAsync(destination);
                     return;
@@ -29,7 +30,7 @@ public static class HttpClientProgressExtensions
 
                 // Such progress and contentLength much reporting Wow!
                 var progressWrapper = new Progress<long>(totalBytes =>
-                    progress.Report(GetProgressPercentage(totalBytes, contentLength.Value)));
+                    progress.Report(GetProgressPercentage(totalBytes, length.Value)));
                 await download.CopyToAsync(destination, 81920, progressWrapper, cancellationToken);
             }
         }
