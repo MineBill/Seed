@@ -103,19 +103,19 @@ public class RemoteEngine : IComparable<RemoteEngine>
     /// The name of the engine.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// The version of the engine.
     /// </summary>
     [JsonPropertyName("version")]
-    public Version Version { get; set; }
+    public Version Version { get; set; } = new Version();
 
     /// <summary>
     /// The packages available for this engine version.
     /// </summary>
     [JsonPropertyName("packages")]
-    public List<RemotePackage> Packages { get; set; }
+    public List<RemotePackage> Packages { get; set; } = new();
 
     public List<RemotePackage> SupportedPlatformTools => Packages.FindAll(x => !x.IsEditorPackage && CanBuildFor(x));
 

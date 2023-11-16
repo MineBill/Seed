@@ -26,6 +26,13 @@ public interface IEngineDownloaderService
     public Task<Engine> DownloadVersion(RemoteEngine engine, List<RemotePackage> platformTools,
         string installFolderPath);
 
-    public Task<Engine> DownloadFromWorkflow(Workflow artifact, List<Artifact> platformTools,
+    /// <summary>
+    /// Download an editor version along with the specified platform tools from a CI run on the FlaxEngine repo.
+    /// </summary>
+    /// <param name="workflow">The workflow to select the artifacts from.</param>
+    /// <param name="platformTools">The platform tools to also download.</param>
+    /// <param name="installFolderPath">The root folder path for all the editor installations. A sub folder for this engine will be created.</param>
+    /// <returns></returns>
+    public Task<Engine> DownloadFromWorkflow(Workflow workflow, List<Artifact> platformTools,
         string installFolderPath);
 }

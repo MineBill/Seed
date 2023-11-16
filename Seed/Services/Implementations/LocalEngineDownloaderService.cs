@@ -57,10 +57,6 @@ public class LocalEngineDownloaderService : IEngineDownloaderService
         }
     }
 
-    public LocalEngineDownloaderService()
-    {
-    }
-
     public async Task<List<RemoteEngine>?> GetAvailableVersions()
     {
         var json = await File.ReadAllTextAsync("/home/minebill/git/Seed/Seed/Assets/api.json");

@@ -35,8 +35,9 @@ public static class ZipHelpers
             await using var file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
             await using (var entryStream = entry.Open())
             {
+                var progression = currentProgression;
                 var relativeProgress = new Progress<long>(fileProgressBytes =>
-                    progress.Report((float)(fileProgressBytes + currentProgression) / totalLength));
+                    progress.Report((float)(fileProgressBytes + progression) / totalLength));
                 await entryStream.CopyToAsync(file, 81920, relativeProgress, cancellationToken);
             }
 
@@ -71,8 +72,9 @@ public static class ZipHelpers
             await using var file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
             await using (var entryStream = entry.Open())
             {
+                var progression = currentProgression;
                 var relativeProgress = new Progress<long>(fileProgressBytes =>
-                    progress.Report((float)(fileProgressBytes + currentProgression) / totalLength));
+                    progress.Report((float)(fileProgressBytes + progression) / totalLength));
                 await entryStream.CopyToAsync(file, 81920, relativeProgress, cancellationToken);
             }
 

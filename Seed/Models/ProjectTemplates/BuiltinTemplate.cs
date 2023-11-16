@@ -16,8 +16,8 @@ namespace Seed.Models.ProjectTemplates;
 /// </summary>
 public class BuiltinTemplate : ProjectTemplate
 {
-    private Version _engineVersion;
-    private Bitmap _icon;
+    private readonly Version _engineVersion;
+    private readonly Bitmap _icon;
     public Uri? ResourcePath { get; }
 
     public BuiltinTemplate(string displayName, Uri? resourcePath, Version engineVersion, Bitmap icon)

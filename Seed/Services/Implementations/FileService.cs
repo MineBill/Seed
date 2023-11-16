@@ -18,6 +18,7 @@ public class FilesService : IFilesService
         _target = target;
     }
 
+    /// <inheritdoc />
     public async Task<IStorageFile?> SelectFileAsync(string title, IReadOnlyList<FilePickerFileType> options)
     {
         var files = await _target.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
@@ -51,6 +52,7 @@ public class FilesService : IFilesService
         return folders.Count > 0 ? folders[0] : null;
     }
 
+    /// <inheritdoc />
     public void OpenFolder(string path)
     {
         var info = new ProcessStartInfo
@@ -61,6 +63,7 @@ public class FilesService : IFilesService
         Process.Start(info);
     }
 
+    /// <inheritdoc />
     public void OpenUri(Uri uri)
     {
         try

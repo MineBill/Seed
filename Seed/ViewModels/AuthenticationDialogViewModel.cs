@@ -29,7 +29,7 @@ public class AuthenticationDialogViewModel : ViewModelBase
     public ICommand OpenInBrowserCommand { get; }
 
     public ReactiveCommand<string?, string?> AuthProcessFinished { get; }
-    public event EventHandler<string?> AuthProcessFinishedEvent;
+    public event EventHandler<string?>? AuthProcessFinishedEvent;
 
     public AuthenticationDialogViewModel(DeviceCodeResponse response)
     {

@@ -22,6 +22,4 @@ public interface IEngineManager
     /// </summary>
     /// <param name="engine">The engine to remove.</param>
     public void DeleteEngine(Engine engine);
-
-    public void CreateProject(Project newProject, Project template);
 }

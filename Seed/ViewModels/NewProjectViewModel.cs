@@ -62,7 +62,7 @@ public class NewProjectViewModel : ReactiveValidationObject
         set => this.RaiseAndSetIfChanged(ref _selectedTemplate, value);
     }
 
-    public ObservableCollection<TemplateViewModel> Templates { get; } = new();
+    public ObservableCollection<TemplateViewModel> Templates { get; }
 
     public ReactiveCommand<Unit, NewProjectDialogResult> CreateProjectCommand { get; }
 
@@ -109,7 +109,7 @@ public class NewProjectViewModel : ReactiveValidationObject
 
         Templates = new ObservableCollection<TemplateViewModel>(templates);
 
-        SelectedTemplate = Templates[0];
+        _selectedTemplate = Templates[0];
         SetupValidation();
     }
 

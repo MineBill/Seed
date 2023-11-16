@@ -15,21 +15,6 @@ namespace Seed.Models;
 public record Project(string Name, string Path, Version? EngineVersion = null)
 {
     /// <summary>
-    /// The name of the project.
-    /// </summary>
-    public string Name { get; set; } = Name;
-
-    /// <summary>
-    /// Where the project is located in the filesystem.
-    /// </summary>
-    public string Path { get; set; } = Path;
-
-    /// <summary>
-    /// The associated engine version with this project.
-    /// </summary>
-    public Version? EngineVersion { get; set; } = EngineVersion;
-
-    /// <summary>
     /// Utility to get the project
     /// </summary>
     [JsonIgnore]

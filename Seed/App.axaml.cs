@@ -16,8 +16,8 @@ public partial class App : Application
     public const bool UseLocalDownloader = false;
 
     public new static App Current => (Application.Current as App)!;
-    public IServiceProvider Services { get; private set; }
-    public Window MainWindow { get; private set; }
+    public IServiceProvider Services { get; private set; } = null!;
+    public Window MainWindow { get; private set; } = null!;
 
     public override void Initialize()
     {

@@ -18,28 +18,31 @@ public class Artifact
     public int Id { get; set; }
 
     /// <summary>
-    ///
+    /// The name of the artifact, as displayed on the website.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    ///
+    /// The url to download this artifact. Needs an access token.
     /// </summary>
     [JsonPropertyName("archive_download_url")]
-    public string DownloadUrl { get; set; }
+    public string DownloadUrl { get; set; } = string.Empty;
 
     /// <summary>
-    ///
+    /// Is this artifact expired?
     /// </summary>
     [JsonPropertyName("expired")]
     public bool Expired { get; set; }
 
+    /// <summary>
+    /// The size of the download. Used to track download progress.
+    /// </summary>
     [JsonPropertyName("size_in_bytes")]
     public long SizeInBytes { get; set; }
 
     /// <summary>
-    ///
+    /// The target path this artifact should be extracted to.
     /// </summary>
     [JsonIgnore]
     public string TargetPath { get; set; } = string.Empty;
@@ -51,15 +54,20 @@ public class Artifact
     public string CommitHash { get; set; } = string.Empty;
 
     /// <summary>
-    ///
-    ///
+    /// The operating system this artifact is for.
     /// </summary>
     [JsonIgnore]
     public OSPlatform OperatingSystem { get; set; }
 
+    /// <summary>
+    /// Is this artifact an editor package?
+    /// </summary>
     [JsonIgnore]
     public bool IsEditor { get; set; }
 
+    /// <summary>
+    /// Returns if this artifact is meant for the running operating system.
+    /// </summary>
     public bool IsForThisPlatform()
     {
         if (System.OperatingSystem.IsWindows())

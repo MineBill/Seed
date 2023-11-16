@@ -24,7 +24,7 @@ public class UserPreferences
     public string? NewProjectLocation { get; set; } = string.Empty;
 
     /// <summary>
-    ///
+    /// The access token used to authenticate with Github for downloads.
     /// </summary>
     public string? GithubAccessToken { get; set; }
 }

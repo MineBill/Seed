@@ -30,5 +30,8 @@ public interface IProjectManager
     /// <param name="project"></param>
     public void RunProject(Project project);
 
+    /// <summary>
+    /// Save the projects in <see cref="Projects"/>.
+    /// </summary>
     public void Save();
 }

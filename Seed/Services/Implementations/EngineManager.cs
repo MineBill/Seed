@@ -22,12 +22,14 @@ public class EngineManager : IEngineManager
         ValidateEngines();
     }
 
+    /// <inheritdoc />
     public void AddEngine(Engine engine)
     {
         Engines.Add(engine);
         Save();
     }
 
+    /// <inheritdoc />
     public void DeleteEngine(Engine engine)
     {
         if (Engines.Contains(engine))
@@ -36,94 +38,6 @@ public class EngineManager : IEngineManager
         }
 
         Save();
-    }
-
-    public async void CreateProject(Project newProject, Project template)
-    {
-        var path = new Uri(template.Path);
-        if (path.IsFile && path.AbsolutePath != "/" && !Directory.Exists(template.Path))
-        {
-            // TODO: Notify user
-            return;
-        }
-
-
-        var projectManager = App.Current.Services.GetService<IProjectManager>();
-
-        // This is where template will be located.
-
-        if (path is { Scheme: "avares" })
-        {
-            var newProjectParentDir = Directory.GetParent(newProject.Path)!.FullName;
-
-            // var stream = AssetLoader.Open(path);
-            var stream = new FileStream("/home/minebill/Downloads/BasicScene.zip", FileMode.Open, FileAccess.Read);
-            // Console.WriteLine($"Stream has {stream.Length} bytes.\n\tPosition: {stream.Position}");
-            // Console.WriteLine($"\tReading 1 byte: {stream.ReadByte()}");
-            await ZipHelpers.ExtractToDirectoryAsync(stream, newProjectParentDir, new Progress<float>());
-
-            var unzippedPath = Path.Combine(newProjectParentDir, template.Name);
-            var flaxproj = Path.Combine(unzippedPath, template.Name) + ".flaxproj";
-            var jsonText = await File.ReadAllTextAsync(flaxproj);
-            var json = JsonNode.Parse(jsonText);
-            if (json != null)
-                json["Name"] = newProject.Name;
-
-            await using var writer = new Utf8JsonWriter(new FileStream(flaxproj, FileMode.Create), new JsonWriterOptions
-            {
-                Indented = true
-            });
-            json?.WriteTo(writer);
-
-            File.Move(flaxproj, Path.Combine(unzippedPath, newProject.Name + ".flaxproj"));
-            Directory.Move(unzippedPath, newProject.Path);
-
-            projectManager?.AddProject(newProject);
-        }
-        else if (path.IsFile && path.AbsolutePath != "/")
-        {
-            CopyDirectory(template.Path, newProject.Path, true);
-
-            // We prefer to delete unneeded folders instead of only copying the needed ones
-            // because we don't know if this template projects has extra folders that are needed.
-            Directory.Delete(Path.Combine(newProject.Path, "Cache"), recursive: true);
-            Directory.Delete(Path.Combine(newProject.Path, "Binaries"), recursive: true);
-
-            var flaxproj = Path.Combine(newProject.Path, template.Name) + ".flaxproj";
-            var jsonText = await File.ReadAllTextAsync(flaxproj);
-            var json = JsonNode.Parse(jsonText);
-            if (json != null)
-                json["Name"] = newProject.Name;
-
-            await using var writer = new Utf8JsonWriter(new FileStream(flaxproj, FileMode.Create), new JsonWriterOptions
-            {
-                Indented = true
-            });
-            json?.WriteTo(writer);
-
-            File.Move(flaxproj, Path.Combine(newProject.Path, newProject.Name + ".flaxproj"));
-
-            projectManager?.AddProject(newProject);
-        }
-        else if (path.AbsolutePath == "/")
-        {
-            var engine = Engines.First(x => x.Version == newProject.EngineVersion);
-            // No path was given. Tell Flax to create a completely blank project.
-            var info = new ProcessStartInfo
-            {
-                FileName = engine.GetExecutablePath("Release"),
-                Arguments = $"-new -project \"{newProject.Path}\""
-            };
-
-            // TODO: handle
-            var process = Process.Start(info);
-            if (process is null)
-                throw new Exception("Failed to create Flax process while creating a new project.");
-
-            await process.WaitForExitAsync();
-
-            projectManager?.AddProject(newProject);
-        }
     }
 
     private void LocateEngines()

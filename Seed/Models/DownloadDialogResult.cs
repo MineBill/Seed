@@ -20,19 +20,3 @@ public class DownloadDialogResult<C, T>
         PlatformTools = tools;
     }
 }
-
-public class ArtifactsDownloadResult
-{
-    public Artifact Engine { get; set; }
-
-    /// <summary>
-    /// Which platform tools to install.
-    /// </summary>
-    public List<Artifact> PlatformTools { get; set; }
-
-    public ArtifactsDownloadResult(Artifact engine, List<Artifact> tools)
-    {
-        Engine = engine;
-        PlatformTools = tools;
-    }
-}
