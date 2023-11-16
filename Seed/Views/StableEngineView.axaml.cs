@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace Seed.Views;
 
-public partial class EngineView : UserControl
+public partial class StableEngineView : UserControl
 {
-    public EngineView()
+    public StableEngineView()
     {
         InitializeComponent();
     }

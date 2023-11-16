@@ -6,7 +6,7 @@ using Seed.Services;
 
 namespace Seed.ViewModels;
 
-public class EngineViewModel : ViewModelBase
+public class StableEngineViewModel : ViewModelBase
 {
     private readonly Engine _engine;
 
@@ -16,13 +16,13 @@ public class EngineViewModel : ViewModelBase
 
     public ICommand DeleteCommand { get; }
 
-    public EngineViewModel(IEngineManager engineManager, Engine engine)
+    public StableEngineViewModel(IEngineManager engineManager, Engine engine)
     {
         _engine = engine;
         DeleteCommand = ReactiveCommand.Create(() => { engineManager.DeleteEngine(_engine); });
     }
 
-    public EngineViewModel()
+    public StableEngineViewModel()
     {
         _engine = new Engine
         {
