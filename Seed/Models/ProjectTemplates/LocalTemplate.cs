@@ -65,7 +65,6 @@ public class LocalTemplate : ProjectTemplate
             return await Task.Run(() =>
                 new Bitmap(AssetLoader.Open(new Uri("avares://Seed/Assets/avalonia-logo.ico"))));
 
-        await Task.Delay(2000);
         return await Task.Run(() =>
         {
             using var file = new FileStream(Project.IconPath, FileMode.Open, FileAccess.Read);
