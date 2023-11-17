@@ -25,14 +25,8 @@
         Padding="5"
         CornerRadius="3"
         Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
-        <StackPanel Width="150" ContextFlyout="{StaticResource ContextMenu}">
-            <Border CornerRadius="3" ClipToBounds="True" Classes.TemplateLine="{Binding IsProjectTemplate}">
-                <Panel Background="{StaticResource ButtonBackground}">
-                    <Image Source="{Binding Icon}" Height="150" Stretch="UniformToFill" />
-                </Panel>
-            </Border>
-            <TextBlock Classes="ProjectName" HorizontalAlignment="Center" Text="{Binding Name}" TextWrapping="Wrap" />
-            <DockPanel VerticalAlignment="Bottom">
+        <DockPanel Width="150" ContextFlyout="{StaticResource ContextMenu}">
+            <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                 <Button DockPanel.Dock="Right" Flyout="{StaticResource ContextMenu}">
                     <PathIcon
                         Width="15" Height="15"
@@ -55,6 +49,12 @@
                         Text="{Binding EngineVersion}" />
                 </Panel>
             </DockPanel>
-        </StackPanel>
+            <TextBlock DockPanel.Dock="Bottom" Classes="ProjectName" HorizontalAlignment="Center" Text="{Binding Name}" TextWrapping="Wrap" />
+            <Border CornerRadius="3" ClipToBounds="True" Classes.TemplateLine="{Binding IsProjectTemplate}">
+                <Panel Background="{StaticResource ButtonBackground}">
+                    <Image Source="{Binding Icon}" Height="150" Stretch="UniformToFill" />
+                </Panel>
+            </Border>
+        </DockPanel>
     </Border>
 </UserControl>

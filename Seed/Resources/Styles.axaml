@@ -48,7 +48,7 @@
     <Style Selector="TextBlock.ProjectName">
         <Setter Property="FontSize" Value="15" />
         <Setter Property="FontWeight" Value="DemiBold" />
-        <Setter Property="Margin" Value="0 10 0 0" />
+        <Setter Property="Margin" Value="0 10 0 10" />
     </Style>
 
     <Style Selector="Border.TemplateLine">
