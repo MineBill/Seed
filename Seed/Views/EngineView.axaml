@@ -27,11 +27,10 @@
             <StackPanel
                 DockPanel.Dock="Bottom">
                 <TextBlock
-                    FontWeight="Bold"
+                    Classes="ProjectName"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     TextWrapping="Wrap"
-                    Margin="0 10 0 0"
                     Text="{Binding Name}" />
                 <DockPanel>
                     <TextBlock

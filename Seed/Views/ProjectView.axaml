@@ -4,49 +4,57 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Seed.ViewModels"
              DoubleTapped="InputElement_OnDoubleTapped"
-             mc:Ignorable="d" d:DesignWidth="150" d:DesignHeight="200"
+             mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="250"
              x:Class="Seed.Views.ProjectView"
              x:DataType="vm:ProjectViewModel">
     <Design.DataContext>
         <vm:ProjectViewModel />
     </Design.DataContext>
+
+    <UserControl.Resources>
+        <MenuFlyout x:Key="ContextMenu" Placement="BottomEdgeAlignedLeft">
+            <MenuItem Command="{Binding RunProjectCommand}" Header="Run Project"></MenuItem>
+            <MenuItem Command="{Binding OpenProjectFolderCommand}" Header="Open in file explorer"></MenuItem>
+            <MenuItem Command="{Binding MarkAsTemplateCommand}" Header="Mark as template"></MenuItem>
+            <MenuItem Header="Edit startup arguments(Not implemented)"></MenuItem>
+            <MenuItem Command="{Binding RemoveProjectCommand}" Header="Remove Project"></MenuItem>
+        </MenuFlyout>
+    </UserControl.Resources>
+
     <Border
         Padding="5"
         CornerRadius="3"
         Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
-        <StackPanel Width="150">
-            <StackPanel.ContextMenu>
-                <ContextMenu IsEnabled="{Binding !IsTemplate}" IsVisible="{Binding !IsTemplate}">
-                    <MenuItem Command="{Binding RunProjectCommand}" Header="Run Project"></MenuItem>
-                    <MenuItem Command="{Binding OpenProjectFolderCommand}" Header="Open in file explorer"></MenuItem>
-                    <MenuItem Command="{Binding MarkAsTemplateCommand}" Header="Mark as template"></MenuItem>
-                    <MenuItem Header="Edit startup arguments(Not implemented)"></MenuItem>
-                    <MenuItem Command="{Binding RemoveProjectCommand}" Header="Remove Project"></MenuItem>
-                </ContextMenu>
-            </StackPanel.ContextMenu>
+        <StackPanel Width="150" ContextFlyout="{StaticResource ContextMenu}">
             <Border CornerRadius="3" ClipToBounds="True" Classes.TemplateLine="{Binding IsProjectTemplate}">
                 <Panel Background="{StaticResource ButtonBackground}">
                     <Image Source="{Binding Icon}" Height="150" Stretch="UniformToFill" />
                 </Panel>
             </Border>
-            <Viewbox>
-                <TextBlock Classes="ProjectName" HorizontalAlignment="Center" Text="{Binding Name}" />
-            </Viewbox>
-            <Panel IsVisible="{Binding !IsTemplate}">
-                <StackPanel
-                    Classes="VersionNumber"
-                    IsVisible="{Binding !VersionInstalled}">
+            <TextBlock Classes="ProjectName" HorizontalAlignment="Center" Text="{Binding Name}" TextWrapping="Wrap" />
+            <DockPanel VerticalAlignment="Bottom">
+                <Button DockPanel.Dock="Right" Flyout="{StaticResource ContextMenu}">
+                    <PathIcon
+                        Width="15" Height="15"
+                        Padding="0" Margin="0"
+                        Data="{StaticResource IconLineHorizontal3Regular}" />
+                </Button>
+                <Panel IsVisible="{Binding !IsTemplate}">
+                    <StackPanel
+                        Classes="VersionNumber"
+                        IsVisible="{Binding !VersionInstalled}">
+                        <TextBlock
+                            Foreground="Red"
+                            HorizontalAlignment="Left"
+                            Text="{Binding EngineVersion}" />
+                    </StackPanel>
                     <TextBlock
-                        Foreground="Red"
-                        HorizontalAlignment="Right"
+                        Classes="VersionNumber"
+                        IsVisible="{Binding VersionInstalled}"
+                        HorizontalAlignment="Left"
                         Text="{Binding EngineVersion}" />
-                </StackPanel>
-                <TextBlock
-                    Classes="VersionNumber"
-                    IsVisible="{Binding VersionInstalled}"
-                    HorizontalAlignment="Right"
-                    Text="{Binding EngineVersion}" />
-            </Panel>
+                </Panel>
+            </DockPanel>
         </StackPanel>
     </Border>
 </UserControl>
