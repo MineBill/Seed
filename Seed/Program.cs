@@ -17,11 +17,6 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        LogManager.Setup().LoadConfiguration(builder =>
-        {
-            builder.ForLogger().FilterMinLevel(LogLevel.Info).WriteToConsole();
-            builder.ForLogger().FilterMinLevel(LogLevel.Debug).WriteToFile(fileName: Globals.GetLogFileLocation());
-        });
         try
         {
             RxApp.DefaultExceptionHandler = new ReactiveUIExceptionHandler();
