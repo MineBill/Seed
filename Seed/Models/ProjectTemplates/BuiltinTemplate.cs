@@ -43,12 +43,14 @@ public class BuiltinTemplate : ProjectTemplate
     {
         var newProjectParentDir = Directory.GetParent(newProject.Path)!.FullName;
 
-        var stream = new FileStream("/home/minebill/Downloads/BasicScene.zip", FileMode.Open, FileAccess.Read);
+        var stream = AssetLoader.Open(new Uri("avares://Seed/Assets/BasicScene.zip"));
+        stream.Seek(0, SeekOrigin.Begin);
 
-        // var stream = AssetLoader.Open(path);
-        // Console.WriteLine($"Stream has {stream.Length} bytes.\n\tPosition: {stream.Position}");
-        // Console.WriteLine($"\tReading 1 byte: {stream.ReadByte()}");
-        await ZipHelpers.ExtractToDirectoryAsync(stream, newProjectParentDir, new Progress<float>());
+        // https://github.com/AvaloniaUI/Avalonia/issues/13604
+        using var ms = new MemoryStream();
+        await stream.CopyToAsync(ms);
+
+        await ZipHelpers.ExtractToDirectoryAsync(ms, newProjectParentDir, new Progress<float>());
 
         var unzippedPath = Path.Combine(newProjectParentDir, ProjectName);
         var flaxproj = Path.Combine(unzippedPath, ProjectName) + ".flaxproj";
