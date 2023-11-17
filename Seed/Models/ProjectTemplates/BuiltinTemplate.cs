@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -6,7 +7,9 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Microsoft.Extensions.DependencyInjection;
+using NLog;
 using Seed.Services;
 
 namespace Seed.Models.ProjectTemplates;
@@ -16,6 +19,8 @@ namespace Seed.Models.ProjectTemplates;
 /// </summary>
 public class BuiltinTemplate : ProjectTemplate
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     private readonly Version _engineVersion;
     private readonly Bitmap _icon;
     public Uri? ResourcePath { get; }

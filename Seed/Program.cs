@@ -25,7 +25,7 @@ class Program
         }
         catch (Exception e)
         {
-            Logger.Error(e, "Seed launcher.");
+            Logger.Error(e, "Caught exception during program lifetime.");
         }
     }
 
