@@ -28,7 +28,7 @@ public class EnginesViewModel : ViewModelBase
 
     public CancellationTokenSource CancellationTokenSource { get; set; } = new();
 
-    public ObservableCollection<StableEngineViewModel> Engines { get; } = new();
+    public ObservableCollection<EngineViewModel> Engines { get; } = new();
     public ICommand? DownloadVersionCommand { get; }
     public ICommand? DownloadWorkflowCommand { get; }
 
@@ -62,7 +62,7 @@ public class EnginesViewModel : ViewModelBase
             if (args.NewItems != null)
                 foreach (var engine in args.NewItems)
                 {
-                    Engines.Add(new StableEngineViewModel(_engineManager, (engine as Engine)!));
+                    Engines.Add(new EngineViewModel(_engineManager, (engine as Engine)!));
                 }
 
             if (args.OldItems != null)
@@ -211,7 +211,7 @@ public class EnginesViewModel : ViewModelBase
         var engines = _engineManager.Engines;
         foreach (var engine in engines)
         {
-            Engines.Add(new StableEngineViewModel(_engineManager, engine));
+            Engines.Add(new EngineViewModel(_engineManager, engine));
         }
     }
 }

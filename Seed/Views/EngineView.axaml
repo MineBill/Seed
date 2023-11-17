@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Seed.ViewModels"
              mc:Ignorable="d" d:DesignWidth="150" d:DesignHeight="200"
-             x:Class="Seed.Views.StableEngineView"
-             x:DataType="vm:StableEngineViewModel">
+             x:Class="Seed.Views.EngineView"
+             x:DataType="vm:EngineViewModel">
     <UserControl.Resources>
         <MenuFlyout x:Key="ProjectContextMenu" Placement="BottomEdgeAlignedLeft">
             <MenuItem Command="{Binding DeleteCommand}" Header="Delete"></MenuItem>
@@ -13,7 +13,7 @@
     </UserControl.Resources>
 
     <Design.DataContext>
-        <vm:StableEngineViewModel />
+        <vm:EngineViewModel />
     </Design.DataContext>
     <Border
         Padding="5"
