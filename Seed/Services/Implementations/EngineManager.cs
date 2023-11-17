@@ -8,12 +8,15 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using Avalonia.Platform;
 using Microsoft.Extensions.DependencyInjection;
+using NLog;
 using Seed.Models;
 
 namespace Seed.Services.Implementations;
 
 public class EngineManager : IEngineManager
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     public ObservableCollection<Engine> Engines { get; private set; } = new();
 
     public EngineManager()
@@ -67,7 +70,7 @@ public class EngineManager : IEngineManager
         }
         catch (JsonException je)
         {
-            Console.WriteLine($"Exception while attempting to deserialize engine info: {je}");
+            Logger.Error(je, "Exception while attempting to deserialize engine info.");
         }
     }
 

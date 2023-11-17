@@ -1,8 +1,8 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using DynamicData;
@@ -25,6 +25,8 @@ public class EnginesViewModel : ViewModelBase
     private readonly IEngineManager _engineManager;
     private readonly IEngineDownloaderService _engineDownloader;
     private Engine? _selectedEngine;
+
+    public CancellationTokenSource CancellationTokenSource { get; set; } = new();
 
     public ObservableCollection<StableEngineViewModel> Engines { get; } = new();
     public ICommand? DownloadVersionCommand { get; }
@@ -113,15 +115,26 @@ public class EnginesViewModel : ViewModelBase
             return;
 
         var installLocation = Globals.GetDefaultEngineInstallLocation();
-        Console.WriteLine($"Started download of version {version.Engine.Version}");
-        Console.WriteLine("Will also download the following platform tools:");
+        Logger.Debug($"Started download of version {version.Engine.Version}");
+        Logger.Debug("Will also download the following platform tools:");
         foreach (var package in version.PlatformTools)
         {
-            Console.WriteLine($"\t{package.Name}");
+            Logger.Debug($"\t\t{package.Name}");
         }
 
-        var engine = await _engineDownloader.DownloadVersion(version.Engine, version.PlatformTools, installLocation);
-        _engineManager.AddEngine(engine);
+        CancellationTokenSource.Cancel();
+        CancellationTokenSource = new CancellationTokenSource();
+        var token = CancellationTokenSource.Token;
+        try
+        {
+            var engine =
+                await _engineDownloader.DownloadVersion(version.Engine, version.PlatformTools, installLocation, token);
+            _engineManager.AddEngine(engine);
+        }
+        catch (TaskCanceledException e)
+        {
+            Logger.Info("Canceled active download.");
+        }
     }
 
     private async Task OnDownloadWorkflowsButtonClicked()
@@ -141,10 +154,10 @@ public class EnginesViewModel : ViewModelBase
         {
             var authenticator = App.Current.Services.GetService<GithubAuthenticator>()!;
             var response = await authenticator.RequestDeviceCode();
-            var token = await ShowAuthenticationDialog.Handle(response);
-            if (token is null)
+            var accessToken = await ShowAuthenticationDialog.Handle(response);
+            if (accessToken is null)
                 return;
-            prefs.Preferences.GithubAccessToken = token;
+            prefs.Preferences.GithubAccessToken = accessToken;
             prefs.Save();
         }
 
@@ -170,15 +183,27 @@ public class EnginesViewModel : ViewModelBase
             return;
 
         var installLocation = Globals.GetDefaultEngineInstallLocation();
-        Console.WriteLine($"Started download of version {version.Engine.CommitHash}");
-        Console.WriteLine("Will also download the following platform tools:");
+        Logger.Debug($"Starting download of commit {version.Engine.CommitHash}");
+        Logger.Debug("Including the platform tools:");
         foreach (var package in version.PlatformTools)
         {
-            Console.WriteLine($"\t{package.Name}");
+            Logger.Debug($"\t\t{package.Name}");
         }
 
-        var engine = await _engineDownloader.DownloadFromWorkflow(version.Engine, version.PlatformTools, installLocation);
-        _engineManager.AddEngine(engine);
+        CancellationTokenSource.Cancel();
+        CancellationTokenSource = new CancellationTokenSource();
+        var token = CancellationTokenSource.Token;
+        try
+        {
+            var engine =
+                await _engineDownloader.DownloadFromWorkflow(version.Engine, version.PlatformTools, installLocation,
+                    token);
+            _engineManager.AddEngine(engine);
+        }
+        catch (Exception e) when (e is TaskCanceledException or OperationCanceledException)
+        {
+            Logger.Info("Github download canceled.");
+        }
     }
 
     private void LoadAvailableEngines()

@@ -19,12 +19,12 @@ public static class HttpClientProgressExtensions
         using (var response = await client.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead))
         {
             var length = response.Content.Headers.ContentLength ?? contentLength;
-            using (var download = await response.Content.ReadAsStreamAsync())
+            using (var download = await response.Content.ReadAsStreamAsync(cancellationToken))
             {
                 // no progress... no contentLength... very sad
                 if (progress is null || !length.HasValue)
                 {
-                    await download.CopyToAsync(destination);
+                    await download.CopyToAsync(destination, cancellationToken);
                     return;
                 }
 

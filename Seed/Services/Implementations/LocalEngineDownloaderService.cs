@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Threading;
 using System.Threading.Tasks;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
@@ -86,7 +87,7 @@ public class LocalEngineDownloaderService : IEngineDownloaderService
     }
 
     public async Task<Engine> DownloadVersion(RemoteEngine engine, List<RemotePackage> platformTools,
-        string installFolderPath)
+        string installFolderPath, CancellationToken cancellationToken = default)
     {
         var tempEditorFile = Path.GetTempFileName();
 
@@ -124,7 +125,8 @@ public class LocalEngineDownloaderService : IEngineDownloaderService
         };
     }
 
-    public Task<Engine> DownloadFromWorkflow(Workflow artifact, List<Artifact> platformTools, string installFolderPath)
+    public Task<Engine> DownloadFromWorkflow(Workflow artifact, List<Artifact> platformTools, string installFolderPath,
+        CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

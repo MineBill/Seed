@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:Seed.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        Width="700" Height="400"
+        Width="700" Height="450"
         x:Class="Seed.Views.Dialogs.AuthenticationDialog"
         x:DataType="vm:AuthenticationDialogViewModel"
         Title="Github Authentication">

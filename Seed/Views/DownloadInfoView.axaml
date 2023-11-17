@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:Seed.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="20"
              Height="20"
+             IsVisible="{Binding Progress}"
              x:Class="Seed.Views.DownloadInfoView"
              x:DataType="vm:DownloadInfoViewModel">
     <Border
@@ -12,28 +13,31 @@
         CornerRadius="2"
         BorderThickness="1">
         <Grid>
-            <Grid.ColumnDefinitions>*, *</Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>Auto, *</Grid.ColumnDefinitions>
             <StackPanel
                 Orientation="Horizontal"
-                HorizontalAlignment="Right"
+                HorizontalAlignment="Left"
                 Grid.Column="0"
                 Grid.Row="0">
+                <Button
+                    Background="Transparent"
+                    Command="{Binding CancelActiveAction}"
+                    VerticalAlignment="Center"
+                    ToolTip.Tip="Cancel the active action">
+                    <PathIcon
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Padding="0"
+                        Margin="0"
+                        Data="{StaticResource IconDismissRegular}"
+                        Width="10" Height="10" />
+                </Button>
                 <TextBlock
                     Margin="5 0 5 0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     FontSize="13"
                     Text="{Binding CurrentAction}" />
-                <Button
-                    Background="Transparent"
-                    HorizontalAlignment="Right"
-                    ToolTip.Tip="Cancel the active download">
-                    <PathIcon
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        Data="{StaticResource IconDismissRegular}"
-                        Width="8" Height="8" />
-                </Button>
             </StackPanel>
             <ProgressBar
                 Grid.Column="1"

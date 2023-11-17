@@ -5,6 +5,8 @@ using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Media;
 using DynamicData.Binding;
+using Microsoft.Extensions.Logging;
+using NLog;
 using ReactiveUI;
 using Seed.Models;
 using Seed.Services;
@@ -13,6 +15,8 @@ namespace Seed.ViewModels;
 
 public class SettingsViewModel : ViewModelBase
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     private readonly IPreferencesSaver _preferencesSaver;
 
     private string? _newProjectLocation;
@@ -67,6 +71,6 @@ public class SettingsViewModel : ViewModelBase
 
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        Console.WriteLine($"{e.PropertyName} setting was changed.");
+        Logger.Info($"{e.PropertyName} setting was changed.");
     }
 }

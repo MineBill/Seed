@@ -5,12 +5,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
+using NLog;
 using Seed.Models;
 
 namespace Seed.Services.Implementations;
 
 public class ProjectManager : IProjectManager
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     private readonly IEngineManager _engineManager;
 
     public ObservableCollection<Project> Projects { get; private set; } = new();
@@ -96,7 +100,7 @@ public class ProjectManager : IProjectManager
         }
         catch (JsonException je)
         {
-            Console.WriteLine($"Exception while attempting to deserialize project info: {je}");
+            Logger.Error($"Exception while attempting to deserialize project info: {je}");
         }
     }
 

@@ -21,7 +21,7 @@ public class MainWindowViewModel : ViewModelBase
         ProjectsViewModel =
             new ProjectsViewModel(serviceProvider.GetService<IFilesService>()!, engineManager, projectManager);
         EnginesViewModel = new EnginesViewModel(engineManager, engineDownloader);
-        DownloadInfoViewModel = new DownloadInfoViewModel(engineDownloader);
+        DownloadInfoViewModel = new DownloadInfoViewModel(engineDownloader, EnginesViewModel);
         SettingsViewModel = new SettingsViewModel(settingsSaver, filesService);
     }
 }

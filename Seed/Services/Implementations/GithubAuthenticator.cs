@@ -6,12 +6,16 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
+using NLog;
 
 namespace Seed.Services.Implementations;
 
 public class GithubAuthenticator
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     private const string ClientId = "Iv1.4582b571275a312a";
 
     private readonly HttpClient _client = new()
@@ -24,15 +28,16 @@ public class GithubAuthenticator
     };
 
     public async Task<AuthenticationResult> Authenticate(
-        DeviceCodeResponse deviceCodeResponse)
+        DeviceCodeResponse deviceCodeResponse, CancellationToken cancellationToken = default)
     {
         const float extraSafetyDelay = 0.2f;
         return await Task.Run(async () =>
         {
             do
             {
+                Logger.Debug("Checking for github response...");
                 var tokenResponse = RequestToken(deviceCodeResponse.DeviceCode);
-                var message = await tokenResponse.Result.Content.ReadAsStringAsync();
+                var message = await tokenResponse.Result.Content.ReadAsStringAsync(cancellationToken);
                 var json = JsonNode.Parse(message);
 
                 var error = json!["error"]?.ToString();
@@ -48,12 +53,14 @@ public class GithubAuthenticator
                 {
                     case "slow_down":
                         // When you receive the slow_down error, 5 extra seconds are added to the minimum interval.
-                        await Task.Delay(TimeSpan.FromSeconds(deviceCodeResponse.Interval + extraSafetyDelay + 5.5f));
+                        await Task.Delay(TimeSpan.FromSeconds(deviceCodeResponse.Interval + extraSafetyDelay + 5.5f),
+                            cancellationToken);
                         break;
                     case "authorization_pending":
                         // This error occurs when the authorization request is pending and the user hasn't entered the user code yet.
                         // Keep polling.
-                        await Task.Delay(TimeSpan.FromSeconds(deviceCodeResponse.Interval + extraSafetyDelay));
+                        await Task.Delay(TimeSpan.FromSeconds(deviceCodeResponse.Interval + extraSafetyDelay),
+                            cancellationToken);
                         break;
                     case "expired_token":
                         // If the device code expired, then you will see the token_expired error.
@@ -77,7 +84,7 @@ public class GithubAuthenticator
                             AuthenticationError.DeviceFlowDisabled);
                 }
             } while (true);
-        });
+        }, cancellationToken);
     }
 
     private async Task<HttpResponseMessage> RequestToken(string deviceCode)

@@ -8,6 +8,7 @@ using Avalonia.Platform.Storage;
 using DynamicData;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
+using NLog;
 using ReactiveUI;
 using Seed.Models;
 using Seed.Services;
@@ -18,6 +19,8 @@ namespace Seed.ViewModels;
 
 public class ProjectsViewModel : ViewModelBase
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     private ProjectViewModel? _selectedProject;
     private CancellationTokenSource? _cancellationTokenSource;
 
@@ -123,12 +126,11 @@ public class ProjectsViewModel : ViewModelBase
         var result = await ShowNewProjectDialog.Handle(newProjectViewModel);
         if (result is null)
             return;
-        Console.WriteLine("New Project Information:");
-        Console.WriteLine($"\tName          = {result.NewProject.Name}");
-        Console.WriteLine($"\tPath          = {result.NewProject.Path}");
-        Console.WriteLine($"\tEngineVersion = {result.NewProject.EngineVersion}");
+        Logger.Debug("Creating new project:");
+        Logger.Debug($"\tName          = {result.NewProject.Name}");
+        Logger.Debug($"\tPath          = {result.NewProject.Path}");
+        Logger.Debug($"\tEngineVersion = {result.NewProject.EngineVersion}");
 
-        // _engineManager.CreateProject(result.NewProject, result.Template);
         result.Template.Create(result.NewProject);
     }
 

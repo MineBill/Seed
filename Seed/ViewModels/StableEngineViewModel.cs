@@ -10,7 +10,16 @@ public class StableEngineViewModel : ViewModelBase
 {
     private readonly Engine _engine;
 
-    public string Name => _engine.Name;
+    public string Name
+    {
+        get
+        {
+            if (_engine.Name.Length > 5)
+                return _engine.Name[..5];
+            return _engine.Name;
+        }
+    }
+
     public string Path => _engine.Path;
     public Version Version => _engine.Version;
 

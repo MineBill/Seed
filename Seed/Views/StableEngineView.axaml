@@ -30,9 +30,12 @@
                     FontWeight="Bold"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    TextWrapping="Wrap"
+                    Margin="0 10 0 0"
                     Text="{Binding Name}" />
                 <DockPanel>
                     <TextBlock
+                        Classes="VersionNumber"
                         Text="{Binding Version}"
                         DockPanel.Dock="Left"
                         VerticalAlignment="Center" />
@@ -51,7 +54,7 @@
             </StackPanel>
             <Border CornerRadius="5" ClipToBounds="True">
                 <Panel>
-                    <Image Source="/Assets/flax-logo-white.png" Margin="2" Height="125" Stretch="Uniform" />
+                    <Image Source="/Assets/flax-logo-white-128.png" Margin="2" Height="125" Stretch="Uniform" />
                 </Panel>
             </Border>
         </DockPanel>
