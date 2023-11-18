@@ -29,6 +29,8 @@ public class EngineDownloaderService : IEngineDownloaderService
         "https://api.github.com/repos/FlaxEngine/FlaxEngine/actions/workflows/cd.yml/runs?per_page=3";
 
     public event Action<string>? ActionChanged;
+    public event Action? DownloadStarted;
+    public event Action? DownloadFinished;
 
     private readonly HttpClient _client = new();
     public Progress<float> Progress { get; } = new();
@@ -159,6 +161,7 @@ public class EngineDownloaderService : IEngineDownloaderService
     public async Task<Engine> DownloadVersion(RemoteEngine engine, List<RemotePackage> platformTools,
         string installFolderPath, CancellationToken cancellationToken = default)
     {
+        DownloadStarted?.Invoke();
         var tempEditorFile = Path.GetTempFileName();
         CurrentAction = $"Downloading {engine.Name}";
         var editorUrl = engine.GetEditorPackage().EditorUrl;
@@ -204,6 +207,7 @@ public class EngineDownloaderService : IEngineDownloaderService
     public async Task<Engine> DownloadFromWorkflow(Workflow workflow, List<Artifact> platformTools,
         string installFolderPath, CancellationToken cancellationToken = default)
     {
+        DownloadStarted?.Invoke();
         var prefs = App.Current.Services.GetService<IPreferencesSaver>()!;
         _client.DefaultRequestHeaders.Accept.Clear();
         _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

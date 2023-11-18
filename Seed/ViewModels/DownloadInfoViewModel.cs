@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using NLog;
 using ReactiveUI;
 using Seed.Services;
 
@@ -6,6 +7,8 @@ namespace Seed.ViewModels;
 
 public class DownloadInfoViewModel : ViewModelBase
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     private readonly IEngineDownloaderService _engineDownloader;
     private readonly EnginesViewModel _enginesViewModel;
 
@@ -27,10 +30,15 @@ public class DownloadInfoViewModel : ViewModelBase
 
     public string ProgressFormat
     {
-        get
-        {
-            return $"{CurrentAction} {{1}}%";
-        }
+        get { return $"{CurrentAction} {{1}}%"; }
+    }
+
+    private bool _isVisible;
+
+    public bool IsVisible
+    {
+        get => _isVisible;
+        set => this.RaiseAndSetIfChanged(ref _isVisible, value);
     }
 
     public ICommand CancelActiveAction { get; }
@@ -42,6 +50,8 @@ public class DownloadInfoViewModel : ViewModelBase
         _enginesViewModel = enginesViewModel;
         _engineDownloader.Progress.ProgressChanged += OnProgressChanged;
         _engineDownloader.ActionChanged += OnActionChanged;
+        _engineDownloader.DownloadStarted += () => { IsVisible = true; };
+        _engineDownloader.DownloadFinished += () => { IsVisible = false; };
 
         CancelActiveAction = ReactiveCommand.Create(() =>
         {

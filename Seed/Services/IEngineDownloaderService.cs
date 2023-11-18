@@ -11,6 +11,9 @@ namespace Seed.Services;
 public interface IEngineDownloaderService
 {
     public event Action<string> ActionChanged;
+    public event Action DownloadStarted;
+    public event Action DownloadFinished;
+
     public string CurrentAction { get; }
     public Progress<float> Progress { get; }
 

@@ -43,6 +43,8 @@ public class LocalEngineDownloaderService : IEngineDownloaderService
     };
 
     public event Action<string> ActionChanged;
+    public event Action? DownloadStarted;
+    public event Action? DownloadFinished;
 
     private Progress<float> _progress = new();
     public Progress<float> Progress => _progress;
