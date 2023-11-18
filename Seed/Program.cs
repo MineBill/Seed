@@ -1,13 +1,13 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using System;
+using System.IO;
 using NLog;
-using NLog.Fluent;
 using ReactiveUI;
 
 namespace Seed;
 
-class Program
+internal static class Program
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -19,6 +19,12 @@ class Program
     {
         try
         {
+            // Just making sure the config folder exists,
+            // otherwise some operations will fail.
+            var configFolder = Globals.GetConfigFolder();
+            if (!Directory.Exists(configFolder))
+                Directory.CreateDirectory(configFolder);
+
             RxApp.DefaultExceptionHandler = new ReactiveUIExceptionHandler();
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);

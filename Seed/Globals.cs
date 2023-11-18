@@ -12,6 +12,11 @@ public static class Globals
     public const string UserPreferencesSaveFileName = "Preferences.json";
     public const string LogFileName = "Log.txt";
 
+    public static string GetConfigFolder()
+    {
+        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppName);
+    }
+
     public static string GetDefaultEngineInstallLocation()
     {
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
