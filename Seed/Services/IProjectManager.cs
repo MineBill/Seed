@@ -31,6 +31,12 @@ public interface IProjectManager
     public void RunProject(Project project);
 
     /// <summary>
+    /// Deletes the Cache folder of a project.
+    /// </summary>
+    /// <param name="project"></param>
+    public void ClearCache(Project project);
+
+    /// <summary>
     /// Save the projects in <see cref="Projects"/>.
     /// </summary>
     public void Save();

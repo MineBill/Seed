@@ -24,6 +24,10 @@ public class DummyProjectManager : IProjectManager
     {
     }
 
+    public void ClearCache(Project project)
+    {
+    }
+
     public void Save()
     {
     }

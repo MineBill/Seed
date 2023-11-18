@@ -17,6 +17,7 @@
             <MenuItem Command="{Binding OpenProjectFolderCommand}" Header="Open in file explorer"></MenuItem>
             <MenuItem Command="{Binding MarkAsTemplateCommand}" Header="Mark as template"></MenuItem>
             <MenuItem Header="Edit startup arguments(Not implemented)"></MenuItem>
+            <MenuItem Command="{Binding ClearCacheCommand}" Header="Clear cache"></MenuItem>
             <MenuItem Command="{Binding RemoveProjectCommand}" Header="Remove Project"></MenuItem>
         </MenuFlyout>
     </UserControl.Resources>
@@ -27,7 +28,7 @@
         Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
         <DockPanel Width="150" ContextFlyout="{StaticResource ContextMenu}">
             <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
-                <Button DockPanel.Dock="Right" Flyout="{StaticResource ContextMenu}">
+                <Button DockPanel.Dock="Right" Flyout="{StaticResource ContextMenu}" Background="Transparent">
                     <PathIcon
                         Width="15" Height="15"
                         Padding="0" Margin="0"

@@ -72,6 +72,17 @@ public class ProjectManager : IProjectManager
         }
     }
 
+    public void ClearCache(Project project)
+    {
+        Logger.Info($"Deleting cache folder for {project.Name}");
+        var cache = Path.Combine(project.Path, "Cache");
+        if (Directory.Exists(cache))
+        {
+            Logger.Info("Deleted cache folder.");
+            Directory.Delete(cache, true);
+        }
+    }
+
     private void LoadProjects()
     {
         var configFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),

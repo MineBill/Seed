@@ -50,6 +50,7 @@ public class ProjectViewModel : ViewModelBase
     public ICommand? RemoveProjectCommand { get; }
     public ICommand? RunProjectCommand { get; }
     public ICommand? MarkAsTemplateCommand { get; }
+    public ICommand? ClearCacheCommand { get; }
     public ICommand? OpenProjectFolderCommand { get; }
 
     public ProjectViewModel(IEngineManager engineManager, IProjectManager projectManager, IFilesService filesService,
@@ -70,6 +71,8 @@ public class ProjectViewModel : ViewModelBase
         RemoveProjectCommand = ReactiveCommand.Create(() => { projectManager.RemoveProject(project); });
 
         RunProjectCommand = ReactiveCommand.Create(RunProject);
+
+        ClearCacheCommand = ReactiveCommand.Create(ClearCache);
 
         OpenProjectFolderCommand = ReactiveCommand.Create(() => { filesService.OpenFolder(Project.Path); });
 
@@ -113,12 +116,31 @@ public class ProjectViewModel : ViewModelBase
         RunProject();
     }
 
+    private void ClearCache()
+    {
+        if (VersionInstalled)
+            _projectManager.ClearCache(Project);
+        else
+        {
+            // TODO: Move this somewhere else so it can be called directly from services.
+            var box = MessageBoxManager.GetMessageBoxStandard(
+                "Missing Engine",
+                """
+                The engine this project was last opened in, is missing. Either re-install it, or
+                change the associated engine version with this project in the project settings.
+                """,
+                icon: MsBox.Avalonia.Enums.Icon.Error);
+            box.ShowWindowDialogAsync(App.Current.MainWindow);
+        }
+    }
+
     private void RunProject()
     {
         if (VersionInstalled)
             _projectManager.RunProject(Project);
         else
         {
+            // TODO: Move this somewhere else so it can be called directly from services.
             var box = MessageBoxManager.GetMessageBoxStandard(
                 "Missing Engine",
                 """
