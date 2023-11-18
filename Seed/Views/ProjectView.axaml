@@ -23,7 +23,7 @@
     </UserControl.Resources>
 
     <Border
-        Padding="5"
+        Padding="10"
         CornerRadius="3"
         Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
         <DockPanel Width="150" ContextFlyout="{StaticResource ContextMenu}">
