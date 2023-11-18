@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text.Json;
@@ -46,9 +47,32 @@ public class BuiltinTemplate : ProjectTemplate
     /// <inheritdoc/>
     public override async void Create(Project newProject)
     {
+        var projectManager = App.Current.Services.GetService<IProjectManager>();
+        if (ResourcePath is null)
+        {
+            var engineManager = App.Current.Services.GetService<IEngineManager>()!;
+            var engine = engineManager.Engines.First(x => x.Version == newProject.EngineVersion);
+            // No path was given. Tell Flax to create a completely blank project.
+            var info = new ProcessStartInfo
+            {
+                FileName = engine.GetExecutablePath("Release"),
+                Arguments = $"-new -project \"{newProject.Path}\""
+            };
+
+            // TODO: handle
+            var process = Process.Start(info);
+            if (process is null)
+                throw new Exception("Failed to create Flax process while creating a new project.");
+
+            await process.WaitForExitAsync();
+
+            projectManager?.AddProject(newProject);
+            return;
+        }
+
         var newProjectParentDir = Directory.GetParent(newProject.Path)!.FullName;
 
-        var stream = AssetLoader.Open(new Uri("avares://Seed/Assets/BasicScene.zip"));
+        var stream = AssetLoader.Open(ResourcePath);
         stream.Seek(0, SeekOrigin.Begin);
 
         // https://github.com/AvaloniaUI/Avalonia/issues/13604
@@ -73,7 +97,6 @@ public class BuiltinTemplate : ProjectTemplate
         File.Move(flaxproj, Path.Combine(unzippedPath, newProject.Name + ".flaxproj"));
         Directory.Move(unzippedPath, newProject.Path);
 
-        var projectManager = App.Current.Services.GetService<IProjectManager>();
         projectManager?.AddProject(newProject);
     }
 
