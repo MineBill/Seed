@@ -88,11 +88,14 @@ public class BuiltinTemplate : ProjectTemplate
         if (json != null)
             json["Name"] = newProject.Name;
 
-        await using var writer = new Utf8JsonWriter(new FileStream(flaxproj, FileMode.Create), new JsonWriterOptions
+        await using (var file = new FileStream(flaxproj, FileMode.Create))
         {
-            Indented = true
-        });
-        json?.WriteTo(writer);
+            await using var writer = new Utf8JsonWriter(file, new JsonWriterOptions
+            {
+                Indented = true
+            });
+            json?.WriteTo(writer);
+        }
 
         File.Move(flaxproj, Path.Combine(unzippedPath, newProject.Name + ".flaxproj"));
         Directory.Move(unzippedPath, newProject.Path);
