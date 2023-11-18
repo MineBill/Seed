@@ -39,7 +39,14 @@ public class Engine
 
     public string GetExecutablePath(string mode)
     {
-        return System.IO.Path.Combine(Path, "Binaries", "Editor", "Linux", mode, "FlaxEditor");
+        var os = string.Empty;
+        if (OperatingSystem.IsWindows())
+            os = "Win64";
+        if (OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD())
+            os = "Linux";
+        if (OperatingSystem.IsMacOS())
+            os = "MacOS"; // TODO: Is this the correct folder name for macs?
+        return System.IO.Path.Combine(Path, "Binaries", "Editor", os, mode, "FlaxEditor");
     }
 }
 
