@@ -114,7 +114,8 @@ public class EnginesViewModel : ViewModelBase
         if (version is null)
             return;
 
-        var installLocation = Globals.GetDefaultEngineInstallLocation();
+        var prefs = App.Current.Services.GetService<IPreferencesSaver>()!;
+        var installLocation = prefs.Preferences.EngineInstallLocation ?? Globals.GetDefaultEngineInstallLocation();
         Logger.Debug($"Started download of version {version.Engine.Version}");
         Logger.Debug("Will also download the following platform tools:");
         foreach (var package in version.PlatformTools)
@@ -182,7 +183,7 @@ public class EnginesViewModel : ViewModelBase
         if (version is null)
             return;
 
-        var installLocation = Globals.GetDefaultEngineInstallLocation();
+        var installLocation = prefs.Preferences.EngineInstallLocation ?? Globals.GetDefaultEngineInstallLocation();
         Logger.Debug($"Starting download of commit {version.Engine.CommitHash}");
         Logger.Debug("Including the platform tools:");
         foreach (var package in version.PlatformTools)

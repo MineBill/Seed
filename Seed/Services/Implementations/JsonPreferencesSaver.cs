@@ -10,17 +10,19 @@ public class JsonPreferencesSaver : IPreferencesSaver
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+    private static readonly JsonSerializerOptions SerializerOptions = new()
+    {
+        WriteIndented = true,
+        TypeInfoResolver = UserPreferencesGenerationContext.Default
+    };
+
     public UserPreferences Preferences { get; } = Load();
 
     public void Save()
     {
         var path = Globals.GetPreferencesFileLocation();
         using var file = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
-        JsonSerializer.Serialize(file, Preferences, new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            TypeInfoResolver = UserPreferencesGenerationContext.Default
-        });
+        JsonSerializer.Serialize(file, Preferences, SerializerOptions);
     }
 
     private static UserPreferences Load()
@@ -32,10 +34,7 @@ public class JsonPreferencesSaver : IPreferencesSaver
         {
             // TODO: Handle exceptions about permissions, etc.
             var jsonStream = new FileStream(path, FileMode.Open, FileAccess.Read);
-            var preferences = JsonSerializer.Deserialize<UserPreferences>(jsonStream, new JsonSerializerOptions
-            {
-                TypeInfoResolver = UserPreferencesGenerationContext.Default
-            });
+            var preferences = JsonSerializer.Deserialize<UserPreferences>(jsonStream, SerializerOptions);
             return preferences ?? new UserPreferences();
         }
         catch (Exception e)
