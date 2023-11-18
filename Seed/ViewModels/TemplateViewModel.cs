@@ -15,7 +15,7 @@ public class TemplateViewModel : ViewModelBase
 
     public string Name => ProjectTemplate.Name;
 
-    public Version EngineVersion => ProjectTemplate.GetEngineVersion();
+    public EngineVersion EngineVersion => ProjectTemplate.GetEngineVersion();
 
     public TemplateViewModel(ProjectTemplate projectTemplate)
     {

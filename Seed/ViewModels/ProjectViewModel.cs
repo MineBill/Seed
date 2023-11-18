@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Avalonia.Input;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using MsBox.Avalonia;
 using ReactiveUI;
@@ -19,7 +20,7 @@ public class ProjectViewModel : ViewModelBase
     public Project Project { get; }
 
     public string Name => Project.Name;
-    public Version? EngineVersion => Project.EngineVersion;
+    public EngineVersion? EngineVersion => Project.EngineVersion;
 
     private Bitmap? _icon;
 
@@ -36,6 +37,8 @@ public class ProjectViewModel : ViewModelBase
         get => _versionInstalled;
         set => this.RaiseAndSetIfChanged(ref _versionInstalled, value);
     }
+
+    public TextTrimming Trimming => TextTrimming.PrefixCharacterEllipsis;
 
     private bool _isTemplate;
 
@@ -96,7 +99,8 @@ public class ProjectViewModel : ViewModelBase
 
     public ProjectViewModel()
     {
-        Project = new Project("Big AAA Game", "/home/user/dev/projects/Big AAA Game", new Version(1, 6, 6032, 4));
+        Project = new Project("Big AAA Game", "/home/user/dev/projects/Big AAA Game",
+            new NormalVersion(new Version(1, 6, 6032, 4)));
     }
 
     public async Task LoadIcon()

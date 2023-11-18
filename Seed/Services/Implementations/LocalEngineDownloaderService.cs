@@ -120,7 +120,7 @@ public class LocalEngineDownloaderService : IEngineDownloaderService
         {
             Name = engine.Name,
             Path = editorInstallFolder,
-            Version = engine.Version,
+            Version = new NormalVersion(engine.Version),
             InstalledPackages = installedPackages
         };
     }

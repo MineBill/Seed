@@ -1,5 +1,7 @@
 using System;
+using System.Text;
 using System.Windows.Input;
+using Avalonia.Media;
 using ReactiveUI;
 using Seed.Models;
 using Seed.Services;
@@ -21,7 +23,20 @@ public class EngineViewModel : ViewModelBase
     }
 
     public string Path => _engine.Path;
-    public Version Version => _engine.Version;
+    public EngineVersion Version => _engine.Version;
+    public TextTrimming Trimming => TextTrimming.PrefixCharacterEllipsis;
+
+    public string TrimmedVersion
+    {
+        get
+        {
+            if (Version is NormalVersion normal)
+                return normal.ToString();
+            var build = new StringBuilder(_engine.Version.ToString()?[..8]);
+            build.Append("...");
+            return build.ToString();
+        }
+    }
 
     public ICommand DeleteCommand { get; }
 
@@ -37,7 +52,7 @@ public class EngineViewModel : ViewModelBase
         {
             Name = "1.7",
             Path = "/home/minebill/.local/share/Seed/Installs/Flax_1.7",
-            Version = new Version(1, 7, 6043, 0)
+            Version = new NormalVersion(new Version(1, 7, 6043, 0))
         };
         DeleteCommand = ReactiveCommand.Create(() => { });
     }

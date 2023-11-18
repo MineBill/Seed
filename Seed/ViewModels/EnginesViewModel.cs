@@ -98,7 +98,7 @@ public class EnginesViewModel : ViewModelBase
         {
             foreach (var remote in versions.ToList())
             {
-                if (remote.Version == installed.Version)
+                if (installed.Version is NormalVersion normalVersion && normalVersion.Version == remote.Version)
                     versions.Remove(remote);
             }
         }

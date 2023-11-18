@@ -21,7 +21,7 @@ public class Engine
     /// <summary>
     ///  The engine version.
     /// </summary>
-    public Version Version { get; set; } = new Version();
+    public EngineVersion Version { get; set; }
 
     /// <summary>
     /// The installed platform tools alongside the engine.

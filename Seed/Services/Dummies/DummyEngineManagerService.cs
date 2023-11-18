@@ -16,12 +16,12 @@ public class DummyEngineManagerService : IEngineManager
                 new()
                 {
                     Path = "/home/minebill/.local/share/Seed/Installs/Flax_1.7",
-                    Version = new Version(1, 7, 6045, 0)
+                    Version = new NormalVersion(new Version(1, 7, 6045, 0))
                 },
                 new()
                 {
                     Path = @"C:\Program Files (x86)\Flax\Flax_1.7",
-                    Version = new Version(1, 7, 6045, 3)
+                    Version = new NormalVersion(new Version(1, 7, 6045, 3))
                 }
             };
         }
@@ -34,12 +34,12 @@ public class DummyEngineManagerService : IEngineManager
             new()
             {
                 Path = "/home/minebill/.local/share/Seed/Installs/Flax_1.7",
-                Version = new Version(1, 7, 6045, 0)
+                Version = new NormalVersion(new Version(1, 7, 6045, 0))
             },
             new()
             {
                 Path = @"C:\Program Files (x86)\Flax\Flax_1.7",
-                Version = new Version(1, 7, 6045, 3)
+                Version = new NormalVersion(new Version(1, 7, 6045, 3))
             }
         };
     }

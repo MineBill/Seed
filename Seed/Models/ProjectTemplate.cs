@@ -35,5 +35,5 @@ public abstract class ProjectTemplate
     /// The minimum engine version this template is compatible with.
     /// </summary>
     /// <returns></returns>
-    public abstract Version GetEngineVersion();
+    public abstract EngineVersion GetEngineVersion();
 }

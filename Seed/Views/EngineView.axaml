@@ -33,11 +33,6 @@
                     TextWrapping="Wrap"
                     Text="{Binding Name}" />
                 <DockPanel>
-                    <TextBlock
-                        Classes="VersionNumber"
-                        Text="{Binding Version}"
-                        DockPanel.Dock="Left"
-                        VerticalAlignment="Center" />
                     <Button
                         DockPanel.Dock="Right"
                         Background="Transparent"
@@ -48,6 +43,12 @@
                             Data="{StaticResource IconLineHorizontal3Regular}">
                         </PathIcon>
                     </Button>
+                    <TextBlock
+                        TextTrimming="{Binding Trimming}"
+                        Classes="VersionNumber"
+                        Text="{Binding Version}"
+                        DockPanel.Dock="Left"
+                        VerticalAlignment="Center" />
                     <Panel />
                 </DockPanel>
             </StackPanel>

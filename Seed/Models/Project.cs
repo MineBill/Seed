@@ -12,7 +12,7 @@ namespace Seed.Models;
 /// <param name="Name">The name of the project.</param>
 /// <param name="Path">Where the project is located in the filesystem.</param>
 /// <param name="EngineVersion">The associated engine version with this project.</param>
-public record Project(string Name, string Path, Version? EngineVersion = null)
+public record Project(string Name, string Path, EngineVersion? EngineVersion = null)
 {
     /// <summary>
     /// Utility to get the project

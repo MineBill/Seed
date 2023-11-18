@@ -34,16 +34,18 @@
                         Padding="0" Margin="0"
                         Data="{StaticResource IconLineHorizontal3Regular}" />
                 </Button>
-                <Panel IsVisible="{Binding !IsTemplate}">
+                <Panel IsVisible="{Binding !IsTemplate}" VerticalAlignment="Center">
                     <StackPanel
                         Classes="VersionNumber"
                         IsVisible="{Binding !VersionInstalled}">
                         <TextBlock
+                            TextTrimming="{Binding Trimming}"
                             Foreground="Red"
                             HorizontalAlignment="Left"
                             Text="{Binding EngineVersion}" />
                     </StackPanel>
                     <TextBlock
+                        TextTrimming="{Binding Trimming}"
                         Classes="VersionNumber"
                         IsVisible="{Binding VersionInstalled}"
                         HorizontalAlignment="Left"

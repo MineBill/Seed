@@ -190,11 +190,12 @@ public class EngineDownloaderService : IEngineDownloaderService
 
         CurrentAction = "Done!";
 
+        DownloadFinished?.Invoke();
         return new Engine
         {
             Name = engine.Name,
             Path = editorInstallFolder,
-            Version = engine.Version,
+            Version = new NormalVersion(engine.Version),
             InstalledPackages = installedPackages
         };
     }
@@ -257,11 +258,12 @@ public class EngineDownloaderService : IEngineDownloaderService
 
         CurrentAction = "Done!";
 
+        DownloadFinished?.Invoke();
         return new Engine
         {
             Name = workflow.CommitHash,
             Path = editorInstallFolder,
-            Version = new Version(0, 0, 4269),
+            Version = new GitVersion(workflow.CommitHash),
             InstalledPackages = installedPackages
         };
     }

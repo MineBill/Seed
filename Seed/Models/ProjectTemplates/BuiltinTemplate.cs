@@ -22,11 +22,11 @@ public class BuiltinTemplate : ProjectTemplate
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-    private readonly Version _engineVersion;
+    private readonly EngineVersion _engineVersion;
     private readonly Bitmap _icon;
     public Uri? ResourcePath { get; }
 
-    public BuiltinTemplate(string displayName, Uri? resourcePath, Version engineVersion, Bitmap icon)
+    public BuiltinTemplate(string displayName, Uri? resourcePath, EngineVersion engineVersion, Bitmap icon)
     {
         Name = displayName;
         ResourcePath = resourcePath;
@@ -106,7 +106,7 @@ public class BuiltinTemplate : ProjectTemplate
     }
 
     /// <inheritdoc/>
-    public override Version GetEngineVersion()
+    public override EngineVersion GetEngineVersion()
     {
         return _engineVersion;
     }

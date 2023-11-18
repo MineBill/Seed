@@ -160,7 +160,7 @@ public class NewProjectViewModel : ReactiveValidationObject
         {
             if (state.Engine is null)
                 return false;
-            return state.Engine.Version >= state.Template.ProjectTemplate.GetEngineVersion();
+            return state.Engine.Version.CompareTo(state.Template.ProjectTemplate.GetEngineVersion()) == 0;
         }, _ => "Selected template project needs to be upgrade to support this engine.");
     }
 }

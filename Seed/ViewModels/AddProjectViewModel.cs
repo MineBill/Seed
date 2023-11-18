@@ -17,7 +17,7 @@ namespace Seed.ViewModels;
 
 public class AddProjectViewModel : ViewModelBase
 {
-    public ObservableCollection<Version> AvailableEngineVersions { get; } = new();
+    public ObservableCollection<EngineVersion> AvailableEngineVersions { get; } = new();
 
     private string _projectPath = string.Empty;
 
@@ -35,9 +35,9 @@ public class AddProjectViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _name, value);
     }
 
-    private Version? _selectedVersion;
+    private EngineVersion? _selectedVersion;
 
-    public Version? SelectedVersion
+    public EngineVersion? SelectedVersion
     {
         get => _selectedVersion;
         set => this.RaiseAndSetIfChanged(ref _selectedVersion, value);
@@ -55,7 +55,7 @@ public class AddProjectViewModel : ViewModelBase
             // very fucking hacky, i know
             var name = projectJson?[nameof(Name)]?.ToString()!;
             var versionStr = projectJson?["Version"]?.ToString()!;
-            var version = Version.Parse(versionStr);
+            var version = new NormalVersion(Version.Parse(versionStr));
             var projectPath = Path.GetDirectoryName(file.TryGetLocalPath()!)!;
 
             Name = name;

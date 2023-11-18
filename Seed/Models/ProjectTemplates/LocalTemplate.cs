@@ -72,7 +72,7 @@ public class LocalTemplate : ProjectTemplate
         });
     }
 
-    public override Version GetEngineVersion()
+    public override EngineVersion GetEngineVersion()
     {
         return Project.EngineVersion!;
     }
