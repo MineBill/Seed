@@ -6,9 +6,6 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Seed.Views.EnginesView"
              x:DataType="vm:EnginesViewModel">
-    <!-- <Design.DataContext> -->
-    <!--     <vm:EnginesViewModel /> -->
-    <!-- </Design.DataContext> -->
 
     <Border Padding="0 0 0 0">
         <DockPanel>
@@ -17,6 +14,15 @@
                 BorderThickness="0 0 0 1"
                 BorderBrush="#5A5A5A">
                 <DockPanel Margin="10">
+                    <Button
+                        DockPanel.Dock="Right"
+                        Command="{Binding AddEngineCommand}"
+                        Classes="IconButton">
+                        <TextBlock>
+                            <PathIcon Data="{StaticResource IconFolderAddRegular}" />
+                            Add Engine
+                        </TextBlock>
+                    </Button>
                     <Button
                         DockPanel.Dock="Right"
                         Command="{Binding DownloadVersionCommand}"

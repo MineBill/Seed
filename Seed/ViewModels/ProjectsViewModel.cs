@@ -173,16 +173,6 @@ public class ProjectsViewModel : ViewModelBase
         _cancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = _cancellationTokenSource.Token;
         LoadIcons(cancellationToken);
-        // var project = new Project
-        // (
-        //     name,
-        //     projectPath
-        // );
-        //
-        // _projectInfo.Projects.Add(project);
-        // Projects.Add(new ProjectViewModel(project));
-        //
-        // ProjectDiscoveryService.Save(_projectInfo);
     }
 
     private static async void ShowNoEngineDialog()

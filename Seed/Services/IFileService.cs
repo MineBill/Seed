@@ -13,7 +13,7 @@ public interface IFilesService
     /// <param name="title">Title for the dialog window.</param>
     /// <param name="options">Options to pass to the window.</param>
     /// <returns></returns>
-    public Task<IStorageFile?> SelectFileAsync(string title, IReadOnlyList<FilePickerFileType> options);
+    public Task<IStorageFile?> SelectFileAsync(string title, IReadOnlyList<FilePickerFileType>? options = default);
 
     /// <summary>
     /// Open a file dialog and return the selected folder(s).

@@ -1,10 +1,14 @@
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia.Platform.Storage;
 using DynamicData;
 using Microsoft.Extensions.DependencyInjection;
 using MsBox.Avalonia;
@@ -31,6 +35,7 @@ public class EnginesViewModel : ViewModelBase
     public ObservableCollection<EngineViewModel> Engines { get; } = new();
     public ICommand? DownloadVersionCommand { get; }
     public ICommand? DownloadWorkflowCommand { get; }
+    public ICommand? AddEngineCommand { get; }
 
     public Interaction<DownloadVersionsViewModel, DownloadDialogResult<RemoteEngine, RemotePackage>?>
         ShowDownloadVersionDialog { get; } = new();
@@ -55,6 +60,7 @@ public class EnginesViewModel : ViewModelBase
 
         DownloadVersionCommand = ReactiveCommand.CreateFromTask(OnDownloadVersionButtonClicked);
         DownloadWorkflowCommand = ReactiveCommand.CreateFromTask(OnDownloadWorkflowsButtonClicked);
+        AddEngineCommand = ReactiveCommand.Create(AddEngine);
 
         // We subscribe se we can update the viewmodel too.
         _engineManager.Engines.CollectionChanged += (_, args) =>
@@ -213,6 +219,62 @@ public class EnginesViewModel : ViewModelBase
         foreach (var engine in engines)
         {
             Engines.Add(new EngineViewModel(_engineManager, engine));
+        }
+    }
+
+    private async void AddEngine()
+    {
+        var fileService = App.Current.Services.GetService<IFilesService>()!;
+        var flaxproj =
+            await fileService.SelectFileAsync("Select engine .flaxproj",
+                new[] { new FilePickerFileType("Flax Project File") { Patterns = new[] { "*.flaxproj" } } });
+        if (flaxproj is null)
+        {
+            Logger.Warn("The file we got from the filepicker does not exist, hmmm.");
+            return;
+        }
+
+        try
+        {
+            using (var stream = new FileStream(flaxproj.Path.AbsolutePath, FileMode.Open, FileAccess.Read))
+            {
+                var node = await JsonNode.ParseAsync(stream);
+                if (node is null)
+                {
+                    Logger.Warn("Empty .flaxproj was given.");
+                    return;
+                }
+
+                var name = node["Name"]!.ToString();
+                var company = node["Company"]!.ToString();
+                if (name != "Flax" || company != "Flax")
+                {
+                    Logger.Warn("The .flaxproj given, is not a valid Flax Editor project.");
+                    return;
+                }
+
+                var nickname = node["EngineNickname"]?.ToString();
+
+                var major = int.Parse(node["Version"]!["Major"]!.ToString());
+                var minor = int.Parse(node["Version"]!["Minor"]!.ToString());
+                var revision = int.Parse(node["Version"]!["Revision"]!.ToString());
+                var build = int.Parse(node["Version"]!["Build"]!.ToString());
+
+                var engine = new Engine
+                {
+                    Name = nickname ?? name,
+                    Version = new NormalVersion(new Version(major, minor, build, revision)),
+                    Path = Path.GetDirectoryName(flaxproj.Path
+                        .AbsolutePath)!, // NOTE: This shouldn't fail, the file picker should return a file
+                    // NOTE: InstalledPackages is empty because this is a custom engine build. Tools are build on demand.
+                };
+
+                _engineManager.AddEngine(engine);
+            }
+        }
+        catch (JsonException je)
+        {
+            Logger.Error(je, "Failed to read flaxproj");
         }
     }
 }

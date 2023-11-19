@@ -19,7 +19,7 @@ public class FilesService : IFilesService
     }
 
     /// <inheritdoc />
-    public async Task<IStorageFile?> SelectFileAsync(string title, IReadOnlyList<FilePickerFileType> options)
+    public async Task<IStorageFile?> SelectFileAsync(string title, IReadOnlyList<FilePickerFileType>? options =  default)
     {
         var files = await _target.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
         {

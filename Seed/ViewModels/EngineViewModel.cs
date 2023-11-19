@@ -14,7 +14,8 @@ public class EngineViewModel : ViewModelBase
 {
     private readonly Engine _engine;
 
-    private string _name;
+    private string _name = string.Empty;
+
     public string Name
     {
         get => _name;
@@ -41,10 +42,7 @@ public class EngineViewModel : ViewModelBase
         _engine = engine;
         Name = _engine.Name;
         DeleteCommand = ReactiveCommand.Create(() => { engineManager.DeleteEngine(_engine); });
-        EditNameCommand = ReactiveCommand.Create(() =>
-        {
-            IsEditing = true;
-        });
+        EditNameCommand = ReactiveCommand.Create(() => { IsEditing = true; });
     }
 
     public EngineViewModel()
@@ -57,7 +55,7 @@ public class EngineViewModel : ViewModelBase
         };
         Name = _engine.Name;
         DeleteCommand = ReactiveCommand.Create(() => { });
-        EditNameCommand = ReactiveCommand.Create(() => { IsEditing = true;});
+        EditNameCommand = ReactiveCommand.Create(() => { IsEditing = true; });
     }
 
     public void OnLostFocus(RoutedEventArgs e)
