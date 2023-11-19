@@ -9,6 +9,7 @@
     <UserControl.Resources>
         <MenuFlyout x:Key="ProjectContextMenu" Placement="BottomEdgeAlignedLeft">
             <MenuItem Command="{Binding DeleteCommand}" Header="Delete"></MenuItem>
+            <MenuItem Command="{Binding EditNameCommand}" Header="Edit name"></MenuItem>
         </MenuFlyout>
     </UserControl.Resources>
 
@@ -27,6 +28,16 @@
             <StackPanel
                 DockPanel.Dock="Bottom">
                 <TextBlock
+                    IsVisible="{Binding !IsEditing}"
+                    Classes="ProjectName"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    TextWrapping="Wrap"
+                    Text="{Binding Name}" />
+                <TextBox
+                    LostFocus="InputElement_OnLostFocus"
+                    KeyDown="InputElement_OnKeyDown"
+                    IsVisible="{Binding IsEditing}"
                     Classes="ProjectName"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -44,7 +55,7 @@
                         </PathIcon>
                     </Button>
                     <TextBlock
-                        TextTrimming="{Binding Trimming}"
+                        TextTrimming="{Binding TrimmingMode}"
                         Classes="VersionNumber"
                         Text="{Binding Version}"
                         DockPanel.Dock="Left"

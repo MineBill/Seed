@@ -21,6 +21,7 @@ public class ProjectViewModel : ViewModelBase
 
     public string Name => Project.Name;
     public EngineVersion? EngineVersion => Project.EngineVersion;
+    public string EngineName => Project.Engine?.Name ?? "Missing";
 
     private Bitmap? _icon;
 

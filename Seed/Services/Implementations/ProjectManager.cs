@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using Microsoft.Extensions.Logging;
 using NLog;
 using Seed.Models;
 
@@ -103,11 +102,18 @@ public class ProjectManager : IProjectManager
             });
             if (projects is null)
             {
-                // TODO: Log this
+                Logger.Warn("Json serializer returned a null project.");
                 return;
             }
 
             Projects = new ObservableCollection<Project>(projects);
+            if (_engineManager.Engines.Count > 0)
+            {
+                foreach (var project in Projects)
+                {
+                    project.Engine = _engineManager.Engines.First(x => x.Version == project.EngineVersion);
+                }
+            }
         }
         catch (JsonException je)
         {
