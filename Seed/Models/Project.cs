@@ -31,6 +31,14 @@ public record Project(string Name, string Path, EngineVersion? EngineVersion = n
     public bool IsTemplate { get; set; }
 
     /// <summary>
+    /// The associated engine reference with this project.
+    /// This is filled after loading the projects(if the engine is found) and is provided
+    /// as a quick helper to access the engine.
+    /// </summary>
+    [JsonIgnore]
+    public Engine? Engine;
+
+    /// <summary>
     /// Check if this project exists on disk right now.
     /// </summary>
     /// <returns></returns>

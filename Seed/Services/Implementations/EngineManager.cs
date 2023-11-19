@@ -92,7 +92,7 @@ public class EngineManager : IEngineManager
         }
     }
 
-    private void Save()
+    public void Save()
     {
         var dataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             Globals.AppName);

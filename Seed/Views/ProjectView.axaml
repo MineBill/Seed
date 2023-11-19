@@ -42,14 +42,14 @@
                             TextTrimming="{Binding Trimming}"
                             Foreground="Red"
                             HorizontalAlignment="Left"
-                            Text="{Binding EngineVersion}" />
+                            Text="{Binding EngineName}" />
                     </StackPanel>
                     <TextBlock
                         TextTrimming="{Binding Trimming}"
                         Classes="VersionNumber"
                         IsVisible="{Binding VersionInstalled}"
                         HorizontalAlignment="Left"
-                        Text="{Binding EngineVersion}" />
+                        Text="{Binding EngineName}" />
                 </Panel>
             </DockPanel>
             <TextBlock DockPanel.Dock="Bottom" Classes="ProjectName" HorizontalAlignment="Center" Text="{Binding Name}" TextWrapping="Wrap" />

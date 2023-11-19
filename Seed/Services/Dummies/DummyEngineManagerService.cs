@@ -52,6 +52,10 @@ public class DummyEngineManagerService : IEngineManager
     {
     }
 
+    public void Save()
+    {
+    }
+
     public void CreateProject(Project newProject, Project template)
     {
     }

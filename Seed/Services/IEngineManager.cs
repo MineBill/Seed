@@ -22,4 +22,10 @@ public interface IEngineManager
     /// </summary>
     /// <param name="engine">The engine to remove.</param>
     public void DeleteEngine(Engine engine);
+
+    /// <summary>
+    /// Saves the current list of engines to the file.
+    /// Useful when editing the name of an engine.
+    /// </summary>
+    public void Save();
 }
