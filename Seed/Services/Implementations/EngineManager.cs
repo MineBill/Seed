@@ -96,6 +96,8 @@ public class EngineManager : IEngineManager
     {
         var dataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             Globals.AppName);
+        Directory.CreateDirectory(dataFolder);
+
         var enginesFile = Path.Combine(dataFolder, Globals.EnginesSaveFileName);
 
         using var file = new FileStream(enginesFile, FileMode.Create, FileAccess.Write, FileShare.None);

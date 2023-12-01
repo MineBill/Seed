@@ -1,4 +1,6 @@
 using System;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -36,6 +38,9 @@ public class EngineViewModel : ViewModelBase
 
     public ICommand DeleteCommand { get; }
     public ICommand EditNameCommand { get; }
+    public ICommand OpenEditorCommand { get; }
+
+    public Interaction<EngineEditorViewModel, Unit> OpenEditor = new();
 
     public EngineViewModel(IEngineManager engineManager, Engine engine)
     {
@@ -43,6 +48,15 @@ public class EngineViewModel : ViewModelBase
         Name = _engine.Name;
         DeleteCommand = ReactiveCommand.Create(() => { engineManager.DeleteEngine(_engine); });
         EditNameCommand = ReactiveCommand.Create(() => { IsEditing = true; });
+        OpenEditorCommand = ReactiveCommand.CreateFromTask(async () =>
+        {
+            var engineEditorViewModel = new EngineEditorViewModel(_engine);
+            await OpenEditor.Handle(engineEditorViewModel);
+            Name = engine.Name;
+            this.RaisePropertyChanged(nameof(Version));
+            // TODO: Do the saving here?
+            engineManager.Save();
+        });
     }
 
     public EngineViewModel()

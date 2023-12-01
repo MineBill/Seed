@@ -53,7 +53,7 @@ public class ProjectManager : IProjectManager
             {
                 FileName = "/bin/sh",
                 Arguments =
-                    $" -c \"setsid {engine.GetExecutablePath("Release")} -project {Path.GetFullPath(project.Path)}\"",
+                    $" -c \"setsid {engine.GetExecutablePath(engine.PreferredConfiguration)} -project {Path.GetFullPath(project.Path)}\"",
                 CreateNoWindow = true,
             };
 
@@ -63,7 +63,7 @@ public class ProjectManager : IProjectManager
         {
             var info = new ProcessStartInfo
             {
-                FileName = engine.GetExecutablePath("Release"),
+                FileName = engine.GetExecutablePath(engine.PreferredConfiguration),
                 Arguments = $"-project {Path.GetFullPath(project.Path)}",
             };
 
@@ -111,6 +111,7 @@ public class ProjectManager : IProjectManager
             {
                 foreach (var project in Projects)
                 {
+                    // BUG: This will fail if you remove all engines but have some projects.
                     project.Engine = _engineManager.Engines.First(x => x.Version == project.EngineVersion);
                 }
             }

@@ -8,6 +8,13 @@ namespace Seed.Models;
 
 public class Engine
 {
+    public enum Configuration
+    {
+        Debug,
+        Development,
+        Release
+    }
+
     /// <summary>
     /// The engine name. Usually the same as <see cref="Version"/>.
     /// </summary>
@@ -24,6 +31,16 @@ public class Engine
     public EngineVersion Version { get; set; }
 
     /// <summary>
+    /// The preferred configuration to use when selecting the editor executable.
+    /// </summary>
+    public Configuration PreferredConfiguration { get; set; } = Configuration.Release;
+
+    /// <summary>
+    /// Which configurations ara available for this engine.
+    /// </summary>
+    public List<Configuration> AvailableConfigurations { get; set; } = new();
+
+    /// <summary>
     /// The installed platform tools alongside the engine.
     /// </summary>
     public List<Package> InstalledPackages { get; set; } = new();
@@ -34,11 +51,13 @@ public class Engine
     /// <returns>True if the engine installation is valid, false otherwise.</returns>
     public bool ValidateInstallation()
     {
+        // TODO: Also check if the all of the available configurations are present.
         return File.Exists(System.IO.Path.Combine(Path, "Flax.flaxproj"));
     }
 
-    public string GetExecutablePath(string mode)
+    public string GetExecutablePath(Configuration configuration)
     {
+        Console.WriteLine(configuration);
         var os = string.Empty;
         if (OperatingSystem.IsWindows())
             os = "Win64";
@@ -46,7 +65,7 @@ public class Engine
             os = "Linux";
         if (OperatingSystem.IsMacOS())
             os = "MacOS"; // TODO: Is this the correct folder name for macs?
-        return System.IO.Path.Combine(Path, "Binaries", "Editor", os, mode, "FlaxEditor");
+        return System.IO.Path.Combine(Path, "Binaries", "Editor", os, configuration.ToString(), "FlaxEditor");
     }
 }
 

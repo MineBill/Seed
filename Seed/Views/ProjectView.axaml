@@ -52,10 +52,14 @@
                         Text="{Binding EngineName}" />
                 </Panel>
             </DockPanel>
-            <TextBlock DockPanel.Dock="Bottom" Classes="ProjectName" HorizontalAlignment="Center" Text="{Binding Name}" TextWrapping="Wrap" />
+            <TextBlock DockPanel.Dock="Bottom" Classes="ProjectName" HorizontalAlignment="Center" Text="{Binding Name}"
+                       TextWrapping="Wrap" />
             <Border CornerRadius="3" ClipToBounds="True" Classes.TemplateLine="{Binding IsProjectTemplate}">
                 <Panel Background="{StaticResource ButtonBackground}">
-                    <Image Source="{Binding Icon}" Height="150" Stretch="UniformToFill" />
+                    <Image
+                        Source="{Binding Icon, Converter={StaticResource NullToDefaultImageConverter}, ConverterParameter='avares://Seed/Assets/seed-logo-blue-256.png'}"
+                        Height="150" Stretch="UniformToFill">
+                    </Image>
                 </Panel>
             </Border>
         </DockPanel>

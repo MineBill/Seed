@@ -8,6 +8,7 @@
              x:DataType="vm:EngineViewModel">
     <UserControl.Resources>
         <MenuFlyout x:Key="ProjectContextMenu" Placement="BottomEdgeAlignedLeft">
+            <MenuItem Command="{Binding OpenEditorCommand}" Header="Edit"></MenuItem>
             <MenuItem Command="{Binding DeleteCommand}" Header="Delete"></MenuItem>
             <MenuItem Command="{Binding EditNameCommand}" Header="Edit name"></MenuItem>
         </MenuFlyout>

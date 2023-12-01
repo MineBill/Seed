@@ -199,7 +199,14 @@ public class EngineDownloaderService : IEngineDownloaderService
             Name = engine.Name,
             Path = editorInstallFolder,
             Version = new NormalVersion(engine.Version),
-            InstalledPackages = installedPackages
+            InstalledPackages = installedPackages,
+            PreferredConfiguration = Engine.Configuration.Release,
+            AvailableConfigurations = new List<Engine.Configuration>
+            {
+                Engine.Configuration.Debug,
+                Engine.Configuration.Development,
+                Engine.Configuration.Release
+            }
         };
     }
 
@@ -268,7 +275,14 @@ public class EngineDownloaderService : IEngineDownloaderService
             Name = workflow.CommitHash,
             Path = editorInstallFolder,
             Version = new GitVersion(workflow.CommitHash),
-            InstalledPackages = installedPackages
+            InstalledPackages = installedPackages,
+            PreferredConfiguration = Engine.Configuration.Release,
+            AvailableConfigurations = new List<Engine.Configuration>
+            {
+                Engine.Configuration.Debug,
+                Engine.Configuration.Development,
+                Engine.Configuration.Release
+            }
         };
     }
 }

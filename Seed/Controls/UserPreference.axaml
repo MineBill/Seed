@@ -1,0 +1,27 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Seed.Controls">
+    <Design.PreviewWith>
+        <controls:UserPreference OptionName="Pepe">
+            <TextBox />
+        </controls:UserPreference>
+    </Design.PreviewWith>
+
+    <Style Selector="controls|UserPreference">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        MinWidth="225"
+                        MaxWidth="225"
+                        TextWrapping="Wrap"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Text="{TemplateBinding OptionName}" />
+                    <ContentPresenter Content="{TemplateBinding Content}" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

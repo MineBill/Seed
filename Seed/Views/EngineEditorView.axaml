@@ -1,0 +1,38 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:Seed.ViewModels"
+        xmlns:controls="using:Seed.Controls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="600" Height="450"
+        x:Class="Seed.Views.EngineEditorView"
+        x:DataType="vm:EngineEditorViewModel"
+        RequestedThemeVariant="Dark"
+        Title="Edit Engine">
+    <Border>
+        <TabControl>
+            <TabItem Header="Engine Settings">
+                <!-- This should be the "template" -->
+                <Border Padding="10">
+                    <StackPanel Spacing="10">
+                        <controls:UserPreference OptionName="Name">
+                            <TextBox Text="{Binding Name}" />
+                        </controls:UserPreference>
+                        <controls:UserPreference OptionName="Install Location">
+                            <controls:Path
+                                IsReadOnly="True"
+                                AbsolutePath="{Binding Path}"
+                                Command="{Binding OnPathSelected}"
+                                HorizontalAlignment="Stretch" />
+                        </controls:UserPreference>
+                        <controls:UserPreference OptionName="Preferred Configuration">
+                            <ComboBox ItemsSource="{Binding AvailableConfigurations}"
+                                      SelectedItem="{Binding PreferredConfiguration}" />
+                        </controls:UserPreference>
+                    </StackPanel>
+                </Border>
+            </TabItem>
+        </TabControl>
+    </Border>
+</Window>

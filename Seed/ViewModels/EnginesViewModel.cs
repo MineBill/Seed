@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -122,6 +123,7 @@ public class EnginesViewModel : ViewModelBase
 
         var prefs = App.Current.Services.GetService<IPreferencesSaver>()!;
         var installLocation = prefs.Preferences.EngineInstallLocation ?? Globals.GetDefaultEngineInstallLocation();
+        Logger.Debug($"Will be placed in {installLocation}");
         Logger.Debug($"Started download of version {version.Engine.Version}");
         Logger.Debug("Will also download the following platform tools:");
         foreach (var package in version.PlatformTools)
@@ -238,7 +240,7 @@ public class EnginesViewModel : ViewModelBase
         {
             using (var stream = new FileStream(flaxproj.Path.AbsolutePath, FileMode.Open, FileAccess.Read))
             {
-                var node = await JsonNode.ParseAsync(stream);
+                var node = JsonNode.Parse(stream);
                 if (node is null)
                 {
                     Logger.Warn("Empty .flaxproj was given.");
@@ -260,14 +262,29 @@ public class EnginesViewModel : ViewModelBase
                 var revision = int.Parse(node["Version"]!["Revision"]!.ToString());
                 var build = int.Parse(node["Version"]!["Build"]!.ToString());
 
+                // NOTE: This shouldn't fail, the file picker should return a file
+                var path = Path.GetDirectoryName(flaxproj.Path
+                    .AbsolutePath)!;
+
                 var engine = new Engine
                 {
                     Name = nickname ?? name,
                     Version = new NormalVersion(new Version(major, minor, build, revision)),
-                    Path = Path.GetDirectoryName(flaxproj.Path
-                        .AbsolutePath)!, // NOTE: This shouldn't fail, the file picker should return a file
+                    Path = path,
                     // NOTE: InstalledPackages is empty because this is a custom engine build. Tools are build on demand.
                 };
+
+                var available = new List<Engine.Configuration>();
+                if (File.Exists(engine.GetExecutablePath(Engine.Configuration.Debug)))
+                    available.Add(Engine.Configuration.Debug);
+                if (File.Exists(engine.GetExecutablePath(Engine.Configuration.Development)))
+                    available.Add(Engine.Configuration.Development);
+                if (File.Exists(engine.GetExecutablePath(Engine.Configuration.Release)))
+                    available.Add(Engine.Configuration.Release);
+
+                // TODO: Error out if no available configurations are found.
+                engine.AvailableConfigurations = available;
+                engine.PreferredConfiguration = engine.AvailableConfigurations[0];
 
                 _engineManager.AddEngine(engine);
             }

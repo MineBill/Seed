@@ -1,0 +1,23 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Seed.Controls">
+    <Design.PreviewWith>
+        <controls:Path IsReadOnly="True" />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|Path">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox
+                        Margin="0 0 10 0"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        IsReadOnly="{TemplateBinding IsReadOnly}"
+                        Text="{TemplateBinding AbsolutePath}" />
+                    <Button x:Name="ChangeButton">Change</Button>
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

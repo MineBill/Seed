@@ -19,6 +19,7 @@ internal static class Program
     {
         try
         {
+            Globals.GetDefaultEngineInstallLocation();
             // Just making sure the config folder exists,
             // otherwise some operations will fail.
             var configFolder = Globals.GetConfigFolder();

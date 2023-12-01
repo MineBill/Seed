@@ -11,7 +11,7 @@ public class UserPreferences
     /// <summary>
     /// The engine installation folder.
     /// </summary>
-    public string? EngineInstallLocation { get; set; } = string.Empty;
+    public string? EngineInstallLocation { get; set; }
 
     /// <summary>
     /// The color used to highlight projects as templates.
@@ -21,7 +21,7 @@ public class UserPreferences
     /// <summary>
     /// The default project location for new project. Can be overriden in the project creation dialog.
     /// </summary>
-    public string? NewProjectLocation { get; set; } = string.Empty;
+    public string? NewProjectLocation { get; set; }
 
     /// <summary>
     /// The access token used to authenticate with Github for downloads.

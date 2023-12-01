@@ -86,6 +86,7 @@ public class ProjectViewModel : ViewModelBase
             this.RaisePropertyChanged(nameof(IsProjectTemplate));
             _projectManager.Save();
         });
+        Task.Run(LoadIcon);
     }
 
     public ProjectViewModel(Project project, Bitmap? bitmap = null)
@@ -106,12 +107,11 @@ public class ProjectViewModel : ViewModelBase
 
     public async Task LoadIcon()
     {
-        if (string.IsNullOrWhiteSpace(Project.IconPath))
-            return;
-        if (!File.Exists(Project.IconPath))
+        var path = Project.IconPath;
+        if (!File.Exists(path) || string.IsNullOrWhiteSpace(path))
             return;
 
-        Icon = await Task.Run(() => new Bitmap(Project.IconPath));
+        Icon = await Task.Run(() => new Bitmap(path));
     }
 
     public void OnDoubleTapped(object? sender, TappedEventArgs? e)

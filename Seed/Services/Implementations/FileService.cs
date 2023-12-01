@@ -19,7 +19,7 @@ public class FilesService : IFilesService
     }
 
     /// <inheritdoc />
-    public async Task<IStorageFile?> SelectFileAsync(string title, IReadOnlyList<FilePickerFileType>? options =  default)
+    public async Task<IStorageFile?> SelectFileAsync(string title, IReadOnlyList<FilePickerFileType>? options = default)
     {
         var files = await _target.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
         {
@@ -47,7 +47,7 @@ public class FilesService : IFilesService
             SuggestedStartLocation =
                 await _target.StorageProvider.TryGetFolderFromPathAsync(path ??
                                                                         Environment.GetFolderPath(Environment
-                                                                            .SpecialFolder.UserProfile))
+                                                                            .SpecialFolder.ApplicationData))
         });
         return folders.Count > 0 ? folders[0] : null;
     }

@@ -55,7 +55,7 @@ public class BuiltinTemplate : ProjectTemplate
             // No path was given. Tell Flax to create a completely blank project.
             var info = new ProcessStartInfo
             {
-                FileName = engine.GetExecutablePath("Release"),
+                FileName = engine.GetExecutablePath(engine.PreferredConfiguration),
                 Arguments = $"-new -project \"{newProject.Path}\""
             };
 
