@@ -30,6 +30,9 @@ public class Engine
     /// </summary>
     public EngineVersion Version { get; set; }
 
+    [JsonIgnore]
+    public string DisplayName => $"{Name} - {Version}";
+
     /// <summary>
     /// The preferred configuration to use when selecting the editor executable.
     /// </summary>
@@ -59,13 +62,23 @@ public class Engine
     {
         Console.WriteLine(configuration);
         var os = string.Empty;
+        var exe = string.Empty;
         if (OperatingSystem.IsWindows())
+        {
             os = "Win64";
-        if (OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD())
+            exe = "FlaxEditor.exe";
+        }
+        else if (OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD())
+        {
             os = "Linux";
-        if (OperatingSystem.IsMacOS())
+            exe = "FlaxEditor";
+        }
+        else if (OperatingSystem.IsMacOS())
+        {
             os = "MacOS"; // TODO: Is this the correct folder name for macs?
-        return System.IO.Path.Combine(Path, "Binaries", "Editor", os, configuration.ToString(), "FlaxEditor");
+            exe = "FlaxEditor";
+        }
+        return System.IO.Path.Combine(Path, "Binaries", "Editor", os, configuration.ToString(), exe);
     }
 }
 

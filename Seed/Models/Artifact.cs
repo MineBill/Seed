@@ -71,6 +71,18 @@ public class Artifact
     public bool IsForThisPlatform()
     {
         if (System.OperatingSystem.IsWindows())
+            return OperatingSystem == OSPlatform.Windows;
+        if (System.OperatingSystem.IsLinux() || System.OperatingSystem.IsFreeBSD())
+            return OperatingSystem == OSPlatform.Linux;
+        return false;
+    }
+
+    /// <summary>
+    /// Returns if this artifact is meant for the running operating system.
+    /// </summary>
+    public bool SupportsThisPlatform()
+    {
+        if (System.OperatingSystem.IsWindows())
             return OperatingSystem == OSPlatform.Linux || OperatingSystem == OSPlatform.Windows;
         if (System.OperatingSystem.IsLinux() || System.OperatingSystem.IsFreeBSD())
             return OperatingSystem == OSPlatform.Linux;

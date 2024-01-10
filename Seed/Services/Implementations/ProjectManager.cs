@@ -53,7 +53,7 @@ public class ProjectManager : IProjectManager
             {
                 FileName = "/bin/sh",
                 Arguments =
-                    $" -c \"setsid {engine.GetExecutablePath(engine.PreferredConfiguration)} -project {Path.GetFullPath(project.Path)}\"",
+                    $" -c \"setsid {engine.GetExecutablePath(engine.PreferredConfiguration)} -project \"{Path.GetFullPath(project.Path)}\" \"",
                 CreateNoWindow = true,
             };
 
@@ -64,7 +64,7 @@ public class ProjectManager : IProjectManager
             var info = new ProcessStartInfo
             {
                 FileName = engine.GetExecutablePath(engine.PreferredConfiguration),
-                Arguments = $"-project {Path.GetFullPath(project.Path)}",
+                Arguments = $"-project \"{Path.GetFullPath(project.Path)}\"",
             };
 
             Process.Start(info);

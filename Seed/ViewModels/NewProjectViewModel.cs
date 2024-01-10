@@ -37,7 +37,7 @@ public class NewProjectViewModel : ReactiveValidationObject
 
     private string _projectPath = string.Empty;
 
-    [Display(Name = "Directory")]
+    // [Display(Name = "Directory")]
     public string ProjectPath
     {
         get => _projectPath;
@@ -85,7 +85,7 @@ public class NewProjectViewModel : ReactiveValidationObject
         SelectFolderCommand = ReactiveCommand.CreateFromTask(async () =>
         {
             var folder = await filesService.SelectFolderAsync();
-            ProjectPath = folder?.Path.AbsolutePath ?? string.Empty;
+            ProjectPath = folder?.Path.LocalPath ?? string.Empty;
         });
 
         SelectedEngine = Engines[0];
@@ -145,7 +145,7 @@ public class NewProjectViewModel : ReactiveValidationObject
 
         var a = this.WhenAnyValue(x => x.ProjectName, x => x.ProjectPath,
                 (name, path) => new { Name = name, Path = path })
-            .Throttle(TimeSpan.FromMilliseconds(100));
+            .Throttle(TimeSpan.FromMilliseconds(200));
 
         this.ValidationRule(x => ProjectName, a, state => !Directory.Exists(Path.Combine(state.Path, state.Name)),
             _ => "A folder with that name already exists in the selected folder");
@@ -155,7 +155,7 @@ public class NewProjectViewModel : ReactiveValidationObject
 
         var t = this.WhenAnyValue(x => x.SelectedEngine, x => x.SelectedTemplate,
                 (engine, model) => new { Engine = engine, Template = model })
-            .Throttle(TimeSpan.FromMilliseconds(100));
+            .Throttle(TimeSpan.FromMilliseconds(200));
         this.ValidationRule(x => x.SelectedEngine, t, state =>
         {
             if (state.Engine is null)

@@ -8,6 +8,7 @@
         x:Class="Seed.Views.Dialogs.NewProjectWindow"
         x:DataType="vm:NewProjectViewModel"
         Width="830" Height="500"
+        WindowStartupLocation="CenterOwner"
         Title="New Project">
     <DockPanel>
         <DataValidationErrors />
@@ -44,7 +45,7 @@
                         HorizontalAlignment="Stretch">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Version}" />
+                                <TextBlock Text="{Binding DisplayName}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>

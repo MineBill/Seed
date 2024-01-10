@@ -21,7 +21,7 @@ public record NormalVersion(Version Version) : EngineVersion
 
     public override string ToString()
     {
-        return Version.ToString();
+        return $"{Version.Major}.{Version.Minor}.{Version.Revision}";
     }
 }
 

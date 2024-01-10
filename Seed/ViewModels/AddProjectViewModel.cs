@@ -17,7 +17,15 @@ namespace Seed.ViewModels;
 
 public class AddProjectViewModel : ViewModelBase
 {
-    public ObservableCollection<EngineVersion> AvailableEngineVersions { get; } = new();
+    public record ViewableEngineVersion(EngineVersion Version, string Name)
+    {
+        public override string ToString()
+        {
+            return $"{Name} - {Version}";
+        }
+    }
+
+    public ObservableCollection<ViewableEngineVersion> AvailableEngineVersions { get; } = new();
 
     private string _projectPath = string.Empty;
 
@@ -35,9 +43,9 @@ public class AddProjectViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _name, value);
     }
 
-    private EngineVersion? _selectedVersion;
+    private ViewableEngineVersion? _selectedVersion;
 
-    public EngineVersion? SelectedVersion
+    public ViewableEngineVersion? SelectedVersion
     {
         get => _selectedVersion;
         set => this.RaiseAndSetIfChanged(ref _selectedVersion, value);
@@ -64,10 +72,10 @@ public class AddProjectViewModel : ViewModelBase
             var locator = App.Current.Services.GetService<IEngineManager>()!;
             foreach (var engine in locator.Engines)
             {
-                AvailableEngineVersions.Add(engine.Version);
+                AvailableEngineVersions.Add(new ViewableEngineVersion(engine.Version, engine.Name));
             }
 
-            SelectedVersion = AvailableEngineVersions.FirstOrDefault(x => x == version);
+            SelectedVersion = AvailableEngineVersions.FirstOrDefault(x => x.Version == version);
             if (SelectedVersion is null)
             {
                 // No compatible engine version found.
@@ -81,6 +89,6 @@ public class AddProjectViewModel : ViewModelBase
         });
 
         AddProjectCommand =
-            ReactiveCommand.Create(() => new Project(Name, ProjectPath, SelectedVersion));
+            ReactiveCommand.Create(() => new Project(Name, ProjectPath, SelectedVersion!.Version));
     }
 }

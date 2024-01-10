@@ -73,7 +73,7 @@ public class Workflow
     /// <summary>
     /// Get the supported platform tools artifacts for this platform.
     /// </summary>
-    public List<Artifact> SupportedPlatformTools => Artifacts.FindAll(x => !x.IsEditor && x.IsForThisPlatform());
+    public List<Artifact> SupportedPlatformTools => Artifacts.FindAll(x => !x.IsEditor && x.SupportsThisPlatform());
 
     /// <summary>
     /// Compare two workflows based on their creation time.

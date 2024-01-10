@@ -54,14 +54,14 @@ public class SettingsViewModel : ViewModelBase
         SelectEngineFolderCommand = ReactiveCommand.CreateFromTask(async () =>
         {
             var folder = await filesService.SelectFolderAsync();
-            EngineInstallLocation = folder?.Path.AbsolutePath ?? null;
+            EngineInstallLocation = folder?.Path.LocalPath ?? null;
             _preferencesSaver.Save();
         });
 
         SelectNewProjectFolderCommand = ReactiveCommand.CreateFromTask(async () =>
         {
             var folder = await filesService.SelectFolderAsync();
-            NewProjectLocation = folder?.Path.AbsolutePath ?? null;
+            NewProjectLocation = folder?.Path.LocalPath ?? null;
             _preferencesSaver.Save();
         });
 
