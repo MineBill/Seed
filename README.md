@@ -8,6 +8,8 @@
     A cross-platform launcher for the Flax game engine.
 </p>
 
+![image](https://github.com/MineBill/Seed/assets/30367251/99a2beb1-a3fa-403f-a573-9265d2111ff0)
+
 
 ## Features
 - Manage multiple installations and platform tools of the Flax game engine, with support for:
