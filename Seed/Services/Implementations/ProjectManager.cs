@@ -62,7 +62,7 @@ public class ProjectManager : IProjectManager
             {
                 FileName = "/bin/sh",
                 Arguments =
-                    $" -c \"setsid {engine.GetExecutablePath(engine.PreferredConfiguration)} -project \"{Path.GetFullPath(project.Path)}\" \"",
+                    $" -c \"setsid {engine.GetExecutablePath(engine.PreferredConfiguration)} -project \"{Path.GetFullPath(project.Path)}\" {project.ProjectArguments ?? string.Empty} \"",
                 CreateNoWindow = true,
             };
 
@@ -73,7 +73,7 @@ public class ProjectManager : IProjectManager
             var info = new ProcessStartInfo
             {
                 FileName = engine.GetExecutablePath(engine.PreferredConfiguration),
-                Arguments = $"-project \"{Path.GetFullPath(project.Path)}\"",
+                Arguments = $"-project \"{Path.GetFullPath(project.Path)}\" {project.ProjectArguments ?? string.Empty}",
             };
 
             Process.Start(info);
@@ -121,7 +121,17 @@ public class ProjectManager : IProjectManager
                 foreach (var project in Projects)
                 {
                     // BUG: This will fail if you remove all engines but have some projects.
-                    project.Engine = _engineManager.Engines.First(x => x.Version == project.EngineVersion);
+                    try
+                    {
+                        project.Engine = _engineManager.Engines.First(x => x.Version == project.EngineVersion);
+                    }
+                    catch (InvalidOperationException ioe)
+                    {
+                        // NOTE: We do not perform any kind of automatic increase in the project version.
+                        // If a new patch gets released, the user must explicitly set their project to use
+                        // that engine version.
+                        project.Engine = null;
+                    }
                 }
             }
         }

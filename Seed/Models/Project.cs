@@ -31,6 +31,11 @@ public record Project(string Name, string Path, EngineVersion? EngineVersion = n
     public bool IsTemplate { get; set; }
 
     /// <summary>
+    /// The engine arguments to use for this project.
+    /// </summary>
+    public string? ProjectArguments { get; set; }
+
+    /// <summary>
     /// The associated engine reference with this project.
     /// This is filled after loading the projects(if the engine is found) and is provided
     /// as a quick helper to access the engine.

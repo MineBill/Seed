@@ -1,11 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using MsBox.Avalonia;
+using NLog;
 using ReactiveUI;
 using Seed.Models;
 using Seed.Services;
@@ -15,6 +18,7 @@ namespace Seed.ViewModels;
 
 public class ProjectViewModel : ViewModelBase
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     private readonly IProjectManager _projectManager;
 
     public Project Project { get; }
@@ -56,6 +60,9 @@ public class ProjectViewModel : ViewModelBase
     public ICommand? MarkAsTemplateCommand { get; }
     public ICommand? ClearCacheCommand { get; }
     public ICommand? OpenProjectFolderCommand { get; }
+    public ICommand? EditProjectArgumentsCommand { get; }
+
+    public readonly Interaction<CommandLineOptionsViewModel, string> OpenCommandLineOptionsEditor = new();
 
     public ProjectViewModel(IEngineManager engineManager, IProjectManager projectManager, IFilesService filesService,
         Project project)
@@ -84,6 +91,17 @@ public class ProjectViewModel : ViewModelBase
         {
             Project.IsTemplate = !Project.IsTemplate;
             this.RaisePropertyChanged(nameof(IsProjectTemplate));
+
+            _projectManager.Save();
+        });
+
+        EditProjectArgumentsCommand = ReactiveCommand.Create(async () =>
+        {
+            var vm = new CommandLineOptionsViewModel(Project);
+            var result = await OpenCommandLineOptionsEditor.Handle(vm);
+            Logger.Info($"Result: {result}");
+            Project.ProjectArguments = result;
+
             _projectManager.Save();
         });
         Task.Run(LoadIcon);
@@ -155,5 +173,10 @@ public class ProjectViewModel : ViewModelBase
                 icon: MsBox.Avalonia.Enums.Icon.Error);
             box.ShowWindowDialogAsync(App.Current.MainWindow);
         }
+    }
+
+    private void EditProjectArguments()
+    {
+
     }
 }

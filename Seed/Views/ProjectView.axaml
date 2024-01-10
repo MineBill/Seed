@@ -16,7 +16,7 @@
             <MenuItem Command="{Binding RunProjectCommand}" Header="Run Project"></MenuItem>
             <MenuItem Command="{Binding OpenProjectFolderCommand}" Header="Open in file explorer"></MenuItem>
             <MenuItem Command="{Binding MarkAsTemplateCommand}" Header="Mark as template"></MenuItem>
-            <MenuItem Header="Edit startup arguments(Not implemented)"></MenuItem>
+            <MenuItem Command="{Binding EditProjectArgumentsCommand}" Header="Edit startup arguments"></MenuItem>
             <MenuItem Command="{Binding ClearCacheCommand}" Header="Clear cache"></MenuItem>
             <MenuItem Command="{Binding RemoveProjectCommand}" Header="Remove Project"></MenuItem>
         </MenuFlyout>
