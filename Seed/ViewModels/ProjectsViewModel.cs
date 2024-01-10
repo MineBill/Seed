@@ -131,7 +131,6 @@ public class ProjectsViewModel : ViewModelBase
         Logger.Debug($"\tPath          = {result.NewProject.Path}");
         Logger.Debug($"\tEngineVersion = {result.NewProject.EngineVersion}");
 
-        result.NewProject.Engine = _engineManager.Engines.First(x => x.Version == result.NewProject.EngineVersion);
         result.Template.Create(result.NewProject);
     }
 

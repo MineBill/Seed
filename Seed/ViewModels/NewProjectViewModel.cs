@@ -98,9 +98,14 @@ public class NewProjectViewModel : ReactiveValidationObject
         }
 
         // TODO: Maybe don't try and inject this here but abstract it?
-        var blankScene = new BuiltinTemplate("Blank Scene", null, SelectedEngine.Version,
-            new Bitmap(AssetLoader.Open(new Uri("avares://Seed/Assets/BlankScene.png"))));
-        templates.Add(new TemplateViewModel(blankScene));
+
+        // NOTE: Normally, this template will ask Flax to generate a new project because the
+        // resource path is null. However, there is no option to ask Flax to quit as soon as
+        // the new project is created, which means it will stay open. This causes several issues
+        // such as halting at line 67 of BuiltinTemplate.cs
+        // var blankScene = new BuiltinTemplate("Blank Scene", null, SelectedEngine.Version,
+        //     new Bitmap(AssetLoader.Open(new Uri("avares://Seed/Assets/BlankScene.png"))));
+        // templates.Add(new TemplateViewModel(blankScene));
 
         var basicScene = new BuiltinTemplate("Basic Scene", new Uri("avares://Seed/Assets/BasicScene.zip"),
             SelectedEngine.Version, new Bitmap(AssetLoader.Open(new Uri("avares://Seed/Assets/BasicScene.png"))));
