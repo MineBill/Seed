@@ -238,7 +238,7 @@ public class EnginesViewModel : ViewModelBase
 
         try
         {
-            using (var stream = new FileStream(flaxproj.Path.AbsolutePath, FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream(flaxproj.Path.LocalPath, FileMode.Open, FileAccess.Read))
             {
                 var node = JsonNode.Parse(stream);
                 if (node is null)
@@ -264,7 +264,7 @@ public class EnginesViewModel : ViewModelBase
 
                 // NOTE: This shouldn't fail, the file picker should return a file
                 var path = Path.GetDirectoryName(flaxproj.Path
-                    .AbsolutePath)!;
+                    .LocalPath)!;
 
                 var engine = new Engine
                 {
