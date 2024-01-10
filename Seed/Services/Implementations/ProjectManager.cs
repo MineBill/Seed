@@ -28,8 +28,17 @@ public class ProjectManager : IProjectManager
 
     public void AddProject(Project project)
     {
-        Projects.Add(project);
-        Save();
+        // NOTE(minebill): Can _engineManager.Engines be empty at this point?
+
+        foreach (var engine in _engineManager.Engines)
+        {
+            if (engine.Version != project.EngineVersion) continue;
+
+            project.Engine = engine;
+            Projects.Add(project);
+            Save();
+            break;
+        }
     }
 
     public void RemoveProject(Project project)
