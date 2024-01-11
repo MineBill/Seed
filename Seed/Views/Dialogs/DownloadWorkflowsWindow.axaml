@@ -7,6 +7,7 @@
         Width="500" Height="300"
         x:Class="Seed.Views.Dialogs.DownloadWorkflowsWindow"
         x:DataType="vm:DownloadWorkflowsViewModel"
+        Icon="/Assets/seed-logo-blue-16.ico"
         WindowStartupLocation="CenterOwner"
         Title="Select a commit to download">
     <DockPanel>

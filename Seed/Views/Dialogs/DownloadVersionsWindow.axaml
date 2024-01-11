@@ -7,6 +7,7 @@
         x:Class="Seed.Views.Dialogs.DownloadVersionsWindow"
         x:DataType="vm:DownloadVersionsViewModel"
         Title="Download Engine"
+        Icon="/Assets/seed-logo-blue-16.ico"
         WindowStartupLocation="CenterOwner"
         SizeToContent="WidthAndHeight">
     <DockPanel>

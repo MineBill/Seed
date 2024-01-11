@@ -9,6 +9,7 @@
         x:DataType="vm:NewProjectViewModel"
         Width="830" Height="500"
         WindowStartupLocation="CenterOwner"
+        Icon="/Assets/seed-logo-blue-16.ico"
         Title="New Project">
     <DockPanel>
         <DataValidationErrors />

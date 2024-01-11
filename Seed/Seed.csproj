@@ -6,6 +6,7 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <TargetFramework>net7.0</TargetFramework>
+        <ApplicationIcon>./Assets/seed-logo-blue-16.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>

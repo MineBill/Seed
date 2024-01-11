@@ -7,7 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Seed.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/seed-logo-blue-64.png"
+        Icon="/Assets/seed-logo-blue-16.ico"
         Title="Seed"
         WindowStartupLocation="CenterScreen"
         Width="1000" Height="650">

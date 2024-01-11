@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterOwner"
         Width="400"
         Height="100"
-        Icon="/Assets/seed-logo-blue-64.png"
+        Icon="/Assets/seed-logo-blue-16.ico"
         Title="{Binding Title}">
     <Border BorderThickness="5">
         <DockPanel>

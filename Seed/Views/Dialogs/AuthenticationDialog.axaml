@@ -7,6 +7,7 @@
         Width="700" Height="450"
         x:Class="Seed.Views.Dialogs.AuthenticationDialog"
         x:DataType="vm:AuthenticationDialogViewModel"
+        Icon="/Assets/seed-logo-blue-16.ico"
         Title="Github Authentication">
     <Border Padding="10">
         <DockPanel>
