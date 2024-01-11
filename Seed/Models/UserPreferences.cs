@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Avalonia.Media;
+using Avalonia.Styling;
 
 namespace Seed.Models;
 
@@ -27,6 +28,16 @@ public class UserPreferences
     /// The access token used to authenticate with Github for downloads.
     /// </summary>
     public string? GithubAccessToken { get; set; }
+
+    /// <summary>
+    /// The theme type.
+    /// </summary>
+    public string ColorTheme { get; set; } = "Auto";
+
+    /// <summary>
+    /// The user-selected accent color. If null, use the system accent color.
+    /// </summary>
+    public Color? AccentColor { get; set; }
 }
 
 [JsonSourceGenerationOptions(WriteIndented = true)]

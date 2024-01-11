@@ -11,11 +11,6 @@
             <TabItem Header="Launcher">
                 <Border Classes="SettingsPanel">
                     <DockPanel>
-                        <Button
-                            HorizontalAlignment="Center"
-                            DockPanel.Dock="Bottom">
-                            Save
-                        </Button>
                         <StackPanel Spacing="10">
                             <StackPanel>
                                 <TextBlock Classes="OptionName">Default engine install location</TextBlock>
@@ -58,6 +53,21 @@
                                     <!-- </TextBox> -->
                                 </DockPanel>
                             </StackPanel>
+                            <StackPanel>
+                                <TextBlock>Theme Variant</TextBlock>
+                                <StackPanel Orientation="Horizontal" Spacing="20">
+                                    <RadioButton IsChecked="{Binding AutoVariant}" GroupName="Theme Variant" Content="Auto" Command="{Binding ChangeThemeVariant}" CommandParameter="Auto"/>
+                                    <RadioButton IsChecked="{Binding DarkVariant}" GroupName="Theme Variant" Content="Dark" Command="{Binding ChangeThemeVariant}" CommandParameter="Dark"/>
+                                    <RadioButton IsChecked="{Binding LightVariant}" GroupName="Theme Variant" Content="Light" Command="{Binding ChangeThemeVariant}" CommandParameter="Light"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <!-- <StackPanel> -->
+                            <!--     <TextBlock>Accent Color</TextBlock> -->
+                            <!--     <ColorPicker -->
+                            <!--         HorizontalAlignment="Left" -->
+                            <!--         Color="{Binding AccentColor}" -->
+                            <!--         ColorChanged="ColorView_OnColorChanged"/> -->
+                            <!-- </StackPanel> -->
                         </StackPanel>
                     </DockPanel>
                 </Border>

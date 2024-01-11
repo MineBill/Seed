@@ -1,6 +1,7 @@
 using System;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Avalonia.Styling;
 using Seed.ViewModels;
 using Seed.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,21 @@ public partial class App : Application
         services.AddSingleton<IPreferencesSaver>(_ => new JsonPreferencesSaver());
         services.AddSingleton<GithubAuthenticator>();
         Services = services.BuildServiceProvider();
+
+        var prefs = Services.GetService<IPreferencesSaver>()!;
+        var variant = prefs.Preferences.ColorTheme;
+        switch (variant)
+        {
+            case "Default":
+                RequestedThemeVariant = ThemeVariant.Default;
+                break;
+            case "Dark":
+                RequestedThemeVariant = ThemeVariant.Dark;
+                break;
+            case "Light":
+                RequestedThemeVariant = ThemeVariant.Light;
+                break;
+        }
 
         MainWindow.DataContext = new MainWindowViewModel(Services);
 

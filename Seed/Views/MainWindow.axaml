@@ -12,9 +12,9 @@
         WindowStartupLocation="CenterScreen"
         Width="1000" Height="650">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel />
-    </Design.DataContext>
+    <!-- <Design.DataContext> -->
+    <!--     <vm:MainWindowViewModel /> -->
+    <!-- </Design.DataContext> -->
 
     <DockPanel>
         <views:DownloadInfoView DataContext="{Binding DownloadInfoViewModel}" DockPanel.Dock="Bottom" />
