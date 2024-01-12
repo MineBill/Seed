@@ -12,35 +12,52 @@
     <DockPanel>
         <Border
             DockPanel.Dock="Top"
-            BorderThickness="0 0 0 1"
-            BorderBrush="#5A5A5A">
-            <DockPanel Margin="10">
-                <Button
-                    DockPanel.Dock="Right"
-                    Classes="IconButton"
-                    Command="{Binding AddProjectCommand}"
-                    VerticalContentAlignment="Center">
-                    <TextBlock VerticalAlignment="Center" MinWidth="100">
-                        <PathIcon Data="{StaticResource IconFolderAddRegular}"
-                                  VerticalAlignment="Center" />
-                        Add Project
+            Background="{DynamicResource TabViewBackground}">
+            <!-- BorderThickness="0 0 0 1" -->
+            <!-- BorderBrush="#5A5A5A"> -->
+            <DockPanel Margin="20 20 20 0">
+                <StackPanel>
+                    <DockPanel>
+                        <Button
+                            DockPanel.Dock="Left"
+                            Classes="IconButton"
+                            Command="{Binding NewProjectCommand}"
+                            VerticalContentAlignment="Center">
+                            <TextBlock>
+                                <PathIcon Data="{StaticResource IconAddRegular}" />
+                                New Project
+                            </TextBlock>
+                        </Button>
+                        <Button
+                            DockPanel.Dock="Left"
+                            Classes="IconButton"
+                            Command="{Binding AddProjectCommand}"
+                            VerticalContentAlignment="Center">
+                            <TextBlock VerticalAlignment="Center" MinWidth="100">
+                                <PathIcon Data="{StaticResource IconFolderAddRegular}"
+                                          VerticalAlignment="Center" />
+                                Add Project
+                            </TextBlock>
+                        </Button>
+                        <TextBox
+                            Watermark="Search projects"
+                            HorizontalAlignment="Stretch"
+                            VerticalContentAlignment="Center">
+                            <TextBox.Styles>
+                                <Style Selector="TextBox">
+                                    <Setter Property="Padding" Value="15 10 15 10" />
+                                    <Setter Property="Margin" Value="5 0 5 0" />
+                                    <Setter Property="Background" Value="{DynamicResource ButtonBackground}"></Setter>
+                                </Style>
+                            </TextBox.Styles>
+                        </TextBox>
+                    </DockPanel>
+                    <TextBlock
+                        Classes="TabPageHeader"
+                        VerticalAlignment="Center">
+                        Projects
                     </TextBlock>
-                </Button>
-                <Button
-                    DockPanel.Dock="Right"
-                    Classes="IconButton"
-                    Command="{Binding NewProjectCommand}"
-                    VerticalContentAlignment="Center">
-                    <TextBlock>
-                        <PathIcon Data="{StaticResource IconAddRegular}" />
-                        New Project
-                    </TextBlock>
-                </Button>
-                <TextBlock
-                    Classes="TabPageHeader"
-                    VerticalAlignment="Center">
-                    Projects
-                </TextBlock>
+                </StackPanel>
             </DockPanel>
         </Border>
         <TextBlock
@@ -52,9 +69,20 @@
             No projects found. Try creating one!
         </TextBlock>
         <ListBox
+            Background="{DynamicResource TabViewBackground}"
             ItemsSource="{Binding Projects}"
             SelectedItem="{Binding SelectedProject}"
             IsVisible="{Binding Projects.Count}">
+            <ListBox.Styles>
+                <Style Selector="ListBoxItem">
+                    <Setter Property="Margin" Value="10" />
+                    <Setter Property="Padding" Value="2" />
+                    <Setter Property="CornerRadius" Value="3" />
+                </Style>
+                <Style Selector="ListBoxItem:selected">
+                    <Setter Property="Background" Value="{DynamicResource ProjectViewSelection}" />
+                </Style>
+            </ListBox.Styles>
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />
