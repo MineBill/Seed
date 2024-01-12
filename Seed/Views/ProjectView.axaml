@@ -24,9 +24,9 @@
     </UserControl.Resources>
 
     <Border
-        Padding="10"
+        Padding="3"
         CornerRadius="3"
-        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+        Background="{DynamicResource ProjectViewBackground}">
         <DockPanel Width="150" ContextFlyout="{StaticResource ContextMenu}">
             <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                 <Button DockPanel.Dock="Right" Flyout="{StaticResource ContextMenu}" Background="Transparent">

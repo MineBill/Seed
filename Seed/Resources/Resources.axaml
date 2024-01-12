@@ -9,6 +9,15 @@
         <ResourceDictionary x:Key='Dark'>
             <SolidColorBrush x:Key="ItemsControlBackground">#1C1C1C</SolidColorBrush>
             <SolidColorBrush x:Key="TabPanelBackground">#2D2D30</SolidColorBrush>
+
+            <!-- Buttons -->
+            <SolidColorBrush x:Key="ButtonBackground">#30343D</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBackgroundDisabled">#242831</SolidColorBrush>
+
+            <SolidColorBrush x:Key="TabViewBackground">#171A23</SolidColorBrush>
+            <SolidColorBrush x:Key="ProjectViewBackground">#000000</SolidColorBrush>
+            <SolidColorBrush x:Key="ProjectViewSelection">#ffffff</SolidColorBrush>
+
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
     <SolidColorBrush x:Key="TemplateLineColor">#5AE2DE</SolidColorBrush>

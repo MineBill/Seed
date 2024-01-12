@@ -19,6 +19,17 @@
     <DockPanel>
         <views:DownloadInfoView DataContext="{Binding DownloadInfoViewModel}" DockPanel.Dock="Bottom" />
         <TabControl Padding="0" TabStripPlacement="Left">
+            <TabControl.Styles>
+
+                <Style Selector="TabItem:selected">
+                    <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="BorderBrush" Value="White" />
+                    <Setter Property="CornerRadius" Value="3" />
+                    <!-- <Setter Property="Padding" Value="0"></Setter> -->
+                    <!-- <Setter Property="Margin" Value="0"></Setter> -->
+                </Style>
+            </TabControl.Styles>
             <TabItem Header="Projects">
                 <views:ProjectsView DataContext="{Binding ProjectsViewModel}" />
             </TabItem>
