@@ -41,7 +41,7 @@ To build the Seed launcher run `dotnet build`
 The binary can be found in `bin/Debug/[Net-Version]` (e.g `bin/Debug/Net7.0` )
 which can be ran using `dotnet Seed.dll`
 
-For development it is recommended to use `dotnet run` within the `Seed` directory
+For development it is recommended to use `dotnet run` within the `Seed` (case sensitive) directory
 
 ## Contributing
 Feel free to open PRs for bug fixes or small QOL changes but when deciding to work on bigger PRs, it's better to open an issue first to discuss them. Not doing so might result in wasted time on your part, if the PR doesn't align with the project's vision.
