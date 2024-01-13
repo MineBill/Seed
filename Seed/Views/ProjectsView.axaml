@@ -75,7 +75,7 @@
             IsVisible="{Binding Projects.Count}">
             <ListBox.Styles>
                 <Style Selector="ListBoxItem">
-                    <Setter Property="Margin" Value="10" />
+                    <Setter Property="Margin" Value="2" />
                     <Setter Property="Padding" Value="2" />
                     <Setter Property="CornerRadius" Value="3" />
                 </Style>

@@ -18,6 +18,8 @@
             <SolidColorBrush x:Key="ProjectViewBackground">#000000</SolidColorBrush>
             <SolidColorBrush x:Key="ProjectViewSelection">#ffffff</SolidColorBrush>
 
+            <SolidColorBrush x:Key="TabButtonOutline">#282B2D</SolidColorBrush>
+
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
     <SolidColorBrush x:Key="TemplateLineColor">#5AE2DE</SolidColorBrush>

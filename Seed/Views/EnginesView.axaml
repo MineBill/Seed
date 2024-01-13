@@ -7,45 +7,48 @@
              x:Class="Seed.Views.EnginesView"
              x:DataType="vm:EnginesViewModel">
 
-    <Border Padding="0 0 0 0">
+    <Border>
         <DockPanel>
             <Border
                 DockPanel.Dock="Top"
-                BorderThickness="0 0 0 1"
-                BorderBrush="#5A5A5A">
-                <DockPanel Margin="10">
-                    <Button
-                        DockPanel.Dock="Right"
-                        Command="{Binding AddEngineCommand}"
-                        Classes="IconButton">
-                        <TextBlock>
-                            <PathIcon Data="{StaticResource IconFolderAddRegular}" />
-                            Add Engine
+                Background="{DynamicResource TabViewBackground}">
+                <DockPanel Margin="20 20 20 0">
+                    <StackPanel>
+                        <DockPanel>
+                            <Button
+                                DockPanel.Dock="Left"
+                                Command="{Binding DownloadVersionCommand}"
+                                Classes="IconButton">
+                                <TextBlock>
+                                    <PathIcon Data="{StaticResource IconArrowDownloadRegular}" />
+                                    Download Stable Versions
+                                </TextBlock>
+                            </Button>
+                            <Button
+                                DockPanel.Dock="Left"
+                                Command="{Binding DownloadWorkflowCommand}"
+                                Classes="IconButton">
+                                <TextBlock>
+                                    <PathIcon Data="{StaticResource IconArrowDownloadRegular}" />
+                                    Download CI Builds
+                                </TextBlock>
+                            </Button>
+                            <Button
+                                DockPanel.Dock="Left"
+                                Command="{Binding AddEngineCommand}"
+                                Classes="IconButton">
+                                <TextBlock>
+                                    <PathIcon Data="{StaticResource IconFolderAddRegular}" />
+                                    Add Engine
+                                </TextBlock>
+                            </Button>
+                        </DockPanel>
+                        <TextBlock
+                            Classes="TabPageHeader"
+                            VerticalAlignment="Center">
+                            Engines
                         </TextBlock>
-                    </Button>
-                    <Button
-                        DockPanel.Dock="Right"
-                        Command="{Binding DownloadVersionCommand}"
-                        Classes="IconButton">
-                        <TextBlock>
-                            <PathIcon Data="{StaticResource IconArrowDownloadRegular}" />
-                            Download Stable Versions
-                        </TextBlock>
-                    </Button>
-                    <Button
-                        DockPanel.Dock="Right"
-                        Command="{Binding DownloadWorkflowCommand}"
-                        Classes="IconButton">
-                        <TextBlock>
-                            <PathIcon Data="{StaticResource IconArrowDownloadRegular}" />
-                            Download CI Builds
-                        </TextBlock>
-                    </Button>
-                    <TextBlock
-                        Classes="TabPageHeader"
-                        VerticalAlignment="Center">
-                        Engine Versions
-                    </TextBlock>
+                    </StackPanel>
                 </DockPanel>
             </Border>
             <TextBlock
@@ -57,8 +60,8 @@
                 No engines found. Try downloading one!
             </TextBlock>
             <ItemsControl
-                Padding="5"
-                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                Padding="0"
+                Background="{DynamicResource TabViewBackground}"
                 ItemsSource="{Binding Engines}"
                 IsVisible="{Binding Engines.Count}">
                 <ItemsControl.ItemsPanel>
