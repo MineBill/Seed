@@ -18,10 +18,10 @@
         <vm:EngineViewModel />
     </Design.DataContext>
     <Border
-        Padding="5"
-        Margin="5"
+        Padding="3"
+        Margin="4"
         CornerRadius="3"
-        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+        Background="{DynamicResource ProjectViewBackground}">
         <DockPanel
             ToolTip.Tip="{Binding Path}"
             ContextFlyout="{StaticResource ProjectContextMenu}"
