@@ -60,7 +60,7 @@
                 No engines found. Try downloading one!
             </TextBlock>
             <ItemsControl
-                Padding="0"
+                Padding="20 0 20 0"
                 Background="{DynamicResource TabViewBackground}"
                 ItemsSource="{Binding Engines}"
                 IsVisible="{Binding Engines.Count}">

@@ -40,16 +40,10 @@
                             </TextBlock>
                         </Button>
                         <TextBox
+                            Classes="SearchBox"
                             Watermark="Search projects"
                             HorizontalAlignment="Stretch"
                             VerticalContentAlignment="Center">
-                            <TextBox.Styles>
-                                <Style Selector="TextBox">
-                                    <Setter Property="Padding" Value="15 10 15 10" />
-                                    <Setter Property="Margin" Value="5 0 5 0" />
-                                    <Setter Property="Background" Value="{DynamicResource ButtonBackground}"></Setter>
-                                </Style>
-                            </TextBox.Styles>
                         </TextBox>
                     </DockPanel>
                     <TextBlock
@@ -69,6 +63,7 @@
             No projects found. Try creating one!
         </TextBlock>
         <ListBox
+            Padding="20 0 20 0"
             Background="{DynamicResource TabViewBackground}"
             ItemsSource="{Binding Projects}"
             SelectedItem="{Binding SelectedProject}"

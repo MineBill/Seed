@@ -20,6 +20,11 @@
         <views:DownloadInfoView DataContext="{Binding DownloadInfoViewModel}" DockPanel.Dock="Bottom" />
         <TabControl Margin="0" Padding="0" TabStripPlacement="Left">
             <TabControl.Styles>
+                <Style Selector="ItemsPresenter">
+                    <Setter Property="Margin" Value="0 10 0 10"></Setter>
+                </Style>
+            </TabControl.Styles>
+            <TabControl.Styles>
                 <Style Selector="TabItem:selected">
                     <Setter Property="Background" Value="{DynamicResource TabViewBackground}" />
                     <Setter Property="BorderThickness" Value="1" />

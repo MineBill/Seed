@@ -34,7 +34,7 @@
                 <StackPanel Margin="5">
                     <TextBlock>Path</TextBlock>
                     <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding ProjectPath}" Width="150"></TextBox>
+                        <TextBox Text="{Binding ProjectPath}" TextAlignment="Center" VerticalContentAlignment="Center" Width="150"></TextBox>
                         <Button Command="{Binding SelectFolderCommand}" Margin="5 0 0 0">Select</Button>
                     </StackPanel>
                 </StackPanel>
