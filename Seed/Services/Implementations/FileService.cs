@@ -68,7 +68,11 @@ public class FilesService : IFilesService
     {
         try
         {
-            Process.Start(uri.ToString());
+            Process.Start(new ProcessStartInfo
+            {
+                UseShellExecute = true,
+                FileName = uri.ToString(),
+            });
         }
         catch
         {
