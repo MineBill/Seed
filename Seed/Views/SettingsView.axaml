@@ -61,13 +61,13 @@
                                     <RadioButton IsChecked="{Binding LightVariant}" GroupName="Theme Variant" Content="Light" Command="{Binding ChangeThemeVariant}" CommandParameter="Light"/>
                                 </StackPanel>
                             </StackPanel>
-                            <!-- <StackPanel> -->
-                            <!--     <TextBlock>Accent Color</TextBlock> -->
-                            <!--     <ColorPicker -->
-                            <!--         HorizontalAlignment="Left" -->
-                            <!--         Color="{Binding AccentColor}" -->
-                            <!--         ColorChanged="ColorView_OnColorChanged"/> -->
-                            <!-- </StackPanel> -->
+                            <StackPanel>
+                                <TextBlock>Accent Color</TextBlock>
+                                <ColorPicker
+                                    HorizontalAlignment="Left"
+                                    Color="{Binding AccentColor}"
+                                    ColorChanged="ColorView_OnColorChanged"/>
+                            </StackPanel>
                         </StackPanel>
                     </DockPanel>
                 </Border>

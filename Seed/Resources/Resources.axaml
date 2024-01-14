@@ -7,18 +7,34 @@
             <SolidColorBrush x:Key="TabPanelBackground">#D2D2D2</SolidColorBrush>
         </ResourceDictionary>
         <ResourceDictionary x:Key='Dark'>
+            <Color x:Key="IBackground">#2d343e</Color>
+            <Color x:Key="IBackgroundDisabled">#222933</Color>
+            <Color x:Key="IBackgroundPointerOver">#3D444C</Color>
+            <Color x:Key="IBackgroundPressed">#292F38</Color>
+
             <SolidColorBrush x:Key="ItemsControlBackground">#1C1C1C</SolidColorBrush>
             <SolidColorBrush x:Key="TabPanelBackground">#2D2D30</SolidColorBrush>
 
             <!-- Buttons -->
-            <SolidColorBrush x:Key="ButtonBackground">#30343D</SolidColorBrush>
-            <SolidColorBrush x:Key="ButtonBackgroundDisabled">#242831</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBackground" Color="{DynamicResource IBackground}" />
+            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="{DynamicResource IBackgroundDisabled}" />
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource IBackgroundPointerOver}" />
+            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{DynamicResource IBackgroundPressed}" />
+
+            <SolidColorBrush x:Key="TextControlBackground" Color="{DynamicResource IBackground}" />
+            <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="{DynamicResource IBackgroundDisabled}" />
+            <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="{DynamicResource IBackgroundPointerOver}" />
+            <SolidColorBrush x:Key="TextControlBackgroundPressed" Color="{DynamicResource IBackgroundPressed}" />
+            <SolidColorBrush x:Key="TextControlBackgroundSelected" Color="{DynamicResource IBackgroundPressed}" />
+            <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{DynamicResource IBackgroundPressed}" />
+            <!-- NOTE: Not set, to keep using the accent color -->
+            <!-- <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="{DynamicResource IBackgroundPressed}" /> -->
 
             <SolidColorBrush x:Key="TabViewBackground">#171A23</SolidColorBrush>
             <SolidColorBrush x:Key="ProjectViewBackground">#000000</SolidColorBrush>
             <SolidColorBrush x:Key="ProjectViewSelection">#ffffff</SolidColorBrush>
 
-            <SolidColorBrush x:Key="TabButtonOutline">#282B2D</SolidColorBrush>
+            <SolidColorBrush x:Key="TabButtonOutline">#2f3237</SolidColorBrush>
 
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
