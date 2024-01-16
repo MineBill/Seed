@@ -3,15 +3,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Seed.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="300"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250"
+        Width="400" Height="250"
         x:Class="Seed.Views.Dialogs.DownloadVersionsWindow"
         x:DataType="vm:DownloadVersionsViewModel"
         Title="Download Engine"
         Icon="/Assets/seed-logo-blue-16.ico"
         WindowStartupLocation="CenterOwner"
         SizeToContent="WidthAndHeight">
-    <DockPanel>
+    <DockPanel
+        Margin="10">
         <StackPanel
+            Spacing="10"
             DockPanel.Dock="Bottom"
             HorizontalAlignment="Center"
             Orientation="Horizontal">

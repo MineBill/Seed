@@ -53,8 +53,12 @@
                         Text="{Binding EngineVersion}" />
                 </Panel>
             </DockPanel>
-            <TextBlock DockPanel.Dock="Bottom" Classes="ProjectName" HorizontalAlignment="Center" Text="{Binding Name}"
-                       TextWrapping="Wrap" />
+            <TextBlock
+                DockPanel.Dock="Bottom"
+                Classes="ProjectName"
+                HorizontalAlignment="Center"
+                Text="{Binding Name}"
+                TextWrapping="Wrap" />
             <Border CornerRadius="2" ClipToBounds="True" Classes.TemplateLine="{Binding IsProjectTemplate}">
                 <Panel Background="{StaticResource ButtonBackground}">
                     <Image

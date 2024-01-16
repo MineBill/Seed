@@ -3,10 +3,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Seed.ViewModels"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Seed.Views.EnginesView"
              x:DataType="vm:EnginesViewModel">
-
+    <Design.DataContext>
+        <vm:EnginesViewModel />
+    </Design.DataContext>
     <Border>
         <DockPanel>
             <Border
@@ -20,7 +23,7 @@
                                 Command="{Binding DownloadVersionCommand}"
                                 Classes="IconButton">
                                 <TextBlock>
-                                    <PathIcon Data="{StaticResource IconArrowDownloadRegular}" />
+                                    <i:Icon Value="fa-solid fa-download" />
                                     Download Stable Versions
                                 </TextBlock>
                             </Button>
@@ -29,7 +32,7 @@
                                 Command="{Binding DownloadWorkflowCommand}"
                                 Classes="IconButton">
                                 <TextBlock>
-                                    <PathIcon Data="{StaticResource IconArrowDownloadRegular}" />
+                                    <i:Icon Value="fa-solid fa-download" />
                                     Download CI Builds
                                 </TextBlock>
                             </Button>
@@ -38,7 +41,7 @@
                                 Command="{Binding AddEngineCommand}"
                                 Classes="IconButton">
                                 <TextBlock>
-                                    <PathIcon Data="{StaticResource IconFolderAddRegular}" />
+                                    <i:Icon Value="fa-regular fa-folder-open" />
                                     Add Engine
                                 </TextBlock>
                             </Button>
@@ -59,17 +62,19 @@
                 IsVisible="{Binding !Engines.Count}">
                 No engines found. Try downloading one!
             </TextBlock>
-            <ItemsControl
-                Padding="20 0 20 0"
-                Background="{DynamicResource TabViewBackground}"
-                ItemsSource="{Binding Engines}"
-                IsVisible="{Binding Engines.Count}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+            <ScrollViewer>
+                <ItemsControl
+                    Padding="20 0 20 0"
+                    Background="{DynamicResource TabViewBackground}"
+                    ItemsSource="{Binding Engines}"
+                    IsVisible="{Binding Engines.Count}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
         </DockPanel>
     </Border>
 </UserControl>

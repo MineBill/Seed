@@ -8,6 +8,7 @@
         x:Class="Seed.Views.Dialogs.AuthenticationDialog"
         x:DataType="vm:AuthenticationDialogViewModel"
         Icon="/Assets/seed-logo-blue-16.ico"
+        WindowStartupLocation="CenterOwner"
         Title="Github Authentication">
     <Border Padding="10">
         <DockPanel>
