@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:Seed.ViewModels"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Seed.Views.ProjectsView"
              x:DataType="viewModels:ProjectsViewModel">
@@ -24,7 +25,7 @@
                             Command="{Binding NewProjectCommand}"
                             VerticalContentAlignment="Center">
                             <TextBlock>
-                                <PathIcon Data="{StaticResource IconAddRegular}" />
+                                <i:Icon Value="fa-solid fa-plus" />
                                 New Project
                             </TextBlock>
                         </Button>
@@ -34,8 +35,7 @@
                             Command="{Binding AddProjectCommand}"
                             VerticalContentAlignment="Center">
                             <TextBlock VerticalAlignment="Center" MinWidth="100">
-                                <PathIcon Data="{StaticResource IconFolderAddRegular}"
-                                          VerticalAlignment="Center" />
+                                <i:Icon Value="fa-regular fa-folder-open" />
                                 Add Project
                             </TextBlock>
                         </Button>

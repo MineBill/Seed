@@ -3,7 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Seed.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="150" d:DesignHeight="200"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             mc:Ignorable="d" d:DesignWidth="550" d:DesignHeight="100"
              x:Class="Seed.Views.EngineView"
              x:DataType="vm:EngineViewModel">
     <UserControl.Resources>
@@ -18,20 +19,25 @@
         <vm:EngineViewModel />
     </Design.DataContext>
     <Border
-        Padding="3"
-        Margin="4"
+        Padding="0"
+        Margin="10"
         CornerRadius="3"
-        Background="{DynamicResource ProjectViewBackground}">
+        Background="{DynamicResource EngineViewBackground}">
         <DockPanel
+            Margin="10"
             ToolTip.Tip="{Binding Path}"
-            ContextFlyout="{StaticResource ProjectContextMenu}"
-            Width="150">
+            ContextFlyout="{StaticResource ProjectContextMenu}">
+            <!-- <StackPanel -->
+            <!--     Orientation="Horizontal" -->
+            <!--     DockPanel.Dock="Bottom"> -->
+
             <StackPanel
-                DockPanel.Dock="Bottom">
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center">
                 <TextBlock
                     IsVisible="{Binding !IsEditing}"
-                    Classes="ProjectName"
-                    HorizontalAlignment="Center"
+                    Classes="EngineName"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     TextWrapping="Wrap"
                     Text="{Binding Name}" />
@@ -44,17 +50,7 @@
                     VerticalAlignment="Center"
                     TextWrapping="Wrap"
                     Text="{Binding Name}" />
-                <DockPanel>
-                    <Button
-                        DockPanel.Dock="Right"
-                        Background="Transparent"
-                        Flyout="{StaticResource ProjectContextMenu}">
-                        <PathIcon
-                            Width="15" Height="15"
-                            Padding="0" Margin="0"
-                            Data="{StaticResource IconLineHorizontal3Regular}">
-                        </PathIcon>
-                    </Button>
+
                     <TextBlock
                         TextTrimming="{Binding TrimmingMode}"
                         Classes="VersionNumber"
@@ -62,13 +58,40 @@
                         DockPanel.Dock="Left"
                         VerticalAlignment="Center" />
                     <Panel />
-                </DockPanel>
             </StackPanel>
-            <Border CornerRadius="5" ClipToBounds="True">
-                <Panel>
-                    <Image Source="/Assets/flax-logo-white-128.png" Margin="2" Height="125" Stretch="Uniform" />
-                </Panel>
-            </Border>
+
+            <StackPanel DockPanel.Dock="Right" Spacing="10" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button IsVisible="true" Background="{DynamicResource EngineViewBackground}">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <i:Icon Value="fa-solid fa-list-check"></i:Icon>
+                        <TextBlock>Changelog</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Background="{DynamicResource EngineViewBackground}">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <i:Icon Value="fa-regular fa-folder"></i:Icon>
+                        <TextBlock>Engine directory</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Classes="Danger">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <i:Icon Value="fa-regular fa-trash-can" />
+                        <TextBlock>Uninstall</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button
+                    Background="Transparent"
+                    Flyout="{StaticResource ProjectContextMenu}">
+                    <i:Icon Value="fa-solid fa-list-ul" />
+                </Button>
+            </StackPanel>
+
+            <!-- </StackPanel> -->
+            <!-- <Border CornerRadius="5" ClipToBounds="True"> -->
+            <!--     <Panel> -->
+            <!--         <Image Source="/Assets/flax-logo-white-128.png" Margin="2" Height="125" Stretch="Uniform" /> -->
+            <!--     </Panel> -->
+            <!-- </Border> -->
         </DockPanel>
     </Border>
 </UserControl>

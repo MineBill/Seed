@@ -1,16 +1,20 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- Add Resources Here -->
+    <Color x:Key="Danger">#C52233</Color>
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key='Light'>
             <SolidColorBrush x:Key="ItemsControlBackground">#C1C1C1</SolidColorBrush>
             <SolidColorBrush x:Key="TabPanelBackground">#D2D2D2</SolidColorBrush>
+            <Color x:Key="ProjectNameForeground">Black</Color>
         </ResourceDictionary>
         <ResourceDictionary x:Key='Dark'>
             <Color x:Key="IBackground">#2d343e</Color>
             <Color x:Key="IBackgroundDisabled">#222933</Color>
             <Color x:Key="IBackgroundPointerOver">#3D444C</Color>
             <Color x:Key="IBackgroundPressed">#292F38</Color>
+            <Color x:Key="ProjectNameForeground">#a5acb8</Color>
+            <Color x:Key="EngineVersionForeground">#5b616a</Color>
 
             <SolidColorBrush x:Key="ItemsControlBackground">#1C1C1C</SolidColorBrush>
             <SolidColorBrush x:Key="TabPanelBackground">#2D2D30</SolidColorBrush>
@@ -29,14 +33,20 @@
             <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{DynamicResource IBackgroundPressed}" />
             <!-- NOTE: Not set, to keep using the accent color -->
             <!-- <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="{DynamicResource IBackgroundPressed}" /> -->
-
+<!-- MenuFlyoutPresenterBackground -->
+            <SolidColorBrush x:Key="MenuFlyoutPresenterBackground" Color="#171A23" />
             <SolidColorBrush x:Key="TabViewBackground">#171A23</SolidColorBrush>
             <SolidColorBrush x:Key="ProjectViewBackground">#000000</SolidColorBrush>
             <SolidColorBrush x:Key="ProjectViewSelection">#ffffff</SolidColorBrush>
+
+            <SolidColorBrush x:Key="EngineViewBackground">#2b2e3d</SolidColorBrush>
+            <SolidColorBrush x:Key="WindowBackground">#171a23</SolidColorBrush>
+            <SolidColorBrush x:Key="MainWindowBackground">Black</SolidColorBrush>
 
             <SolidColorBrush x:Key="TabButtonOutline">#2f3237</SolidColorBrush>
 
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
     <SolidColorBrush x:Key="TemplateLineColor">#5AE2DE</SolidColorBrush>
+    <FontFamily x:Key="DMSans">avares://Seed/Assets/Fonts/DMSans</FontFamily>
 </ResourceDictionary>

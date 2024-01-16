@@ -2,7 +2,11 @@
 using Avalonia.ReactiveUI;
 using System;
 using System.IO;
+using Avalonia.Media;
+using Avalonia.Svg.Skia;
 using NLog;
+using Projektanker.Icons.Avalonia;
+using Projektanker.Icons.Avalonia.FontAwesome;
 using ReactiveUI;
 
 namespace Seed;
@@ -35,12 +39,24 @@ internal static class Program
             Logger.Error(e, "Caught exception during program lifetime.");
         }
     }
-
+    // public static AppBuilder WithInterFont(this AppBuilder appBuilder)
+    // {
+    //     return appBuilder.ConfigureFonts(fontManager =>
+    //     {
+    //         fontManager.AddFontCollection(new InterFontCollection());
+    //     });
+    // }
+    //
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
+    {
+        GC.KeepAlive(typeof(SvgImageExtension).Assembly);
+        GC.KeepAlive(typeof(Avalonia.Svg.Skia.Svg).Assembly);
+        IconProvider.Current.Register<FontAwesomeIconProvider>();
+
+        return AppBuilder.Configure<App>()
             .UsePlatformDetect()
-            .WithInterFont()
             .LogToTrace()
             .UseReactiveUI();
+    }
 }

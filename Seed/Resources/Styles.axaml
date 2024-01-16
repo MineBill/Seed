@@ -7,13 +7,28 @@
         </Border>
     </Design.PreviewWith>
 
+    <Style Selector="Window">
+        <Setter Property="Background" Value="{DynamicResource WindowBackground}"></Setter>
+    </Style>
+
     <Style Selector="Button">
+        <!-- <Setter Property="FontFamily" Value="{StaticResource FontFamily}" /> -->
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="Padding" Value="10" />
     </Style>
 
     <!-- We create an explicit style for TextBoxes that are meant to be search boxes. -->
+    <Style Selector="TextBox">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="5" />
+        <!-- <Setter Property="Padding" Value="15 10 15 10" /> -->
+        <!-- <Setter Property="Margin" Value="5 0 5 0" /> -->
+    </Style>
+    <Style Selector="TextBox Border">
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
     <Style Selector="TextBox.SearchBox">
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="CornerRadius" Value="5" />
@@ -36,6 +51,10 @@
         </Style>
         <Setter Property="Padding" Value="15 10 15 10" />
         <Setter Property="Margin" Value="5 0 5 0" />
+    </Style>
+
+    <Style Selector="Button.Danger">
+        <Setter Property="Background" Value="{StaticResource Danger}" />
     </Style>
 
     <Style Selector="Button.DismissDownload">
@@ -65,12 +84,20 @@
     </Style>
 
     <Style Selector="TextBlock.VersionNumber">
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{DynamicResource EngineVersionForeground}" />
     </Style>
 
     <Style Selector="TextBlock.ProjectName">
         <Setter Property="FontSize" Value="15" />
         <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="Margin" Value="0 10 0 10" />
+        <Setter Property="Foreground" Value="{DynamicResource ProjectNameForeground}" />
+    </Style>
+
+    <Style Selector="TextBlock.EngineName">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="Margin" Value="0 10 0 10" />
     </Style>
 

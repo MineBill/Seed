@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:Seed.ViewModels"
-        xmlns:views="using:Seed.Views"
+        xmlns:i="https://github.com/projektanker/icons.avalonia"
         mc:Ignorable="d" d:DesignWidth="830" d:DesignHeight="500"
         x:Class="Seed.Views.Dialogs.NewProjectWindow"
         x:DataType="vm:NewProjectViewModel"
@@ -11,9 +11,9 @@
         WindowStartupLocation="CenterOwner"
         Icon="/Assets/seed-logo-blue-16.ico"
         Title="New Project">
-    <DockPanel>
-        <DataValidationErrors />
-        <TextBlock Classes="DialogTitle" DockPanel.Dock="Top">New Project</TextBlock>
+    <DockPanel Margin="10">
+        <!-- <DataValidationErrors /> -->
+        <!-- <TextBlock Classes="DialogTitle" DockPanel.Dock="Top">New Project</TextBlock> -->
         <DockPanel
             DockPanel.Dock="Right"
             Width="250">
@@ -27,19 +27,45 @@
                 Create Project
             </Button>
             <StackPanel HorizontalAlignment="Center">
+                <TextBlock
+                    FontSize="18">
+                    Settings
+                </TextBlock>
                 <StackPanel Margin="5">
-                    <TextBlock>Name</TextBlock>
-                    <TextBox Text="{Binding ProjectName}"></TextBox>
+                    <TextBlock
+                        FontSize="13"
+                        FontWeight="SemiLight">
+                        Project Name
+                    </TextBlock>
+                    <TextBox
+                        Text="{Binding ProjectName}" />
                 </StackPanel>
                 <StackPanel Margin="5">
-                    <TextBlock>Path</TextBlock>
+                    <TextBlock
+                        FontSize="13"
+                        FontWeight="SemiLight">
+                        Project Path
+                    </TextBlock>
                     <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding ProjectPath}" TextAlignment="Center" VerticalContentAlignment="Center" Width="150"></TextBox>
-                        <Button Command="{Binding SelectFolderCommand}" Margin="5 0 0 0">Select</Button>
+                        <TextBox
+                            Text="{Binding ProjectPath}"
+                            TextAlignment="Center"
+                            VerticalContentAlignment="Center"
+                                 Width="150">
+                        </TextBox>
+                        <Button
+                            Command="{Binding SelectFolderCommand}"
+                            Margin="5 0 0 0">
+                            <i:Icon Value="fa-solid fa-ellipsis" />
+                        </Button>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Margin="5">
-                    <TextBlock>Version</TextBlock>
+                    <TextBlock
+                        FontSize="13"
+                        FontWeight="SemiLight">
+                        Engine Version
+                    </TextBlock>
                     <ComboBox
                         ItemsSource="{Binding Engines}"
                         SelectedItem="{Binding SelectedEngine}"
@@ -53,11 +79,18 @@
                 </StackPanel>
             </StackPanel>
         </DockPanel>
-        <DockPanel Margin="5">
-            <StackPanel DockPanel.Dock="Top">
-                <TextBlock Padding="0">Hover over a template to see a small description.</TextBlock>
-                <TextBlock Padding="0">Select a project template:</TextBlock>
-            </StackPanel>
+        <DockPanel
+            Margin="0">
+            <!-- <StackPanel DockPanel.Dock="Top"> -->
+            <!--     <TextBlock Padding="0">Hover over a template to see a small description.</TextBlock> -->
+            <!--     <TextBlock Padding="0">Select a project template:</TextBlock> -->
+            <!-- </StackPanel> -->
+            <TextBlock
+                FontSize="18"
+                Margin="0 0 0 10"
+                DockPanel.Dock="Top">
+                Template
+            </TextBlock>
             <Panel>
                 <ListBox ItemsSource="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}"
                          BorderBrush="{StaticResource SystemAccentColor}" BorderThickness="2"
@@ -68,7 +101,7 @@
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>
-                <DataValidationErrors />
+                <!-- <DataValidationErrors /> -->
             </Panel>
         </DockPanel>
     </DockPanel>
