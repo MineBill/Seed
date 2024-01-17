@@ -39,6 +39,7 @@ public class EngineViewModel : ViewModelBase
     public ICommand DeleteCommand { get; }
     public ICommand EditNameCommand { get; }
     public ICommand OpenEditorCommand { get; }
+    public ICommand OpenEngineFolderCommand { get; }
 
     public Interaction<EngineEditorViewModel, Unit> OpenEditor = new();
 
@@ -56,6 +57,12 @@ public class EngineViewModel : ViewModelBase
             this.RaisePropertyChanged(nameof(Version));
             // TODO: Do the saving here?
             engineManager.Save();
+        });
+
+        OpenEngineFolderCommand = ReactiveCommand.Create(() =>
+        {
+            var filesService = App.Current.Services.GetService<IFilesService>();
+            filesService?.OpenFolder(_engine.Path);
         });
     }
 
