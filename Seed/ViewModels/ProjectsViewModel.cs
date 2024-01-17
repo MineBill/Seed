@@ -151,7 +151,8 @@ public class ProjectsViewModel : ViewModelBase
         });
         if (file is null) return;
 
-        var duplicate = _projectManager.Projects.Any(x => file.Path.ToString().Contains(x.Path));
+        var filePath = file.Path.LocalPath[..^(file.Name.Length+1)];
+        var duplicate = _projectManager.Projects.Any(x => filePath.Equals(x.Path));
         if (duplicate)
         {
             var box = MessageBoxManager.GetMessageBoxStandard(
