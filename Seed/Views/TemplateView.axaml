@@ -10,9 +10,9 @@
         <vm:ProjectViewModel />
     </Design.DataContext>
     <Border
-        Padding="5"
+        Padding="3"
         CornerRadius="3"
-        Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+        Background="{DynamicResource ProjectViewBackground}">
         <StackPanel Width="150">
             <Border CornerRadius="3" ClipToBounds="True">
                 <Panel Background="{StaticResource ButtonBackground}">

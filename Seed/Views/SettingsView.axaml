@@ -7,9 +7,11 @@
              x:Class="Seed.Views.SettingsView"
              x:DataType="vm:SettingsViewModel">
     <Border>
-        <TabControl Padding="0" Margin="0" SelectedIndex="1">
+        <TabControl Padding="0" Margin="0" SelectedIndex="1" Background="{DynamicResource MainWindowBackground}">
             <TabItem Header="Launcher">
-                <Border Classes="SettingsPanel">
+                <Border
+                    Classes="SettingsPanel"
+                    Background="{DynamicResource TabViewBackground}">
                     <DockPanel>
                         <StackPanel Spacing="10">
                             <StackPanel>

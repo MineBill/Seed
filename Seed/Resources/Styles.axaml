@@ -54,7 +54,7 @@
     </Style>
 
     <Style Selector="Button.Danger">
-        <Setter Property="Background" Value="{StaticResource Danger}" />
+        <Setter Property="Background" Value="{DynamicResource Danger}" />
     </Style>
 
     <Style Selector="Button.DismissDownload">

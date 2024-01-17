@@ -11,7 +11,7 @@
         <MenuFlyout x:Key="ProjectContextMenu" Placement="BottomEdgeAlignedLeft">
             <MenuItem Command="{Binding OpenEditorCommand}" Header="Edit"></MenuItem>
             <MenuItem Command="{Binding EditNameCommand}" Header="Edit name"></MenuItem>
-            <MenuItem Foreground="{StaticResource Danger}" Command="{Binding DeleteCommand}" Header="Delete"></MenuItem>
+            <MenuItem Foreground="{DynamicResource Danger}" Command="{Binding DeleteCommand}" Header="Delete"></MenuItem>
         </MenuFlyout>
     </UserControl.Resources>
 
@@ -70,6 +70,7 @@
                 </Button>
                 <Button
                     Command="{Binding OpenEngineFolderCommand}"
+                    Foreground="{DynamicResource EngineButtonForeground}"
                     Background="{DynamicResource EngineViewBackground}">
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <i:Icon Value="fa-regular fa-folder"></i:Icon>
@@ -79,7 +80,7 @@
                 <Button
                     Command="{Binding DeleteCommand}"
                     Background="{DynamicResource EngineViewBackground}"
-                    Foreground="{StaticResource Danger}">
+                    Foreground="{DynamicResource Danger}">
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <i:Icon Value="fa-regular fa-trash-can" />
                         <TextBlock>Uninstall</TextBlock>
@@ -87,18 +88,12 @@
                 </Button>
                 <Button
                     Command="{Binding OpenEditorCommand}"
+                    Foreground="{DynamicResource EngineButtonForeground}"
                     Background="Transparent">
                     <!-- Flyout="{StaticResource ProjectContextMenu}"> -->
                     <i:Icon Value="fa-solid fa-list-ul" />
                 </Button>
             </StackPanel>
-
-            <!-- </StackPanel> -->
-            <!-- <Border CornerRadius="5" ClipToBounds="True"> -->
-            <!--     <Panel> -->
-            <!--         <Image Source="/Assets/flax-logo-white-128.png" Margin="2" Height="125" Stretch="Uniform" /> -->
-            <!--     </Panel> -->
-            <!-- </Border> -->
         </DockPanel>
     </Border>
 </UserControl>
