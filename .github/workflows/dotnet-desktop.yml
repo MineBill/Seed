@@ -28,7 +28,7 @@ jobs:
       run: dotnet restore
 
     - name: Create Linux artifact
-      run: dotent publish --configuration ${{ matrix.configuration }} --runtime linux-x64 --self-contained false -p:PublishReadyToRun=false Seed --output Publish/Linux -p:DebugType=None -p:DebugSymbols=false
+      run: dotnet publish --configuration ${{ matrix.configuration }} --runtime linux-x64 --self-contained false -p:PublishReadyToRun=false Seed --output Publish/Linux -p:DebugType=None -p:DebugSymbols=false
 
     - name: Zip Linux artifact
       run: Compress-Archive -Path Publish/Linux -DestinationPath Publish/Linux.zip
@@ -40,7 +40,7 @@ jobs:
         path: Publish/Linux.zip
       
     - name: Create Windows artifact
-      run: dotent publish --configuration ${{ matrix.configuration }} --runtime win-x64 --self-contained false -p:PublishReadyToRun=false Seed --output Publish/Windows -p:DebugType=None -p:DebugSymbols=false
+      run: dotnet publish --configuration ${{ matrix.configuration }} --runtime win-x64 --self-contained false -p:PublishReadyToRun=false Seed --output Publish/Windows -p:DebugType=None -p:DebugSymbols=false
 
     - name: Zip Windows artifact
       run: Compress-Archive -Path Publish/Windows -DestinationPath Publish/Windows.zip
