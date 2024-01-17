@@ -22,7 +22,7 @@ public class BuiltinTemplate : ProjectTemplate
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-    private readonly EngineVersion _engineVersion;
+    public EngineVersion EngineVersion { get; set; }
     private readonly Bitmap _icon;
     public Uri? ResourcePath { get; }
 
@@ -30,7 +30,7 @@ public class BuiltinTemplate : ProjectTemplate
     {
         Name = displayName;
         ResourcePath = resourcePath;
-        _engineVersion = engineVersion;
+        EngineVersion = engineVersion;
         _icon = icon;
     }
 
@@ -111,7 +111,7 @@ public class BuiltinTemplate : ProjectTemplate
     /// <inheritdoc/>
     public override EngineVersion GetEngineVersion()
     {
-        return _engineVersion;
+        return EngineVersion;
     }
 
     #endregion

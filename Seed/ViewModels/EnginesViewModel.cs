@@ -269,7 +269,7 @@ public class EnginesViewModel : ViewModelBase
                 var engine = new Engine
                 {
                     Name = nickname ?? name,
-                    Version = new NormalVersion(new Version(major, minor, build, revision)),
+                    Version = new LocalBuild(path, new Version(major, minor, build, revision)),
                     Path = path,
                     // NOTE: InstalledPackages is empty because this is a custom engine build. Tools are build on demand.
                 };

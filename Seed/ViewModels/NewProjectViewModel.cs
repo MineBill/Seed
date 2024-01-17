@@ -9,22 +9,22 @@ using System.Reactive.Linq;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Microsoft.Extensions.DependencyInjection;
+using NLog;
 using ReactiveUI;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
 using Seed.Models;
 using Seed.Models.ProjectTemplates;
 using Seed.Services;
-using Seed.Views;
 using Uri = System.Uri;
 
 namespace Seed.ViewModels;
 
 public class NewProjectViewModel : ReactiveValidationObject
 {
-    private readonly IEngineManager _engineManager;
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-    // public ProjectContainerViewModel ProjectContainerViewModel { get; }
+    private readonly IEngineManager _engineManager;
 
     private string _projectName = string.Empty;
 
@@ -165,7 +165,7 @@ public class NewProjectViewModel : ReactiveValidationObject
         {
             if (state.Engine is null)
                 return false;
-            return state.Engine.Version.CompareTo(state.Template.ProjectTemplate.GetEngineVersion()) >= 0;
+            return state.Engine.Version.CompareTo(state.Template.ProjectTemplate.GetEngineVersion()) <= 0;
         }, _ => "Selected template project needs to be upgrade to support this engine.");
     }
 }
