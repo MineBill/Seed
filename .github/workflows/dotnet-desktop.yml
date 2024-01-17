@@ -40,3 +40,4 @@ jobs:
           Publish/Linux/**
           Publish/Windows/**
         generate_release_notes: true
+        tag_name: latest
