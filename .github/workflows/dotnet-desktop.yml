@@ -2,6 +2,11 @@ name: Build
 
 on:
   workflow_dispatch:
+    inputs:
+      name:
+        description: 'Name for the tag'
+        required: true
+        type: string
 
 jobs:
   build:
@@ -46,4 +51,4 @@ jobs:
           Publish/Linux.zip
           Publish/Windows.zip
         generate_release_notes: true
-        tag_name: ${{ github.ref }}
+        tag_name: ${{ inputs.name }}
