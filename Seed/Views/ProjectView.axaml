@@ -41,7 +41,7 @@
                         IsVisible="{Binding !VersionInstalled}">
                         <TextBlock
                             TextTrimming="{Binding Trimming}"
-                            Foreground="{StaticResource Danger}"
+                            Foreground="{DynamicResource Danger}"
                             HorizontalAlignment="Left"
                             Text="{Binding EngineVersion}" />
                     </StackPanel>

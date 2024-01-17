@@ -92,9 +92,22 @@
                 Template
             </TextBlock>
             <Panel>
-                <ListBox ItemsSource="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}"
-                         BorderBrush="{StaticResource SystemAccentColor}" BorderThickness="2"
-                         CornerRadius="2">
+                <ListBox
+                    ItemsSource="{Binding Templates}"
+                    SelectedItem="{Binding SelectedTemplate}"
+                    Background="{DynamicResource EngineViewBackground}"
+                    BorderThickness="0"
+                    CornerRadius="3">
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Margin" Value="2" />
+                            <Setter Property="Padding" Value="2" />
+                            <Setter Property="CornerRadius" Value="3" />
+                        </Style>
+                        <Style Selector="ListBoxItem:selected">
+                            <Setter Property="Background" Value="{DynamicResource ProjectViewSelection}" />
+                        </Style>
+                    </ListBox.Styles>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel />

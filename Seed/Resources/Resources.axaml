@@ -1,12 +1,25 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- Add Resources Here -->
-    <Color x:Key="Danger">#C52233</Color>
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key='Light'>
+            <Color x:Key="IBackground">#adb4be</Color>
+            <Color x:Key="IBackgroundDisabled">#a2a9b3</Color>
+            <Color x:Key="IBackgroundPointerOver">#bDc4cC</Color>
+            <Color x:Key="IBackgroundPressed">#a9aFb8</Color>
+            <Color x:Key="ProjectNameForeground">Black</Color>
+            <Color x:Key="EngineVersionForeground">#1b212a</Color>
+            <Color x:Key="EngineButtonForeground">#151c28</Color>
+            <Color x:Key="Danger">#C52233</Color>
+
+            <Color x:Key="TabViewColor">WhiteSmoke</Color>
+            <Color x:Key="ProjectViewColor">#c7cad3</Color>
+            <Color x:Key="EngineViewColor">#abaebd</Color>
+            <Color x:Key="MainBackground">#a7aAb3</Color>
+            <Color x:Key="MainWindowColor">#c7cAd3</Color>
+
             <SolidColorBrush x:Key="ItemsControlBackground">#C1C1C1</SolidColorBrush>
             <SolidColorBrush x:Key="TabPanelBackground">#D2D2D2</SolidColorBrush>
-            <Color x:Key="ProjectNameForeground">Black</Color>
         </ResourceDictionary>
         <ResourceDictionary x:Key='Dark'>
             <Color x:Key="IBackground">#2d343e</Color>
@@ -15,38 +28,50 @@
             <Color x:Key="IBackgroundPressed">#292F38</Color>
             <Color x:Key="ProjectNameForeground">#a5acb8</Color>
             <Color x:Key="EngineVersionForeground">#5b616a</Color>
+            <Color x:Key="EngineButtonForeground">#a5acb8</Color>
+            <Color x:Key="Danger">#C52233</Color>
+
+            <Color x:Key="TabViewColor">#171A23</Color>
+            <Color x:Key="ProjectViewColor">Black</Color>
+            <Color x:Key="EngineViewColor">#2b2e3d</Color>
+            <Color x:Key="MainBackground">#171A23</Color>
+            <Color x:Key="MainWindowColor">Black</Color>
 
             <SolidColorBrush x:Key="ItemsControlBackground">#1C1C1C</SolidColorBrush>
             <SolidColorBrush x:Key="TabPanelBackground">#2D2D30</SolidColorBrush>
-
-            <!-- Buttons -->
-            <SolidColorBrush x:Key="ButtonBackground" Color="{DynamicResource IBackground}" />
-            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="{DynamicResource IBackgroundDisabled}" />
-            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource IBackgroundPointerOver}" />
-            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{DynamicResource IBackgroundPressed}" />
-
-            <SolidColorBrush x:Key="TextControlBackground" Color="{DynamicResource IBackground}" />
-            <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="{DynamicResource IBackgroundDisabled}" />
-            <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="{DynamicResource IBackgroundPointerOver}" />
-            <SolidColorBrush x:Key="TextControlBackgroundPressed" Color="{DynamicResource IBackgroundPressed}" />
-            <SolidColorBrush x:Key="TextControlBackgroundSelected" Color="{DynamicResource IBackgroundPressed}" />
-            <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{DynamicResource IBackgroundPressed}" />
-            <!-- NOTE: Not set, to keep using the accent color -->
-            <!-- <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="{DynamicResource IBackgroundPressed}" /> -->
-<!-- MenuFlyoutPresenterBackground -->
-            <SolidColorBrush x:Key="MenuFlyoutPresenterBackground" Color="#171A23" />
-            <SolidColorBrush x:Key="TabViewBackground">#171A23</SolidColorBrush>
-            <SolidColorBrush x:Key="ProjectViewBackground">#000000</SolidColorBrush>
-            <SolidColorBrush x:Key="ProjectViewSelection">#ffffff</SolidColorBrush>
-
-            <SolidColorBrush x:Key="EngineViewBackground">#2b2e3d</SolidColorBrush>
-            <SolidColorBrush x:Key="WindowBackground">#171a23</SolidColorBrush>
-            <SolidColorBrush x:Key="MainWindowBackground">Black</SolidColorBrush>
-
-            <SolidColorBrush x:Key="TabButtonOutline">#2f3237</SolidColorBrush>
-
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
     <SolidColorBrush x:Key="TemplateLineColor">#5AE2DE</SolidColorBrush>
     <FontFamily x:Key="DMSans">avares://Seed/Assets/Fonts/DMSans</FontFamily>
+
+    <!-- Buttons -->
+    <SolidColorBrush x:Key="ButtonBackground" Color="{DynamicResource IBackground}" />
+    <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="{DynamicResource IBackgroundDisabled}" />
+    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource IBackgroundPointerOver}" />
+    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{DynamicResource IBackgroundPressed}" />
+
+    <SolidColorBrush x:Key="TextControlBackground" Color="{DynamicResource IBackground}" />
+    <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="{DynamicResource IBackgroundDisabled}" />
+    <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="{DynamicResource IBackgroundPointerOver}" />
+    <SolidColorBrush x:Key="TextControlBackgroundPressed" Color="{DynamicResource IBackgroundPressed}" />
+    <SolidColorBrush x:Key="TextControlBackgroundSelected" Color="{DynamicResource IBackgroundPressed}" />
+    <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{DynamicResource IBackgroundPressed}" />
+    <!-- NOTE: Not set, to keep using the accent color -->
+    <!-- <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="{DynamicResource IBackgroundPressed}" /> -->
+<!-- MenuFlyoutPresenterBackground -->
+    <SolidColorBrush x:Key="MenuFlyoutPresenterBackground" Color="{DynamicResource MainBackground}" />
+    <SolidColorBrush x:Key="ComboBoxBackground" Color="{DynamicResource MainBackground}" />
+    <SolidColorBrush x:Key="ComboBoxItemBackground" Color="{DynamicResource MainBackground}" />
+    <SolidColorBrush x:Key="ComboBoxItemBackgroundPointerOver" Color="{DynamicResource IBackgroundPointerOver}" />
+    <SolidColorBrush x:Key="ComboBoxItemBackgroundPressed" Color="{DynamicResource IBackgroundPressed}" />
+
+    <SolidColorBrush x:Key="TabViewBackground" Color="{DynamicResource TabViewColor}" />
+    <SolidColorBrush x:Key="ProjectViewBackground" Color="{DynamicResource ProjectViewColor}" />
+    <SolidColorBrush x:Key="ProjectViewSelection">#ffffff</SolidColorBrush>
+
+    <SolidColorBrush x:Key="EngineViewBackground" Color="{DynamicResource EngineViewColor}" />
+    <SolidColorBrush x:Key="WindowBackground" Color="{DynamicResource MainBackground}" />
+    <SolidColorBrush x:Key="MainWindowBackground" Color="{DynamicResource MainWindowColor}" />
+
+    <SolidColorBrush x:Key="TabButtonOutline">#2f3237</SolidColorBrush>
 </ResourceDictionary>

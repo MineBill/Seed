@@ -300,9 +300,9 @@ public class EngineDownloaderService : IEngineDownloaderService
         DownloadFinished?.Invoke();
         return new Engine
         {
-            Name = workflow.CommitHash,
+            Name = $"CI Build {workflow.CommitHash[..5]}",
             Path = editorInstallFolder,
-            Version = new GitVersion(workflow.CommitHash),
+            Version = new GitVersion(workflow.CommitHash, workflow.CreatedAt),
             InstalledPackages = installedPackages,
             PreferredConfiguration = Engine.Configuration.Release,
             AvailableConfigurations = new List<Engine.Configuration>

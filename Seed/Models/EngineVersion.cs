@@ -26,7 +26,7 @@ public record NormalVersion(Version Version) : EngineVersion
     }
 }
 
-public record GitVersion(string Commit) : EngineVersion
+public record GitVersion(string Commit, DateTime CreationTime) : EngineVersion
 {
     public override int CompareTo(EngineVersion? other)
     {
