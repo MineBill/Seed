@@ -10,8 +10,8 @@
     <UserControl.Resources>
         <MenuFlyout x:Key="ProjectContextMenu" Placement="BottomEdgeAlignedLeft">
             <MenuItem Command="{Binding OpenEditorCommand}" Header="Edit"></MenuItem>
-            <MenuItem Command="{Binding DeleteCommand}" Header="Delete"></MenuItem>
             <MenuItem Command="{Binding EditNameCommand}" Header="Edit name"></MenuItem>
+            <MenuItem Foreground="{StaticResource Danger}" Command="{Binding DeleteCommand}" Header="Delete"></MenuItem>
         </MenuFlyout>
     </UserControl.Resources>
 
@@ -61,27 +61,34 @@
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Right" Spacing="10" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button IsVisible="true" Background="{DynamicResource EngineViewBackground}">
+                <!-- NOTE: Disable this for now but keep it for reference -->
+                <Button IsVisible="false" Background="{DynamicResource EngineViewBackground}">
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <i:Icon Value="fa-solid fa-list-check"></i:Icon>
                         <TextBlock>Changelog</TextBlock>
                     </StackPanel>
                 </Button>
-                <Button Background="{DynamicResource EngineViewBackground}">
+                <Button
+                    Command="{Binding OpenEngineFolderCommand}"
+                    Background="{DynamicResource EngineViewBackground}">
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <i:Icon Value="fa-regular fa-folder"></i:Icon>
                         <TextBlock>Engine directory</TextBlock>
                     </StackPanel>
                 </Button>
-                <Button Classes="Danger">
+                <Button
+                    Command="{Binding DeleteCommand}"
+                    Background="{DynamicResource EngineViewBackground}"
+                    Foreground="{StaticResource Danger}">
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <i:Icon Value="fa-regular fa-trash-can" />
                         <TextBlock>Uninstall</TextBlock>
                     </StackPanel>
                 </Button>
                 <Button
-                    Background="Transparent"
-                    Flyout="{StaticResource ProjectContextMenu}">
+                    Command="{Binding OpenEditorCommand}"
+                    Background="Transparent">
+                    <!-- Flyout="{StaticResource ProjectContextMenu}"> -->
                     <i:Icon Value="fa-solid fa-list-ul" />
                 </Button>
             </StackPanel>

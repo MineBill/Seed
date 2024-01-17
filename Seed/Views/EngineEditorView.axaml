@@ -8,7 +8,7 @@
         Width="600" Height="450"
         x:Class="Seed.Views.EngineEditorView"
         x:DataType="vm:EngineEditorViewModel"
-        RequestedThemeVariant="Dark"
+        WindowStartupLocation="CenterOwner"
         Title="Edit Engine">
     <Border>
         <TabControl>
