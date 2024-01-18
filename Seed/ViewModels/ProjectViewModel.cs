@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Avalonia.Input;
@@ -58,11 +57,13 @@ public class ProjectViewModel : ViewModelBase
     public ICommand? RemoveProjectCommand { get; }
     public ICommand? RunProjectCommand { get; }
     public ICommand? MarkAsTemplateCommand { get; }
+    public ICommand? ChangeEngineVersionCommand { get; }
     public ICommand? ClearCacheCommand { get; }
     public ICommand? OpenProjectFolderCommand { get; }
     public ICommand? EditProjectArgumentsCommand { get; }
 
     public readonly Interaction<CommandLineOptionsViewModel, string> OpenCommandLineOptionsEditor = new();
+    public readonly Interaction<EngineVersionPickerViewModel, EngineVersion> OpenEnginePicker = new();
 
     public ProjectViewModel(IEngineManager engineManager, IProjectManager projectManager, IFilesService filesService,
         Project project)
@@ -95,11 +96,33 @@ public class ProjectViewModel : ViewModelBase
             _projectManager.Save();
         });
 
+        ChangeEngineVersionCommand = ReactiveCommand.Create(async () =>
+        {
+            if (engineManager.Engines.Count == 0)
+            {
+                var box = MessageBoxManager.GetMessageBoxStandard(
+                    "No installed engines",
+                    """
+                    There are no installed engines. Please install an engine before
+                    attempting to change the version of a project.
+                    """,
+                    icon: MsBox.Avalonia.Enums.Icon.Error);
+                await box.ShowWindowDialogAsync(App.Current.MainWindow);
+            }
+            var vm = new EngineVersionPickerViewModel(engineManager, Project);
+            var result = await OpenEnginePicker.Handle(vm);
+            Project.EngineVersion = result;
+            Project.Engine = engineManager.Engines.First(x => x.Version == result);
+            this.RaisePropertyChanged(nameof(EngineVersion));
+            VersionInstalled = true;
+
+            _projectManager.Save();
+        });
+
         EditProjectArgumentsCommand = ReactiveCommand.Create(async () =>
         {
             var vm = new CommandLineOptionsViewModel(Project);
             var result = await OpenCommandLineOptionsEditor.Handle(vm);
-            Logger.Info($"Result: {result}");
             Project.ProjectArguments = result;
 
             _projectManager.Save();

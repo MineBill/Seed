@@ -8,7 +8,7 @@ namespace Seed.ViewModels;
 public class CommandLineOptionsViewModel: ViewModelBase
 {
     public ReactiveCommand<Unit, string> SaveCommand { get; set; }
-    private string _arguments;
+    private string _arguments = string.Empty;
 
     public string Arguments
     {
@@ -16,7 +16,7 @@ public class CommandLineOptionsViewModel: ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _arguments, value);
     }
 
-    private string _title;
+    private string _title = string.Empty;
 
     public string Title
     {

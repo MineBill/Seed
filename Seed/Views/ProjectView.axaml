@@ -16,6 +16,7 @@
             <MenuItem Command="{Binding RunProjectCommand}" Header="Run Project"></MenuItem>
             <MenuItem Command="{Binding OpenProjectFolderCommand}" Header="Open in file explorer"></MenuItem>
             <MenuItem Command="{Binding MarkAsTemplateCommand}" Header="Mark as template"></MenuItem>
+            <MenuItem Command="{Binding ChangeEngineVersionCommand}" Header="Change associated engine"></MenuItem>
             <MenuItem Command="{Binding EditProjectArgumentsCommand}" Header="Edit startup arguments"></MenuItem>
             <MenuItem Command="{Binding ClearCacheCommand}" Header="Clear cache"></MenuItem>
             <MenuItem Command="{Binding RemoveProjectCommand}" Header="Remove Project"></MenuItem>
@@ -42,14 +43,14 @@
                             TextTrimming="{Binding Trimming}"
                             Foreground="Red"
                             HorizontalAlignment="Left"
-                            Text="{Binding EngineName}" />
+                            Text="{Binding EngineVersion}" />
                     </StackPanel>
                     <TextBlock
                         TextTrimming="{Binding Trimming}"
                         Classes="VersionNumber"
                         IsVisible="{Binding VersionInstalled}"
                         HorizontalAlignment="Left"
-                        Text="{Binding EngineName}" />
+                        Text="{Binding EngineVersion}" />
                 </Panel>
             </DockPanel>
             <TextBlock DockPanel.Dock="Bottom" Classes="ProjectName" HorizontalAlignment="Center" Text="{Binding Name}"

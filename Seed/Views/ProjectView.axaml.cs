@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
+using Seed.Models;
 using Seed.ViewModels;
 using Seed.Views.Dialogs;
 
@@ -17,6 +18,8 @@ public partial class ProjectView : ReactiveUserControl<ProjectViewModel>
         InitializeComponent();
         this.WhenActivated(action =>
             action(ViewModel!.OpenCommandLineOptionsEditor.RegisterHandler(OpenCommandLineOptionsEditorHandler)));
+        this.WhenActivated(action =>
+            action(ViewModel!.OpenEnginePicker.RegisterHandler(OpenEnginePickerHandler)));
     }
 
     private async Task OpenCommandLineOptionsEditorHandler(InteractionContext<CommandLineOptionsViewModel, string> obj)
@@ -27,6 +30,17 @@ public partial class ProjectView : ReactiveUserControl<ProjectViewModel>
         };
 
         var ret = await editor.ShowDialog<string>(App.Current.MainWindow);
+        obj.SetOutput(ret);
+    }
+
+    private async Task OpenEnginePickerHandler(InteractionContext<EngineVersionPickerViewModel, EngineVersion> obj)
+    {
+        var window = new EngineVersionPickerWindow()
+        {
+            DataContext = obj.Input
+        };
+
+        var ret = await window.ShowDialog<EngineVersion>(App.Current.MainWindow);
         obj.SetOutput(ret);
     }
 

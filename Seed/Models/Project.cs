@@ -43,6 +43,8 @@ public record Project(string Name, string Path, EngineVersion? EngineVersion = n
     [JsonIgnore]
     public Engine? Engine;
 
+    public EngineVersion? EngineVersion { get; set; } = EngineVersion;
+
     /// <summary>
     /// Check if this project exists on disk right now.
     /// </summary>
