@@ -56,11 +56,18 @@ public partial class ProjectsView : UserControl
     {
         var vm = DataContext as ProjectsViewModel;
         var comboBox = sender as ComboBox;
-
-        var type = (SortingType)comboBox!.SelectedIndex;
-
         var prefs = App.Current.Services.GetService<IPreferencesSaver>()!;
-        prefs.Preferences.ProjectSortingType = type;
-        vm?.RefreshProjects();
+
+        var index = comboBox!.SelectedIndex;
+        if (index == -1)
+        {
+            comboBox!.SelectedIndex = (int)prefs.Preferences.ProjectSortingType;
+        }
+        else
+        {
+            var type = (SortingType)index;
+            prefs.Preferences.ProjectSortingType = type;
+            vm?.RefreshProjects();
+        }
     }
 }
