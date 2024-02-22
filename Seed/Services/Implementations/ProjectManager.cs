@@ -16,6 +16,7 @@ public class ProjectManager : IProjectManager
 
     private readonly IEngineManager _engineManager;
 
+    public event IProjectManager.SaveEvent? OnSaved;
     public ObservableCollection<Project> Projects { get; private set; } = new();
 
     public ProjectManager(IEngineManager engineManager)
@@ -78,6 +79,9 @@ public class ProjectManager : IProjectManager
 
             Process.Start(info);
         }
+
+        project.LastOpenedTime = DateTime.Now;
+        Save();
     }
 
     public void ClearCache(Project project)
@@ -163,5 +167,7 @@ public class ProjectManager : IProjectManager
             TypeInfoResolver = ProjectGenerationContext.Default,
             WriteIndented = true
         });
+
+        OnSaved?.Invoke();
     }
 }

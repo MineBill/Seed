@@ -10,7 +10,8 @@
     <Design.DataContext>
         <viewModels:ProjectsViewModel />
     </Design.DataContext>
-    <DockPanel>
+    <DockPanel
+        Background="{DynamicResource TabViewBackground}">
         <Border
             DockPanel.Dock="Top"
             Background="{DynamicResource TabViewBackground}">
@@ -40,6 +41,7 @@
                             </TextBlock>
                         </Button>
                         <TextBox
+                            Text="{Binding SearchTerm}"
                             Classes="SearchBox"
                             Watermark="Search projects"
                             HorizontalAlignment="Stretch"
@@ -51,38 +53,68 @@
                         VerticalAlignment="Center">
                         Projects
                     </TextBlock>
+                    <StackPanel
+                        Spacing="5"
+                        Orientation="Horizontal">
+                        <Button
+                            ToolTip.Tip="Sort "
+                            DockPanel.Dock="Left"
+                            Classes="SmallIconButton"
+                            Command="{Binding SetSortDirection}"
+                            CommandParameter="Descending"
+                            VerticalContentAlignment="Center">
+                            <i:Icon Value="fa-solid fa-arrow-down-1-9" />
+                        </Button>
+                        <Button
+                            DockPanel.Dock="Left"
+                            Classes="SmallIconButton"
+                            Command="{Binding SetSortDirection}"
+                            CommandParameter="Ascending"
+                            VerticalContentAlignment="Center">
+                            <i:Icon Value="fa-solid fa-arrow-up-9-1" />
+                        </Button>
+                        <ComboBox
+                            SelectedIndex="{Binding SelectedSortingType}"
+                            SelectionChanged="SortingOption_SelectionChanged">
+                            <ComboBoxItem>Name</ComboBoxItem>
+                            <ComboBoxItem>Most Recent</ComboBoxItem>
+                            <ComboBoxItem>Engine Version</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
                 </StackPanel>
             </DockPanel>
         </Border>
         <TextBlock
             Margin="0 50 0 0"
+            DockPanel.Dock="Top"
             VerticalAlignment="Top"
             HorizontalAlignment="Center"
             FontSize="20"
-            IsVisible="{Binding !Projects.Count}">
+            IsVisible="{Binding !FilteredProjects.Count}">
             No projects found. Try creating one!
         </TextBlock>
-        <ListBox
-            Padding="20 0 20 0"
-            Background="{DynamicResource TabViewBackground}"
-            ItemsSource="{Binding Projects}"
-            SelectedItem="{Binding SelectedProject}"
-            IsVisible="{Binding Projects.Count}">
-            <ListBox.Styles>
-                <Style Selector="ListBoxItem">
-                    <Setter Property="Margin" Value="2" />
-                    <Setter Property="Padding" Value="2" />
-                    <Setter Property="CornerRadius" Value="3" />
-                </Style>
-                <Style Selector="ListBoxItem:selected">
-                    <Setter Property="Background" Value="{DynamicResource ProjectViewSelection}" />
-                </Style>
-            </ListBox.Styles>
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
+            <ListBox
+                Padding="20 0 20 0"
+                Background="{DynamicResource TabViewBackground}"
+                ItemsSource="{Binding FilteredProjects}"
+                SelectedItem="{Binding SelectedProject}"
+                IsVisible="{Binding FilteredProjects.Count}">
+                <ListBox.Styles>
+                    <Style Selector="ListBoxItem">
+                        <Setter Property="Margin" Value="2" />
+                        <Setter Property="Padding" Value="2" />
+                        <Setter Property="CornerRadius" Value="3" />
+                    </Style>
+                    <Style Selector="ListBoxItem:selected">
+                        <Setter Property="Background" Value="{DynamicResource ProjectViewSelection}" />
+                    </Style>
+                </ListBox.Styles>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
     </DockPanel>
+
 </UserControl>

@@ -5,6 +5,10 @@ namespace Seed.Services;
 
 public interface IProjectManager
 {
+    public delegate void SaveEvent();
+
+    public event SaveEvent OnSaved;
+
     /// <summary>
     /// The list of known projects. Useful to subscribe to updates.
     /// </summary>

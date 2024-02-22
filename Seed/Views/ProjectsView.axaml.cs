@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Microsoft.Extensions.DependencyInjection;
+using NLog;
 using ReactiveUI;
 using Seed.Models;
+using Seed.Services;
 using Seed.ViewModels;
 using Seed.Views.Dialogs;
 
@@ -10,6 +13,8 @@ namespace Seed.Views;
 
 public partial class ProjectsView : UserControl
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     public ProjectsView()
     {
         InitializeComponent();
@@ -45,5 +50,17 @@ public partial class ProjectsView : UserControl
 
         var result = await dialog.ShowDialog<NewProjectDialogResult?>(App.Current.MainWindow);
         interaction.SetOutput(result);
+    }
+
+    private void SortingOption_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        var vm = DataContext as ProjectsViewModel;
+        var comboBox = sender as ComboBox;
+
+        var type = (SortingType)comboBox!.SelectedIndex;
+
+        var prefs = App.Current.Services.GetService<IPreferencesSaver>()!;
+        prefs.Preferences.ProjectSortingType = type;
+        vm?.RefreshProjects();
     }
 }

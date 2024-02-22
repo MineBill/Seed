@@ -4,6 +4,19 @@ using Avalonia.Styling;
 
 namespace Seed.Models;
 
+public enum SortingType
+{
+    Name,
+    OpenDate,
+    EngineVersion,
+}
+
+public enum SortingDirection
+{
+    Ascending,
+    Descending,
+}
+
 /// <summary>
 /// Stores user preferences.
 /// </summary>
@@ -38,6 +51,10 @@ public class UserPreferences
     /// The user-selected accent color. If null, use the system accent color.
     /// </summary>
     public Color? AccentColor { get; set; }
+
+    public SortingType ProjectSortingType { get; set; } = SortingType.OpenDate;
+
+    public SortingDirection ProjectSortingDirection { get; set; } = SortingDirection.Descending;
 }
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
