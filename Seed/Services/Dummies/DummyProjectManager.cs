@@ -5,6 +5,8 @@ namespace Seed.Services.Dummies;
 
 public class DummyProjectManager : IProjectManager
 {
+    public event IProjectManager.SaveEvent? OnSaved;
+
     public ObservableCollection<Project> Projects =>
         new()
         {
