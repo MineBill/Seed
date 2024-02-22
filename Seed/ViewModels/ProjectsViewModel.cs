@@ -96,10 +96,7 @@ public class ProjectsViewModel : ViewModelBase
                     Projects.RemoveMany(old);
                 }
         };
-        _projectManager.OnSaved += () =>
-        {
-            SearchProjects(SearchTerm);
-        };
+        _projectManager.OnSaved += RefreshProjects;
 
         LoadProjects();
 
@@ -137,7 +134,7 @@ public class ProjectsViewModel : ViewModelBase
         var prefs = App.Current.Services.GetService<IPreferencesSaver>()!;
         FilteredProjects = new ObservableCollection<ProjectViewModel>(
             Projects
-                .Where(x => x.Project.Name.Contains(SearchTerm))
+                .Where(x => x.Project.Name.Contains(SearchTerm, StringComparison.InvariantCultureIgnoreCase))
                 .Order(new ProjectComp(prefs.Preferences.ProjectSortingType,
                         prefs.Preferences.ProjectSortingDirection))
             );
@@ -282,6 +279,7 @@ public class ProjectComp : IComparer<ProjectViewModel> {
         return _sortingType switch
         {
             SortingType.Name => string.Compare(x.Project.Name, y.Project.Name, StringComparison.InvariantCultureIgnoreCase),
+            // We flip the date comparison because of how it works.
             SortingType.OpenDate => y.Project.LastOpenedTime.CompareTo(x.Project.LastOpenedTime),
             SortingType.EngineVersion => x.Project.EngineVersion!.CompareTo(y.Project.EngineVersion),
             _ => 0
