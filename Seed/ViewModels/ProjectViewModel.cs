@@ -62,7 +62,7 @@ public class ProjectViewModel : ViewModelBase
     public ICommand? OpenProjectFolderCommand { get; }
     public ICommand? EditProjectArgumentsCommand { get; }
 
-    public readonly Interaction<CommandLineOptionsViewModel, string> OpenCommandLineOptionsEditor = new();
+    public readonly Interaction<CommandLineOptionsViewModel, string?> OpenCommandLineOptionsEditor = new();
     public readonly Interaction<EngineVersionPickerViewModel, EngineVersion> OpenEnginePicker = new();
 
     public ProjectViewModel(IEngineManager engineManager, IProjectManager projectManager, IFilesService filesService,
@@ -123,6 +123,9 @@ public class ProjectViewModel : ViewModelBase
         {
             var vm = new CommandLineOptionsViewModel(Project);
             var result = await OpenCommandLineOptionsEditor.Handle(vm);
+            if (result is null)
+                return;
+
             Project.ProjectArguments = result;
 
             _projectManager.Save();
