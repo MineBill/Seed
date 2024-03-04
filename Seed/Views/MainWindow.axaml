@@ -45,9 +45,9 @@
             <TabItem Header="Engines">
                 <views:EnginesView DataContext="{Binding EnginesViewModel}" />
             </TabItem>
-            <TabItem Header="Samples">
-                <views:SamplesView />
-            </TabItem>
+            <!-- <TabItem Header="Samples"> -->
+            <!--     <views:SamplesView /> -->
+            <!-- </TabItem> -->
             <TabItem Classes="SettingsTabItem" Header="Settings">
                 <views:SettingsView DataContext="{Binding SettingsViewModel}" />
             </TabItem>
