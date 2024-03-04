@@ -77,7 +77,7 @@
                             SelectedIndex="{Binding SelectedSortingType}"
                             SelectionChanged="SortingOption_SelectionChanged">
                             <ComboBoxItem>Name</ComboBoxItem>
-                            <ComboBoxItem>Most Recent</ComboBoxItem>
+                            <ComboBoxItem>Last Opened</ComboBoxItem>
                             <ComboBoxItem>Engine Version</ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
