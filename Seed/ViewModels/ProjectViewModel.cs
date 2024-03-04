@@ -7,6 +7,7 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using NLog;
 using ReactiveUI;
 using Seed.Models;
@@ -80,7 +81,14 @@ public class ProjectViewModel : ViewModelBase
         VersionInstalled =
             engineManager.Engines.Any(x => x.Version == Project.EngineVersion);
 
-        RemoveProjectCommand = ReactiveCommand.Create(() => { projectManager.RemoveProject(project); });
+        RemoveProjectCommand = ReactiveCommand.Create(async () =>
+        {
+            var confirmationBox = MessageBoxManager.GetMessageBoxStandard("Confirm", $"Are you sure you want to remove this project: '{Project.Name}' ?",
+                ButtonEnum.YesNo, MsBox.Avalonia.Enums.Icon.Stop);
+            var result = await confirmationBox.ShowWindowDialogAsync(App.Current.MainWindow);
+            if (result == ButtonResult.Yes)
+                projectManager.RemoveProject(project);
+        });
 
         RunProjectCommand = ReactiveCommand.Create(RunProject);
 

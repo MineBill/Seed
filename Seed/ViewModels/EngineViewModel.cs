@@ -6,6 +6,8 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Microsoft.Extensions.DependencyInjection;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using Seed.Models;
 using Seed.Services;
@@ -47,7 +49,15 @@ public class EngineViewModel : ViewModelBase
     {
         _engine = engine;
         Name = _engine.Name;
-        DeleteCommand = ReactiveCommand.Create(() => { engineManager.DeleteEngine(_engine); });
+        DeleteCommand = ReactiveCommand.Create(async () =>
+        {
+            var confirmationBox = MessageBoxManager.GetMessageBoxStandard("Confirm", $"Are you sure you want to delete this engine: '{_engine.Name}' ?",
+                ButtonEnum.YesNo, Icon.Stop);
+            var result = await confirmationBox.ShowWindowDialogAsync(App.Current.MainWindow);
+
+            if (result == ButtonResult.Yes)
+                engineManager.DeleteEngine(_engine);
+        });
         EditNameCommand = ReactiveCommand.Create(() => { IsEditing = true; });
         OpenEditorCommand = ReactiveCommand.CreateFromTask(async () =>
         {
