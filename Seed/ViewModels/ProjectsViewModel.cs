@@ -100,10 +100,6 @@ public class ProjectsViewModel : ViewModelBase
 
         LoadProjects();
 
-        this.WhenAnyValue(x => x.SearchTerm)
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Throttle(TimeSpan.FromMilliseconds(100))
-            .Subscribe(SearchProjects);
 
         // Load icons
         _cancellationTokenSource?.Cancel();
@@ -162,6 +158,11 @@ public class ProjectsViewModel : ViewModelBase
         {
             Projects.Add(new ProjectViewModel(_engineManager, _projectManager, _filesService, project));
         }
+
+        this.WhenAnyValue(x => x.SearchTerm)
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Throttle(TimeSpan.FromMilliseconds(100))
+            .Subscribe(SearchProjects);
     }
 
     private async void NewProject_Clicked()
