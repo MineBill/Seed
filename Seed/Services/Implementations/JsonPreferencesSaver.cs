@@ -23,6 +23,7 @@ public class JsonPreferencesSaver : IPreferencesSaver
         var path = Globals.GetPreferencesFileLocation();
         using var file = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
         JsonSerializer.Serialize(file, Preferences, SerializerOptions);
+        file.Close();
     }
 
     private static UserPreferences Load()
@@ -35,6 +36,7 @@ public class JsonPreferencesSaver : IPreferencesSaver
             // TODO: Handle exceptions about permissions, etc.
             var jsonStream = new FileStream(path, FileMode.Open, FileAccess.Read);
             var preferences = JsonSerializer.Deserialize<UserPreferences>(jsonStream, SerializerOptions);
+            jsonStream.Close();
             return preferences ?? new UserPreferences();
         }
         catch (Exception e)
