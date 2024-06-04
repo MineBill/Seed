@@ -56,14 +56,20 @@ public class ProjectManager : IProjectManager
         }
 
         var engine = _engineManager.Engines.First(x => x.Version == project.EngineVersion);
+        var enginePath = engine.GetExecutablePath(engine.PreferredConfiguration);
 
         if (OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD())
         {
+            var fullProjectPath = Path.GetFullPath(project.Path)
+                .Replace(@"(", @"\(")
+                .Replace(@")", @"\)");
+
+            var arguments = @$" -c ""setsid {engine.GetExecutablePath(engine.PreferredConfiguration)} -project \\\""{fullProjectPath}\\\"" {project.ProjectArguments ?? string.Empty} """;
+
             var info = new ProcessStartInfo
             {
                 FileName = "/bin/sh",
-                Arguments =
-                    $" -c \"setsid {engine.GetExecutablePath(engine.PreferredConfiguration)} -project \"{Path.GetFullPath(project.Path)}\" {project.ProjectArguments ?? string.Empty} \"",
+                Arguments = arguments,
                 CreateNoWindow = true,
             };
 
@@ -73,7 +79,7 @@ public class ProjectManager : IProjectManager
         {
             var info = new ProcessStartInfo
             {
-                FileName = engine.GetExecutablePath(engine.PreferredConfiguration),
+                FileName = enginePath,
                 Arguments = $"-project \"{Path.GetFullPath(project.Path)}\" {project.ProjectArguments ?? string.Empty}",
             };
 
