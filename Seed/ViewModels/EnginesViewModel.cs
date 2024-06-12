@@ -151,7 +151,7 @@ public class EnginesViewModel : ViewModelBase
         var box = MessageBoxManager.GetMessageBoxStandard(
             "Just a reminder",
             """
-            Daily CI builds are build from the latest source code changes and might contain some bugs.
+            Daily CI builds are built from the latest source code changes and might contain some bugs.
             Use them if you want bleeding edge features and/or help test the engine.
             """,
             icon: Icon.Info);
@@ -282,7 +282,20 @@ public class EnginesViewModel : ViewModelBase
                 if (File.Exists(engine.GetExecutablePath(Engine.Configuration.Release)))
                     available.Add(Engine.Configuration.Release);
 
-                // TODO: Error out if no available configurations are found.
+                if (available.Count == 0)
+                {
+                    var box = MessageBoxManager.GetMessageBoxStandard(
+                        "Problem adding Engine version",
+                        """
+                        There was a problem finding engine builds in the selected path.
+
+                        Ensure that you have successfully built the engine and try again.
+                        """,
+                        icon: Icon.Error);
+                    await box.ShowWindowDialogAsync(App.Current.MainWindow);
+                    return;
+                }
+
                 engine.AvailableConfigurations = available;
                 engine.PreferredConfiguration = engine.AvailableConfigurations[0];
 
