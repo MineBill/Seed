@@ -21,7 +21,7 @@ public class JsonPreferencesSaver : IPreferencesSaver
     public void Save()
     {
         var path = Globals.GetPreferencesFileLocation();
-        using var file = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+        using var file = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
         JsonSerializer.Serialize(file, Preferences, SerializerOptions);
         file.Close();
     }
