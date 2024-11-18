@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 
-namespace Seed.Services;
+namespace Launcher.Services;
 
 public interface IFilesService
 {

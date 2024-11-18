@@ -1,18 +1,12 @@
 using System.Collections.ObjectModel;
-using Seed.Models;
+using Launcher.DataModels;
 
-namespace Seed.Services.Dummies;
+namespace Launcher.Services.Dummies;
 
 public class DummyProjectManager : IProjectManager
 {
     public event IProjectManager.SaveEvent? OnSaved;
-
-    public ObservableCollection<Project> Projects =>
-        new()
-        {
-            new Project("Pepegidas", "/home/minebill/ProjectFolder"),
-            new Project("Clapex Logends", @"C:\User\Fuck\GameFolder")
-        };
+    public ObservableCollection<Project> Projects { get; } = [];
 
     public void AddProject(Project project)
     {

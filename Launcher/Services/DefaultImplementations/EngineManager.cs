@@ -1,17 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using Avalonia.Platform;
-using Microsoft.Extensions.DependencyInjection;
+using Launcher.DataModels;
 using NLog;
-using Seed.Models;
 
-namespace Seed.Services.Implementations;
+namespace Launcher.Services.DefaultImplementations;
 
 public class EngineManager : IEngineManager
 {
@@ -35,11 +31,7 @@ public class EngineManager : IEngineManager
     /// <inheritdoc />
     public void DeleteEngine(Engine engine)
     {
-        if (Engines.Contains(engine))
-        {
-            Engines.Remove(engine);
-        }
-
+        Engines.Remove(engine);
         Save();
     }
 

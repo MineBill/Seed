@@ -1,15 +1,12 @@
-using System;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
-namespace Seed.Models;
+namespace Launcher.DataModels;
 
 /// <summary>
-/// A github artifact. Used to download daily engine builds from continuous deployment.
+/// A GitHub artifact. Used to download daily engine builds from continuous deployment.
 /// </summary>
-public class Artifact
+public class GitHubArtifact
 {
     /// <summary>
     /// The id of this artifact.

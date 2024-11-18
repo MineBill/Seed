@@ -1,8 +1,7 @@
 using System.Text.Json.Serialization;
 using Avalonia.Media;
-using Avalonia.Styling;
 
-namespace Seed.Models;
+namespace Launcher.DataModels;
 
 public enum SortingType
 {
@@ -38,7 +37,7 @@ public class UserPreferences
     public string? NewProjectLocation { get; set; }
 
     /// <summary>
-    /// The access token used to authenticate with Github for downloads.
+    /// The access token used to authenticate with GitHub for downloads.
     /// </summary>
     public string? GithubAccessToken { get; set; }
 

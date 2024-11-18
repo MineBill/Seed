@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json.Serialization;
 
-namespace Seed.Models;
+namespace Launcher.DataModels;
 
 /// <summary>
 /// The project structure used in the launcher and save file. Does not
@@ -40,8 +40,7 @@ public record Project(string Name, string Path, EngineVersion? EngineVersion = n
     /// This is filled after loading the projects(if the engine is found) and is provided
     /// as a quick helper to access the engine.
     /// </summary>
-    [JsonIgnore]
-    public Engine? Engine;
+    [JsonIgnore] public Engine? Engine;
 
     public EngineVersion? EngineVersion { get; set; } = EngineVersion;
 

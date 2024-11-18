@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
-using Seed.Models;
 
-namespace Seed.ViewModels;
+namespace Launcher.DataModels;
 
 /// <summary>
 /// Represents a CI workflow. Contains all the produced artifacts and other relevant information.
 /// </summary>
-public class Workflow
+public class GitHubWorkflow
 {
     /// <summary>
     /// The id of this workflow.
@@ -18,7 +17,7 @@ public class Workflow
     public ulong Id { get; set; }
 
     /// <summary>
-    /// The branch that was use to run the CI.
+    /// The branch that was used to run the CI.
     /// </summary>
     [JsonPropertyName("head_branch")]
     public string Branch { get; set; } = string.Empty;
@@ -57,13 +56,13 @@ public class Workflow
     /// Gets the editor artifact for the current operating system.
     /// </summary>
     [JsonIgnore]
-    public Artifact EditorArtifact => Artifacts.First(x => x.IsEditor && x.IsForThisPlatform());
+    public GitHubArtifact EditorArtifact => Artifacts.First(x => x.IsEditor && x.IsForThisPlatform());
 
     /// <summary>
     /// The list of all the artifacts produces by this workflow.
     /// </summary>
     [JsonIgnore]
-    public List<Artifact> Artifacts { get; set; } = new();
+    public List<GitHubArtifact> Artifacts { get; set; } = [];
 
     /// <summary>
     /// Is this workflow safe to download from?
@@ -73,13 +72,14 @@ public class Workflow
     /// <summary>
     /// Get the supported platform tools artifacts for this platform.
     /// </summary>
-    public List<Artifact> SupportedPlatformTools => Artifacts.FindAll(x => !x.IsEditor && x.SupportsThisPlatform());
+    public List<GitHubArtifact> SupportedPlatformTools =>
+        Artifacts.FindAll(x => !x.IsEditor && x.SupportsThisPlatform());
 
     /// <summary>
     /// Compare two workflows based on their creation time.
     /// </summary>
     /// <param name="workflow">The workflow to compare with.</param>
-    public int CompareTo(Workflow workflow)
+    public int CompareTo(GitHubWorkflow workflow)
     {
         return DateTime.Compare(CreatedAt, workflow.CreatedAt);
     }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
@@ -10,17 +9,15 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia.Media;
+using Launcher.DataModels;
 using Microsoft.Extensions.DependencyInjection;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
+// using MsBox.Avalonia;
+// using MsBox.Avalonia.Enums;
 using NLog;
-using Seed.Models;
-using Seed.ViewModels;
 
-namespace Seed.Services.Implementations;
+namespace Launcher.Services.DefaultImplementations;
 
-public class EngineDownloaderService : IEngineDownloaderService
+public class EngineDownloader : IEngineDownloader
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -73,19 +70,19 @@ public class EngineDownloaderService : IEngineDownloaderService
         catch (JsonException je)
         {
             Logger.Error(je, "Failed to read flax api.");
-            var box = MessageBoxManager.GetMessageBoxStandard(
-                "Exception",
-                $"An exception occured while deserializing information from the Flax API. It's possible the API has changed. Please make an issue at {Globals.RepoUrl}.",
-                icon: Icon.Error);
-            await box.ShowWindowDialogAsync(App.Current.MainWindow);
+            // var box = MessageBoxManager.GetMessageBoxStandard(
+            //     "Exception",
+            //     $"An exception occured while deserializing information from the Flax API. It's possible the API has changed. Please make an issue at {Globals.RepoUrl}.",
+            //     icon: Icon.Error);
+            // await box.ShowWindowDialogAsync(App.Current.Desktop.MainWindow!);
             return null;
         }
     }
 
     /// <inheritdoc />
-    public async Task<List<Workflow>?> GetGithubWorkflows()
+    public async Task<List<GitHubWorkflow>?> GetGithubWorkflows()
     {
-        var prefs = App.Current.Services.GetService<IPreferencesSaver>()!;
+        var prefs = App.Current.Services.GetService<IPreferencesManager>()!;
         if (prefs.Preferences.GithubAccessToken is null)
             return null;
         var request = new HttpRequestMessage(HttpMethod.Get, GithubWorkflowApiUrl);
@@ -99,7 +96,7 @@ public class EngineDownloaderService : IEngineDownloaderService
         // _client.DefaultRequestHeaders.Add("Bearer", prefs.Preferences.GithubAccessToken);
         // _client.Timeout = TimeSpan.FromSeconds(30);
 
-        var list = new List<Workflow>();
+        var list = new List<GitHubWorkflow>();
         try
         {
             var response = await _client.SendAsync(request, CancellationToken.None);
@@ -110,11 +107,11 @@ public class EngineDownloaderService : IEngineDownloaderService
 
             foreach (var workflowNode in workflows["workflow_runs"]!.AsArray())
             {
-                var workflow = workflowNode?.Deserialize<Workflow>();
+                var workflow = workflowNode?.Deserialize<GitHubWorkflow>();
                 if (workflow is null || !workflow.IsValid)
                     continue;
 
-                workflow.Artifacts = new List<Artifact>();
+                workflow.Artifacts = new List<GitHubArtifact>();
 
                 var workflowRequest = new HttpRequestMessage(HttpMethod.Get,
                     $"https://api.github.com/repos/FlaxEngine/FlaxEngine/actions/runs/{workflow.Id}/artifacts");
@@ -127,7 +124,7 @@ public class EngineDownloaderService : IEngineDownloaderService
                 var artifacts = JsonNode.Parse(artifactsJson);
                 foreach (var artifactNode in artifacts!["artifacts"]!.AsArray())
                 {
-                    var artifact = artifactNode.Deserialize<Artifact>();
+                    var artifact = artifactNode.Deserialize<GitHubArtifact>();
                     if (artifact is null)
                         continue;
 
@@ -164,21 +161,21 @@ public class EngineDownloaderService : IEngineDownloaderService
         catch (JsonException je)
         {
             Logger.Error(je, "Failed to read github api.");
-            var box = MessageBoxManager.GetMessageBoxStandard(
-                "Exception",
-                $"An exception occured while deserializing information from the Github API. Please make an issue at {Globals.RepoUrl}.",
-                icon: Icon.Error);
-            await box.ShowWindowDialogAsync(App.Current.MainWindow);
+            // var box = MessageBoxManager.GetMessageBoxStandard(
+            //     "Exception",
+            //     $"An exception occured while deserializing information from the Github API. Please make an issue at {Globals.RepoUrl}.",
+            //     icon: Icon.Error);
+            // await box.ShowWindowDialogAsync(App.Current.Desktop.MainWindow!);
             return null;
         }
         catch (HttpRequestException e)
         {
             Logger.Error(e, "Http request exception.");
-            var box = MessageBoxManager.GetMessageBoxStandard(
-                "Exception",
-                $"An exception occured while making an http request to Github. Please make an issue at {Globals.RepoUrl}.\nStatus Code: {e.StatusCode}",
-                icon: Icon.Error);
-            await box.ShowWindowDialogAsync(App.Current.MainWindow);
+            // var box = MessageBoxManager.GetMessageBoxStandard(
+            //     "Exception",
+            //     $"An exception occured while making an http request to Github. Please make an issue at {Globals.RepoUrl}.\nStatus Code: {e.StatusCode}",
+            //     icon: Icon.Error);
+            // await box.ShowWindowDialogAsync(App.Current.Desktop.MainWindow!);
             return null;
         }
 
@@ -239,11 +236,11 @@ public class EngineDownloaderService : IEngineDownloaderService
     }
 
     /// <inheritdoc />
-    public async Task<Engine> DownloadFromWorkflow(Workflow workflow, List<Artifact> platformTools,
+    public async Task<Engine> DownloadFromWorkflow(GitHubWorkflow workflow, List<GitHubArtifact> platformTools,
         string installFolderPath, CancellationToken cancellationToken = default)
     {
         DownloadStarted?.Invoke();
-        var prefs = App.Current.Services.GetService<IPreferencesSaver>()!;
+        var prefs = App.Current.Services.GetService<IPreferencesManager>()!;
         _client.DefaultRequestHeaders.Accept.Clear();
         _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         _client.DefaultRequestHeaders.Add("User-Agent", "Seed Launcher for Flax");

@@ -1,7 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace Seed.Models;
+namespace Launcher.DataModels;
 
 [JsonDerivedType(typeof(NormalVersion), typeDiscriminator: "normal")]
 [JsonDerivedType(typeof(GitVersion), typeDiscriminator: "git")]
@@ -49,6 +49,7 @@ public record LocalBuild(string Path, Version Version) : EngineVersion
         {
             return Version.CompareTo(normal.Version);
         }
+
         return 0;
     }
 

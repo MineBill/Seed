@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Sockets;
 using System.Text.Json.Serialization;
 
-namespace Seed.Models;
+namespace Launcher.DataModels;
 
 public class Engine
 {
@@ -30,8 +29,7 @@ public class Engine
     /// </summary>
     public EngineVersion Version { get; set; }
 
-    [JsonIgnore]
-    public string DisplayName => $"{Name} - {Version}";
+    [JsonIgnore] public string DisplayName => $"{Name} - {Version}";
 
     /// <summary>
     /// The preferred configuration to use when selecting the editor executable.
@@ -78,6 +76,7 @@ public class Engine
             os = "MacOS"; // TODO: Is this the correct folder name for macs?
             exe = "FlaxEditor";
         }
+
         return System.IO.Path.Combine(Path, "Binaries", "Editor", os, configuration.ToString(), exe);
     }
 }

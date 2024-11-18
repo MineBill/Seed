@@ -5,10 +5,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using Launcher.DataModels;
 using NLog;
-using Seed.Models;
 
-namespace Seed.Services.Implementations;
+namespace Launcher.Services.DefaultImplementations;
 
 public class ProjectManager : IProjectManager
 {
@@ -64,7 +64,8 @@ public class ProjectManager : IProjectManager
                 .Replace(@"(", @"\(")
                 .Replace(@")", @"\)");
 
-            var arguments = @$" -c ""setsid {engine.GetExecutablePath(engine.PreferredConfiguration)} -project \\\""{fullProjectPath}\\\"" {project.ProjectArguments ?? string.Empty} """;
+            var arguments =
+                @$" -c ""setsid {engine.GetExecutablePath(engine.PreferredConfiguration)} -project \\\""{fullProjectPath}\\\"" {project.ProjectArguments ?? string.Empty} """;
 
             var info = new ProcessStartInfo
             {

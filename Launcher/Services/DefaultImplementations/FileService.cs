@@ -1,27 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 
-namespace Seed.Services.Implementations;
+namespace Launcher.Services.DefaultImplementations;
 
-public class FilesService : IFilesService
+public class FilesService(Window target) : IFilesService
 {
-    private readonly Window _target;
-
-    public FilesService(Window target)
-    {
-        _target = target;
-    }
-
     /// <inheritdoc />
     public async Task<IStorageFile?> SelectFileAsync(string title, IReadOnlyList<FilePickerFileType>? options = default)
     {
-        var files = await _target.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
+        var files = await target.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
         {
             Title = title,
             AllowMultiple = false,
@@ -33,7 +24,7 @@ public class FilesService : IFilesService
 
     public async Task<IStorageFile?> SaveFileAsync()
     {
-        return await _target.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions()
+        return await target.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions()
         {
             Title = "Save Text File"
         });
@@ -41,13 +32,13 @@ public class FilesService : IFilesService
 
     public async Task<IStorageFolder?> SelectFolderAsync(string? path = null)
     {
-        var folders = await _target.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+        var folders = await target.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
         {
             AllowMultiple = false,
             SuggestedStartLocation =
-                await _target.StorageProvider.TryGetFolderFromPathAsync(path ??
-                                                                        Environment.GetFolderPath(Environment
-                                                                            .SpecialFolder.ApplicationData))
+                await target.StorageProvider.TryGetFolderFromPathAsync(path ??
+                                                                       Environment.GetFolderPath(Environment
+                                                                           .SpecialFolder.ApplicationData))
         });
         return folders.Count > 0 ? folders[0] : null;
     }

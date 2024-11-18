@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Seed.Models;
-using Seed.ViewModels;
+using Launcher.DataModels;
 
-namespace Seed.Services;
+namespace Launcher.Services;
 
-public interface IEngineDownloaderService
+public interface IEngineDownloader
 {
     public event Action<string> ActionChanged;
     public event Action DownloadStarted;
@@ -18,7 +17,7 @@ public interface IEngineDownloaderService
 
     public Task<List<RemoteEngine>?> GetAvailableVersions();
 
-    public Task<List<Workflow>?> GetGithubWorkflows();
+    public Task<List<GitHubWorkflow>?> GetGithubWorkflows();
 
     /// <summary>
     /// Download an editor version along with the specified platform tools.
@@ -39,6 +38,6 @@ public interface IEngineDownloaderService
     /// <param name="installFolderPath">The root folder path for all the editor installations. A sub folder for this engine will be created.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<Engine> DownloadFromWorkflow(Workflow workflow, List<Artifact> platformTools,
+    public Task<Engine> DownloadFromWorkflow(GitHubWorkflow workflow, List<GitHubArtifact> platformTools,
         string installFolderPath, CancellationToken cancellationToken = default);
 }

@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
-using Seed.Models;
+using Launcher.DataModels;
 
-namespace Seed.Services;
+namespace Launcher.Services;
 
 public interface IEngineManager
 {

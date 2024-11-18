@@ -1,12 +1,12 @@
 using System;
 using System.IO;
 using System.Text.Json;
+using Launcher.DataModels;
 using NLog;
-using Seed.Models;
 
-namespace Seed.Services.Implementations;
+namespace Launcher.Services.DefaultImplementations;
 
-public class JsonPreferencesSaver : IPreferencesSaver
+public class JsonPreferencesManager : IPreferencesManager
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
