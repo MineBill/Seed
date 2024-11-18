@@ -1,0 +1,63 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="11.2.1"/>
+        <PackageReference Include="Avalonia.Desktop" Version="11.2.1"/>
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.1"/>
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.1"/>
+        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.2.1">
+            <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+            <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+        <PackageReference Include="DialogHost.Avalonia" Version="0.9.0-preview3" />
+        <PackageReference Include="MessageBox.Avalonia" Version="3.2.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+        <PackageReference Include="NLog" Version="5.3.4" />
+        <PackageReference Include="NLog.Extensions.Logging" Version="5.3.14" />
+        <PackageReference Include="System.Reactive" Version="6.0.1" />
+        <PackageReference Include="WebViewControl-Avalonia" Version="3.120.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Assets\Fonts\Phosphor.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\Phosphor.ttf" />
+      <None Remove="Assets\Fonts\Phosphor-Fill.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\Phosphor-Fill.ttf" />
+      <None Remove="Assets\Fonts\Nunito.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\Nunito.ttf" />
+      <None Remove="Assets\Fonts\Ubuntu-Bold.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\Ubuntu-Bold.ttf" />
+      <None Remove="Assets\Fonts\Ubuntu-Regular.ttf" />
+      <AvaloniaResource Include="Assets\Fonts\Ubuntu-Regular.ttf" />
+      <None Remove="Assets\Images\logo.png" />
+      <AvaloniaResource Include="Assets\Images\logo.png" />
+      <None Remove="Assets\Images\project_icon.png" />
+      <AvaloniaResource Include="Assets\Images\project_icon.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\MainView.axaml.cs">
+        <DependentUpon>MainWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Windows\NewProjectView.axaml.cs">
+        <DependentUpon>NewProjectView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Assets\Images\" />
+      <Folder Include="Controls\" />
+    </ItemGroup>
+</Project>
