@@ -27,7 +27,7 @@ public class Engine
     /// <summary>
     ///  The engine version.
     /// </summary>
-    public EngineVersion Version { get; set; }
+    public required EngineVersion Version { get; set; }
 
     [JsonIgnore] public string DisplayName => $"{Name} - {Version}";
 
