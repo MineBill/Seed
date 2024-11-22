@@ -4,64 +4,64 @@
              xmlns:local="clr-namespace:Launcher"
              x:Class="Launcher.App"
              RequestedThemeVariant="Default">
-    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-    <Application.DataTemplates>
-        <local:ViewLocator />
-    </Application.DataTemplates>
+  <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+  <Application.DataTemplates>
+    <local:ViewLocator />
+  </Application.DataTemplates>
 
-    <Application.Styles>
-        <FluentTheme />
-        <StyleInclude Source="Styles/AppDefaultStyle.axaml"></StyleInclude>
-        <StyleInclude Source = "avares://Launcher/Views/DialogBase.axaml" />
-        <StyleInclude Source="avares://FluentAvalonia.ProgressRing/Styling/Controls/ProgressRing.axaml" />
-        <dialogHostAvalonia:DialogHostStyles />
-    </Application.Styles>
+  <Application.Styles>
+    <FluentTheme />
+    <StyleInclude Source="Styles/AppDefaultStyle.axaml"></StyleInclude>
+    <StyleInclude Source="avares://Launcher/Views/DialogBase.axaml" />
+    <StyleInclude Source="avares://FluentAvalonia.ProgressRing/Styling/Controls/ProgressRing.axaml" />
+    <dialogHostAvalonia:DialogHostStyles />
+  </Application.Styles>
 
-    <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="PrimaryBackground">#fff</SolidColorBrush>
-                    <SolidColorBrush x:Key="SecondaryBackground">#f5f5f5</SolidColorBrush>
-                    <SolidColorBrush x:Key="LineBackground">#ccc</SolidColorBrush>
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+          <SolidColorBrush x:Key="PrimaryBackground">#fff</SolidColorBrush>
+          <SolidColorBrush x:Key="SecondaryBackground">#f5f5f5</SolidColorBrush>
+          <SolidColorBrush x:Key="LineBackground">#ccc</SolidColorBrush>
 
-                    <SolidColorBrush x:Key="SelectedBackground">#ddd</SolidColorBrush>
+          <SolidColorBrush x:Key="SelectedBackground">#ddd</SolidColorBrush>
 
-                    <SolidColorBrush x:Key="PrimaryForeground">Black</SolidColorBrush>
-                    <SolidColorBrush x:Key="SecondaryForeground">#3c3c3c</SolidColorBrush>
+          <SolidColorBrush x:Key="PrimaryForeground">Black</SolidColorBrush>
+          <SolidColorBrush x:Key="SecondaryForeground">#3c3c3c</SolidColorBrush>
 
-                    <SolidColorBrush x:Key="PrimaryForegroundHover">#777</SolidColorBrush>
-                    <BoxShadows x:Key="PrimaryShadow">5 5 10 0 DarkGray</BoxShadows>
+          <SolidColorBrush x:Key="PrimaryForegroundHover">#777</SolidColorBrush>
+          <BoxShadows x:Key="PrimaryShadow">5 5 10 0 DarkGray</BoxShadows>
 
-                    <SolidColorBrush x:Key="IconForeground">DimGray</SolidColorBrush>
-                    <SolidColorBrush x:Key="IconForegroundHover">#c2c2c2</SolidColorBrush>
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="PrimaryBackground">#1b1b1b</SolidColorBrush>
-                    <SolidColorBrush x:Key="SecondaryBackground">#2c2c30</SolidColorBrush>
-                    <SolidColorBrush x:Key="LineBackground">#53535b</SolidColorBrush>
-
-                    <SolidColorBrush x:Key="SelectedBackground">#53535b</SolidColorBrush>
-
-                    <SolidColorBrush x:Key="PrimaryForeground">#eee</SolidColorBrush>
-                    <SolidColorBrush x:Key="SecondaryForeground">#aaa</SolidColorBrush>
-
-                    <SolidColorBrush x:Key="PrimaryForegroundHover">#e2e2e2</SolidColorBrush>
-                    <BoxShadows x:Key="PrimaryShadow">5 5 10 0 #000</BoxShadows>
-
-                    <SolidColorBrush x:Key="IconForeground">DimGray</SolidColorBrush>
-                    <SolidColorBrush x:Key="IconForegroundHover">#c2c2c2</SolidColorBrush>
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
-
-            <SolidColorBrush x:Key="PrimaryAccentColor">#0079cb</SolidColorBrush>
-            <SolidColorBrush x:Key="PrimaryAccentColorLight1">#0092f5</SolidColorBrush>
-
-            <SolidColorBrush x:Key="PrimaryCaution">Crimson</SolidColorBrush>
-            <SolidColorBrush x:Key="PrimaryCautionHover">#ed365b</SolidColorBrush>
-
-            <FontFamily x:Key="Icons">/Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
-            <FontFamily x:Key="IconsFill">/Assets/Fonts/Phosphor-Fill.ttf#Phosphor-Fill</FontFamily>
+          <SolidColorBrush x:Key="IconForeground">DimGray</SolidColorBrush>
+          <SolidColorBrush x:Key="IconForegroundHover">#c2c2c2</SolidColorBrush>
         </ResourceDictionary>
-    </Application.Resources>
+        <ResourceDictionary x:Key="Dark">
+          <SolidColorBrush x:Key="PrimaryBackground">#1b1b1b</SolidColorBrush>
+          <SolidColorBrush x:Key="SecondaryBackground">#2c2c30</SolidColorBrush>
+          <SolidColorBrush x:Key="LineBackground">#53535b</SolidColorBrush>
+
+          <SolidColorBrush x:Key="SelectedBackground">#53535b</SolidColorBrush>
+
+          <SolidColorBrush x:Key="PrimaryForeground">#eee</SolidColorBrush>
+          <SolidColorBrush x:Key="SecondaryForeground">#aaa</SolidColorBrush>
+
+          <SolidColorBrush x:Key="PrimaryForegroundHover">#e2e2e2</SolidColorBrush>
+          <BoxShadows x:Key="PrimaryShadow">5 5 10 0 #000</BoxShadows>
+
+          <SolidColorBrush x:Key="IconForeground">DimGray</SolidColorBrush>
+          <SolidColorBrush x:Key="IconForegroundHover">#c2c2c2</SolidColorBrush>
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+
+      <SolidColorBrush x:Key="PrimaryAccentColor">#0079cb</SolidColorBrush>
+      <SolidColorBrush x:Key="PrimaryAccentColorLight1">#0092f5</SolidColorBrush>
+
+      <SolidColorBrush x:Key="PrimaryCaution">Crimson</SolidColorBrush>
+      <SolidColorBrush x:Key="PrimaryCautionHover">#ed365b</SolidColorBrush>
+
+      <FontFamily x:Key="Icons">/Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
+      <FontFamily x:Key="IconsFill">/Assets/Fonts/Phosphor-Fill.ttf#Phosphor-Fill</FontFamily>
+    </ResourceDictionary>
+  </Application.Resources>
 </Application>

@@ -40,7 +40,8 @@ public record Project(string Name, string Path, EngineVersion? EngineVersion = n
     /// This is filled after loading the projects(if the engine is found) and is provided
     /// as a quick helper to access the engine.
     /// </summary>
-    [JsonIgnore] public Engine? Engine;
+    [JsonIgnore]
+    public Engine? Engine;
 
     public EngineVersion? EngineVersion { get; set; } = EngineVersion;
 

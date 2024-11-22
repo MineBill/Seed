@@ -5,5 +5,6 @@ namespace Launcher.ViewModels.Windows;
 
 public partial class NewProjectViewModel : DialogModelBase<Unit>
 {
-    [ObservableProperty] private string _thingy = "Text";
+    [ObservableProperty]
+    private string _thingy = "Text";
 }

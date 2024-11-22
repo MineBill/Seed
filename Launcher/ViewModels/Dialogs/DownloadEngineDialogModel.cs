@@ -25,14 +25,18 @@ public partial class DownloadEngineDialogModel(
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     private const string DefaultPageName = "Install Flax";
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(EngineCount))]
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(EngineCount))]
     private ObservableCollection<RemoteEngine> _remoteEngines = new(remoteEngines);
 
-    [ObservableProperty] private RemoteEngine? _selectedEngine;
+    [ObservableProperty]
+    private RemoteEngine? _selectedEngine;
 
-    [ObservableProperty] private string _pageName = DefaultPageName;
+    [ObservableProperty]
+    private string _pageName = DefaultPageName;
 
-    [ObservableProperty] private ObservableCollection<RemotePackageViewModel>? _selectedRemotePackages;
+    [ObservableProperty]
+    private ObservableCollection<RemotePackageViewModel>? _selectedRemotePackages;
 
     public string EngineCount => $"{RemoteEngines.Count} available engines";
 

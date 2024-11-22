@@ -21,7 +21,8 @@ public partial class ProjectsPageViewModel : ViewModelBase
     private readonly IProjectManager _projectManager;
     private readonly IFilesService _filesService;
 
-    [ObservableProperty] private ObservableCollection<ProjectViewModel> _projects = [];
+    [ObservableProperty]
+    private ObservableCollection<ProjectViewModel> _projects = [];
 
     public ProjectsPageViewModel() : this(
         new DummyEngineManager(),

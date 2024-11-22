@@ -8,49 +8,49 @@
              x:DataType="vm:ProjectsPageViewModel"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Launcher.Views.ProjectsPageView">
-    <Design.DataContext>
-        <vm:ProjectsPageViewModel />
-    </Design.DataContext>
+  <Design.DataContext>
+    <vm:ProjectsPageViewModel />
+  </Design.DataContext>
 
-    <Border Padding="20">
-        <Grid RowDefinitions="Auto, Auto, *" ColumnDefinitions="*">
-            <Grid>
-                <Label Classes="page-header" Content="Projects" />
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
-                    <Button Classes="page-button" Content="Add Test Project"
-                            Command="{Binding AddTestProjectCommand}" />
-                    <Button Classes="page-button" Content="Add">
-                        <Button.Flyout>
-                            <Flyout Placement="BottomEdgeAlignedLeft" ShowMode="Transient">
-                                <StackPanel>
-                                    <Button Classes="flyout" Content="Add from disk"
-                                            HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Center"
-                                            Command="{Binding AddProjectFromDiskCommand}" />
-                                    <Button Classes="flyout" Content="Clone from repo"
-                                            HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Center" />
-                                </StackPanel>
-                            </Flyout>
-                        </Button.Flyout>
-                    </Button>
-                    <!-- Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=dialogHost:DialogHost}, Path=OpenDialogCommand}" -->
-                    <Button Classes="page-button primary" Content="New Project"
-                            Command="{Binding ShowNewProjectDialogCommand}" />
+  <Border Padding="20">
+    <Grid RowDefinitions="Auto, Auto, *" ColumnDefinitions="*">
+      <Grid>
+        <Label Classes="page-header" Content="Projects" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+          <Button Classes="page-button" Content="Add Test Project"
+                  Command="{Binding AddTestProjectCommand}" />
+          <Button Classes="page-button" Content="Add">
+            <Button.Flyout>
+              <Flyout Placement="BottomEdgeAlignedLeft" ShowMode="Transient">
+                <StackPanel>
+                  <Button Classes="flyout" Content="Add from disk"
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Center"
+                          Command="{Binding AddProjectFromDiskCommand}" />
+                  <Button Classes="flyout" Content="Clone from repo"
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Center" />
                 </StackPanel>
-            </Grid>
-            <Separator Grid.Row="1" Margin="0 5" />
-            <ListBox
-                Classes="no-selection-background"
-                Grid.Row="2"
-                ItemsSource="{Binding Projects}">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
-        </Grid>
-    </Border>
-    <!-- </dialogHost:DialogHost> -->
+              </Flyout>
+            </Button.Flyout>
+          </Button>
+          <!-- Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=dialogHost:DialogHost}, Path=OpenDialogCommand}" -->
+          <Button Classes="page-button primary" Content="New Project"
+                  Command="{Binding ShowNewProjectDialogCommand}" />
+        </StackPanel>
+      </Grid>
+      <Separator Grid.Row="1" Margin="0 5" />
+      <ListBox
+        Classes="no-selection-background"
+        Grid.Row="2"
+        ItemsSource="{Binding Projects}">
+        <ListBox.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel />
+          </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+      </ListBox>
+    </Grid>
+  </Border>
+  <!-- </dialogHost:DialogHost> -->
 </UserControl>

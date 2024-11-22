@@ -29,7 +29,8 @@ public class Engine
     /// </summary>
     public required EngineVersion Version { get; set; }
 
-    [JsonIgnore] public string DisplayName => $"{Name} - {Version}";
+    [JsonIgnore]
+    public string DisplayName => $"{Name} - {Version}";
 
     /// <summary>
     /// The preferred configuration to use when selecting the editor executable.

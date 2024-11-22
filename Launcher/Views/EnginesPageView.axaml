@@ -6,35 +6,35 @@
              x:DataType="vm:EnginesPageViewModel"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Launcher.Views.EnginesPageView">
-    <Border Padding="20">
-        <Grid RowDefinitions="Auto, Auto, *" ColumnDefinitions="*">
-            <Grid>
-                <Label Classes="page-header" Content="Installs" />
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
-                    <Button Classes="page-button" Content="Locate" />
-                    <Button Classes="page-button primary" Content="Download">
-                        <Button.Flyout>
-                            <Flyout Placement="BottomEdgeAlignedLeft" ShowMode="Transient">
-                                <StackPanel>
-                                    <Button Classes="flyout" Content="Normal Release"
-                                            HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Center"
-                                            Command="{Binding ShowDownloadDialogCommand}" />
-                                    <Button Classes="flyout" Content="GitHub Release"
-                                            HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Center" />
-                                </StackPanel>
-                            </Flyout>
-                        </Button.Flyout>
-                    </Button>
+  <Border Padding="20">
+    <Grid RowDefinitions="Auto, Auto, *" ColumnDefinitions="*">
+      <Grid>
+        <Label Classes="page-header" Content="Installs" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+          <Button Classes="page-button" Content="Locate" />
+          <Button Classes="page-button primary" Content="Download">
+            <Button.Flyout>
+              <Flyout Placement="BottomEdgeAlignedLeft" ShowMode="Transient">
+                <StackPanel>
+                  <Button Classes="flyout" Content="Normal Release"
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Center"
+                          Command="{Binding ShowDownloadDialogCommand}" />
+                  <Button Classes="flyout" Content="GitHub Release"
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Center" />
                 </StackPanel>
-            </Grid>
-            <Separator Grid.Row="1" Margin="0 5" />
-            <ListBox
-                Grid.Row="2"
-                Background="Transparent"
-                ItemsSource="{Binding Engines}">
-            </ListBox>
-        </Grid>
-    </Border>
+              </Flyout>
+            </Button.Flyout>
+          </Button>
+        </StackPanel>
+      </Grid>
+      <Separator Grid.Row="1" Margin="0 5" />
+      <ListBox
+        Grid.Row="2"
+        Background="Transparent"
+        ItemsSource="{Binding Engines}">
+      </ListBox>
+    </Grid>
+  </Border>
 </UserControl>

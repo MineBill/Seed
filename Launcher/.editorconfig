@@ -1,0 +1,10 @@
+root = true
+
+[*.cs]
+indent_style = space
+indent_size = 4
+
+resharper_csharp_place_attribute_on_same_line = false
+
+[*.axaml]
+indent_size = 2

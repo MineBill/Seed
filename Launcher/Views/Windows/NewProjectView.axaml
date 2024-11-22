@@ -8,17 +8,17 @@
              mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="500"
              Width="700" Height="500"
              x:Class="Launcher.Views.Windows.NewProjectView">
-    <!-- <Border Padding="10"> -->
-    <!--     <Grid RowDefinitions="Auto, *"> -->
-    <!--         <Grid ColumnDefinitions="*, Auto"> -->
-    <!--             <Label Classes="page-header" Content="New Project" /> -->
-    <!--             <Button Grid.Column="1" Classes="close" Command="{Binding CloseCommand}" /> -->
-    <!--         </Grid> -->
-    <!--     </Grid> -->
-    <!-- </Border> -->
-    <views:DialogBase CloseCommand="{Binding CloseDialogCommand}">
-        <Border Background="GreenYellow">
-            <Button Content="Extra" />
-        </Border>
-    </views:DialogBase>
+  <!-- <Border Padding="10"> -->
+  <!--     <Grid RowDefinitions="Auto, *"> -->
+  <!--         <Grid ColumnDefinitions="*, Auto"> -->
+  <!--             <Label Classes="page-header" Content="New Project" /> -->
+  <!--             <Button Grid.Column="1" Classes="close" Command="{Binding CloseCommand}" /> -->
+  <!--         </Grid> -->
+  <!--     </Grid> -->
+  <!-- </Border> -->
+  <views:DialogBase CloseCommand="{Binding CloseDialogCommand}">
+    <Border Background="GreenYellow">
+      <Button Content="Extra" />
+    </Border>
+  </views:DialogBase>
 </UserControl>

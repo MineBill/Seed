@@ -7,7 +7,9 @@ namespace Launcher.ViewModels;
 
 public partial class RemotePackageViewModel(RemotePackage package) : ViewModelBase
 {
-    [ObservableProperty] private bool _isChecked;
+    [ObservableProperty]
+    private bool _isChecked;
+
     public string PackageName => package.Name ?? "asd";
 
     public RemotePackage Package => package;
