@@ -25,15 +25,18 @@ public class DummyEngineDownloader : IEngineDownloader
     }
 
     public Task<Engine> DownloadVersion(RemoteEngine engine, List<RemotePackage> platformTools,
-        string installFolderPath,
-        CancellationToken cancellationToken = default)
+        string installFolderPath)
     {
         throw new NotImplementedException();
     }
 
     public Task<Engine> DownloadFromWorkflow(GitHubWorkflow workflow, List<GitHubArtifact> platformTools,
-        string installFolderPath,
-        CancellationToken cancellationToken = default)
+        string installFolderPath)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void StopDownloads()
     {
         throw new NotImplementedException();
     }

@@ -26,10 +26,8 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    private readonly ProjectsPageViewModel _projectsPage = new();
-    private readonly EnginesPageViewModel _enginesPage = new();
-
-    private IEngineDownloader _engineDownloader;
+    private readonly IEngineDownloader _engineDownloader;
+    private readonly Func<PageNames, PageViewModel> _pageFactory;
 
     [ObservableProperty]
     private bool _sidebarExtended = true;
@@ -46,40 +44,41 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsProjectsPage))]
     [NotifyPropertyChangedFor(nameof(IsEnginesPage))]
-    private ViewModelBase _currentPage;
+    private PageViewModel _currentPage;
 
-    public bool IsProjectsPage => CurrentPage == _projectsPage;
-    public bool IsEnginesPage => CurrentPage == _enginesPage;
+    public bool IsProjectsPage => CurrentPage.PageName == PageNames.Projects;
+    public bool IsEnginesPage => CurrentPage.PageName == PageNames.Installs;
 
     public CenteredDialogPopupPositioner Positioner { get; } = new();
-    public CancellationTokenSource CancellationTokenSource { get; set; } = new();
 
-    public MainViewModel()
-    {
-        _currentPage = _projectsPage;
-        _engineDownloader = new DummyEngineDownloader();
-    }
+    // public MainViewModel()
+    // {
+    //     _currentPage = new ProjectsPageViewModel(new DummyEngineManager(), new DummyProjectManager());
+    //     _engineDownloader = new DummyEngineDownloader();
+    // }
 
-    public MainViewModel(IServiceProvider provider)
+    public MainViewModel(IEngineDownloader engineDownloader, Func<PageNames, PageViewModel> factory)
     {
-        _engineDownloader = provider.GetService<IEngineDownloader>()!;
+        _pageFactory = factory;
+        _engineDownloader = engineDownloader;
         _engineDownloader.DownloadStarted += EngineDownloaderOnDownloadStarted;
         _engineDownloader.DownloadFinished += EngineDownloaderOnDownloadFinished;
         _engineDownloader.ActionChanged += EngineDownloaderOnActionChanged;
         _engineDownloader.Progress.ProgressChanged += OnDownloadProgressChanged;
 
-        _projectsPage = new ProjectsPageViewModel(
-            provider.GetService<IEngineManager>()!,
-            provider.GetService<IProjectManager>()!,
-            provider.GetService<IFilesService>()!
-        );
-        _enginesPage = new EnginesPageViewModel(
-            provider.GetService<IEngineManager>()!,
-            _engineDownloader,
-            provider.GetService<IPreferencesManager>()!,
-            CancellationTokenSource.Token
-        );
-        _currentPage = _projectsPage;
+        // _projectsPage = new ProjectsPageViewModel(
+        //     provider.GetService<IEngineManager>()!,
+        //     provider.GetService<IProjectManager>()!,
+        //     provider.GetService<IFilesService>()!
+        // );
+        // _enginesPage = new EnginesPageViewModel(
+        //     provider.GetService<IEngineManager>()!,
+        //     _engineDownloader,
+        //     provider.GetService<IPreferencesManager>()!,
+        //     CancellationTokenSource.Token
+        // );
+
+        CurrentPage = _pageFactory.Invoke(PageNames.Projects);
     }
 
     public void ToggleSidebar()
@@ -90,13 +89,13 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private void GoToProjects()
     {
-        CurrentPage = _projectsPage;
+        CurrentPage = _pageFactory.Invoke(PageNames.Projects);
     }
 
     [RelayCommand]
     private void GoToEngines()
     {
-        CurrentPage = _enginesPage;
+        CurrentPage = _pageFactory.Invoke(PageNames.Installs);
     }
 
     [RelayCommand]
@@ -117,7 +116,7 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private void CancelActiveDownload()
     {
-        CancellationTokenSource.Cancel();
+        _engineDownloader.StopDownloads();
         EngineDownloaderOnDownloadFinished();
     }
 

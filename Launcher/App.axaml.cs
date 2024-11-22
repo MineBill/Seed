@@ -1,6 +1,8 @@
 using System;
+using System.ComponentModel;
 using System.IO;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Launcher.Services;
@@ -15,10 +17,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Launcher;
 
+public enum PageNames
+{
+    None,
+    Projects,
+    Installs
+}
+
 public class App : Application
 {
     public new static App Current => (Application.Current as App)!;
-    public IServiceProvider Services { get; private set; } = null!;
 
     public IClassicDesktopStyleApplicationLifetime Desktop =>
         (ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)!;
@@ -26,6 +34,7 @@ public class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+        // Register all ViewModel->View relations here to prevent use of reflection in the view locator.
         ViewLocator.Register<MainViewModel, MainView>();
         ViewLocator.Register<NewProjectViewModel, NewProjectView>();
         ViewLocator.Register<SettingsDialogModel, SettingsDialog>();
@@ -45,21 +54,36 @@ public class App : Application
         var configFolder = Globals.GetConfigFolder();
         if (!Directory.Exists(configFolder))
             Directory.CreateDirectory(configFolder);
-        // Register all ViewModel->View relations here to prevent use of reflection in the view locator.
 
-        var mainView = new MainView();
         var services = new ServiceCollection();
-        services.AddSingleton<IFilesService>(_ => new FilesService(mainView));
-        services.AddSingleton<IEngineDownloader>(_ => new EngineDownloader());
-        var engineManager = new EngineManager();
-        services.AddSingleton<IEngineManager>(_ => engineManager);
-        services.AddSingleton<IProjectManager>(_ => new ProjectManager(engineManager));
-        services.AddSingleton<IPreferencesManager>(_ => new JsonPreferencesManager());
+        services.AddSingleton<Window, MainView>();
+        services.AddSingleton<IFilesService, FilesService>();
+        services.AddSingleton<IEngineDownloader, EngineDownloader>();
+        services.AddSingleton<IEngineManager, EngineManager>();
+        services.AddSingleton<IProjectManager, ProjectManager>();
+        services.AddSingleton<IPreferencesManager, JsonPreferencesManager>();
 
-        Services = services.BuildServiceProvider();
+        services.AddSingleton<MainViewModel>();
 
-        mainView.DataContext = new MainViewModel(Services);
-        desktop.MainWindow = mainView;
+        services.AddTransient<ProjectsPageViewModel>();
+        services.AddTransient<EnginesPageViewModel>();
+        services.AddTransient<SettingsDialogModel>();
+        services.AddTransient<DownloadEngineDialogModel>();
+
+        services.AddSingleton<Func<PageNames, PageViewModel>>(x => type =>
+            type switch
+            {
+                PageNames.Projects => x.GetRequiredService<ProjectsPageViewModel>(),
+                PageNames.Installs => x.GetRequiredService<EnginesPageViewModel>(),
+                _ => throw new InvalidOperationException()
+            }
+        );
+
+        var provider = services.BuildServiceProvider();
+
+        var view = provider.GetRequiredService<Window>();
+        view.DataContext = provider.GetRequiredService<MainViewModel>();
+        desktop.MainWindow = view;
 
         base.OnFrameworkInitializationCompleted();
     }

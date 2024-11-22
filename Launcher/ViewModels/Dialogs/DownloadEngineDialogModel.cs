@@ -15,12 +15,7 @@ namespace Launcher.ViewModels.Dialogs;
 
 using EngineDownloadPacket = (RemoteEngine, List<RemotePackage>);
 
-public partial class DownloadEngineDialogModel(
-    List<RemoteEngine> remoteEngines,
-    IEngineManager engineManager,
-    IEngineDownloader downloader,
-    IPreferencesManager preferences)
-    : DialogModelBase<EngineDownloadPacket>
+public partial class DownloadEngineDialogModel(List<RemoteEngine> remoteEngines) : DialogModelBase<EngineDownloadPacket>
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     private const string DefaultPageName = "Install Flax";
@@ -51,7 +46,7 @@ public partial class DownloadEngineDialogModel(
         new RemoteEngine { Name = "Engine Name 4", Version = Version.Parse("1.7") },
         new RemoteEngine { Name = "Engine Name 5", Version = Version.Parse("1.7") },
         new RemoteEngine { Name = "Engine Name 6", Version = Version.Parse("1.7") }
-    ], new DummyEngineManager(), new DummyEngineDownloader(), new JsonPreferencesManager())
+    ])
     {
     }
 

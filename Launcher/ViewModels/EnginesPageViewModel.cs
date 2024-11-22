@@ -18,14 +18,13 @@ namespace Launcher.ViewModels;
 
 using EngineDownloadPacket = (RemoteEngine, List<RemotePackage>);
 
-public partial class EnginesPageViewModel : ViewModelBase
+public partial class EnginesPageViewModel : PageViewModel
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
     private readonly IEngineManager _engineManager;
     private readonly IEngineDownloader _engineDownloader;
     private readonly IPreferencesManager _preferencesManager;
-    private CancellationToken _cancellationToken;
 
     [ObservableProperty]
     private ObservableCollection<EngineViewModel> _engines = [];
@@ -40,13 +39,12 @@ public partial class EnginesPageViewModel : ViewModelBase
     public EnginesPageViewModel(
         IEngineManager engineManager,
         IEngineDownloader engineDownloader,
-        IPreferencesManager preferencesManager,
-        CancellationToken cancellationToken = default)
+        IPreferencesManager preferencesManager)
     {
+        PageName = PageNames.Installs;
         _engineManager = engineManager;
         _engineDownloader = engineDownloader;
         _preferencesManager = preferencesManager;
-        _cancellationToken = cancellationToken;
 
         _engineManager.Engines.CollectionChanged += (_, args) =>
         {
@@ -107,8 +105,7 @@ public partial class EnginesPageViewModel : ViewModelBase
         if (versions.Count == 0)
             return;
 
-        var vm = new DownloadEngineDialogModel(versions, _engineManager, _engineDownloader,
-            new JsonPreferencesManager());
+        var vm = new DownloadEngineDialogModel(versions);
         var result = await vm.ShowDialog();
         if (result is not null)
         {
@@ -116,8 +113,8 @@ public partial class EnginesPageViewModel : ViewModelBase
 
             try
             {
-                var engine = await _engineDownloader.DownloadVersion(result.Result.Item1, result.Result.Item2, "path",
-                    _cancellationToken);
+                var engine = await _engineDownloader.DownloadVersion(result.Result.Item1, result.Result.Item2,
+                    _preferencesManager.GetInstallLocation());
                 _engineManager.AddEngine(engine);
             }
             catch (TaskCanceledException tce)

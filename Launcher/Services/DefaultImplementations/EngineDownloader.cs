@@ -17,7 +17,7 @@ using NLog;
 
 namespace Launcher.Services.DefaultImplementations;
 
-public class EngineDownloader : IEngineDownloader
+public class EngineDownloader(IPreferencesManager preferencesManager) : IEngineDownloader
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -34,6 +34,7 @@ public class EngineDownloader : IEngineDownloader
     public Progress<float> Progress { get; } = new();
 
     private string _currentAction = string.Empty;
+    private CancellationTokenSource _cancellationTokenSource = new();
 
     public string CurrentAction
     {
@@ -82,13 +83,12 @@ public class EngineDownloader : IEngineDownloader
     /// <inheritdoc />
     public async Task<List<GitHubWorkflow>?> GetGithubWorkflows()
     {
-        var prefs = App.Current.Services.GetService<IPreferencesManager>()!;
-        if (prefs.Preferences.GithubAccessToken is null)
+        if (preferencesManager.Preferences.GithubAccessToken is null)
             return null;
         var request = new HttpRequestMessage(HttpMethod.Get, GithubWorkflowApiUrl);
         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         request.Headers.Add("User-Agent", "Seed Launcher for Flax");
-        request.Headers.Add("Bearer", prefs.Preferences.GithubAccessToken);
+        request.Headers.Add("Bearer", preferencesManager.Preferences.GithubAccessToken);
 
         // _client.DefaultRequestHeaders.Accept.Clear();
         // _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -117,7 +117,7 @@ public class EngineDownloader : IEngineDownloader
                     $"https://api.github.com/repos/FlaxEngine/FlaxEngine/actions/runs/{workflow.Id}/artifacts");
                 workflowRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 workflowRequest.Headers.Add("User-Agent", "Seed Launcher for Flax");
-                workflowRequest.Headers.Add("Bearer", prefs.Preferences.GithubAccessToken);
+                workflowRequest.Headers.Add("Bearer", preferencesManager.Preferences.GithubAccessToken);
 
                 var workflowResponse = await _client.SendAsync(workflowRequest, CancellationToken.None);
                 var artifactsJson = await workflowResponse.Content.ReadAsStringAsync();
@@ -184,9 +184,12 @@ public class EngineDownloader : IEngineDownloader
 
     /// <inheritdoc />
     public async Task<Engine> DownloadVersion(RemoteEngine engine, List<RemotePackage> platformTools,
-        string installFolderPath, CancellationToken cancellationToken = default)
+        string installFolderPath)
     {
         DownloadStarted?.Invoke();
+        _cancellationTokenSource.TryReset();
+        var cancellationToken = _cancellationTokenSource.Token;
+
         var tempEditorFile = Path.GetTempFileName();
         CurrentAction = $"Downloading {engine.Name}";
         var editorUrl = engine.GetEditorPackage().EditorUrl;
@@ -237,15 +240,16 @@ public class EngineDownloader : IEngineDownloader
 
     /// <inheritdoc />
     public async Task<Engine> DownloadFromWorkflow(GitHubWorkflow workflow, List<GitHubArtifact> platformTools,
-        string installFolderPath, CancellationToken cancellationToken = default)
+        string installFolderPath)
     {
         DownloadStarted?.Invoke();
-        var prefs = App.Current.Services.GetService<IPreferencesManager>()!;
+        var cancellationToken = _cancellationTokenSource.Token;
+
         _client.DefaultRequestHeaders.Accept.Clear();
         _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         _client.DefaultRequestHeaders.Add("User-Agent", "Seed Launcher for Flax");
         _client.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", prefs.Preferences.GithubAccessToken);
+            new AuthenticationHeaderValue("Bearer", preferencesManager.Preferences.GithubAccessToken);
 
         var tempEditorFile = Path.GetTempFileName();
         CurrentAction = $"Downloading commit {workflow.CommitHash}";
@@ -309,5 +313,11 @@ public class EngineDownloader : IEngineDownloader
                 Engine.Configuration.Release
             }
         };
+    }
+
+    public void StopDownloads()
+    {
+        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource = new CancellationTokenSource();
     }
 }

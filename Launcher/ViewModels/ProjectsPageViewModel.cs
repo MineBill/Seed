@@ -15,7 +15,7 @@ using MsBox.Avalonia.Enums;
 
 namespace Launcher.ViewModels;
 
-public partial class ProjectsPageViewModel : ViewModelBase
+public partial class ProjectsPageViewModel : PageViewModel
 {
     private readonly IEngineManager _engineManager;
     private readonly IProjectManager _projectManager;
@@ -36,6 +36,7 @@ public partial class ProjectsPageViewModel : ViewModelBase
         IProjectManager projectManager,
         IFilesService filesService)
     {
+        PageName = PageNames.Projects;
         _engineManager = engineManager;
         _projectManager = projectManager;
         _filesService = filesService;
