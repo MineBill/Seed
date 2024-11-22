@@ -58,7 +58,6 @@ public class Engine
 
     public string GetExecutablePath(Configuration configuration)
     {
-        Console.WriteLine(configuration);
         var os = string.Empty;
         var exe = string.Empty;
         if (OperatingSystem.IsWindows())
@@ -81,17 +80,11 @@ public class Engine
     }
 }
 
-public class Package
+public class Package(string name, string path)
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = name;
 
-    public string Path { get; set; }
-
-    public Package(string name, string path)
-    {
-        Name = name;
-        Path = path;
-    }
+    public string Path { get; set; } = path;
 
     public bool ValidateInstallation()
     {

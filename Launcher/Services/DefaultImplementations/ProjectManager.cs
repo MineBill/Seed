@@ -93,7 +93,7 @@ public class ProjectManager : IProjectManager
 
     public void ClearCache(Project project)
     {
-        Logger.Info($"Deleting cache folder for {project.Name}");
+        Logger.Info("Deleting cache folder for {ProjectName}", project.Name);
         var cache = Path.Combine(project.Path, "Cache");
         if (Directory.Exists(cache))
         {
@@ -148,7 +148,7 @@ public class ProjectManager : IProjectManager
         }
         catch (JsonException je)
         {
-            Logger.Error($"Exception while attempting to deserialize project info: {je}");
+            Logger.Error(je, "Exception while attempting to deserialize project info");
         }
     }
 

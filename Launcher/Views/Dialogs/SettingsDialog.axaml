@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vmd="clr-namespace:Launcher.ViewModels.Dialogs"
+             xmlns:local="clr-namespace:Launcher"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+             xmlns:l="clr-namespace:Launcher.Views"
+             Width="400" Height="200"
+             x:DataType="vmd:SettingsDialogModel"
+             x:Class="Launcher.Views.Dialogs.SettingsDialog">
+  <l:DialogBase CloseCommand="{Binding CloseDialogCommand}" PageName="Settings">
+    <Button Content="Press Me!" Command="{Binding CloseDialogCommand}">
+    </Button>
+  </l:DialogBase>
+</UserControl>

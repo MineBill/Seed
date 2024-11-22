@@ -20,7 +20,6 @@ public static class Globals
     public static string GetDefaultEngineInstallLocation()
     {
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        Console.WriteLine(appData);
         return Path.Combine(appData, AppName, "Versions");
     }
 

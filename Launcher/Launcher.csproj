@@ -7,11 +7,16 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>x64</PlatformTarget>
+      <DebugType>none</DebugType>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="AsyncImageLoader.Avalonia" Version="3.3.0" />
         <PackageReference Include="Avalonia" Version="11.2.1" />
         <PackageReference Include="Avalonia.Desktop" Version="11.2.1" />
+        <PackageReference Include="Avalonia.Svg.Skia" Version="11.2.0" />
         <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.1" />
         <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.1" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
@@ -21,12 +26,12 @@
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
         <PackageReference Include="DialogHost.Avalonia" Version="0.9.0-preview3" />
+        <PackageReference Include="FluentAvalonia.ProgressRing" Version="1.69.2" />
         <PackageReference Include="MessageBox.Avalonia" Version="3.2.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
         <PackageReference Include="NLog" Version="5.3.4" />
         <PackageReference Include="NLog.Extensions.Logging" Version="5.3.14" />
         <PackageReference Include="System.Reactive" Version="6.0.1" />
-        <PackageReference Include="WebViewControl-Avalonia" Version="3.120.7" />
     </ItemGroup>
 
     <ItemGroup>
@@ -36,14 +41,15 @@
       <AvaloniaResource Include="Assets\Fonts\Phosphor-Fill.ttf" />
       <None Remove="Assets\Fonts\Nunito.ttf" />
       <AvaloniaResource Include="Assets\Fonts\Nunito.ttf" />
-      <None Remove="Assets\Fonts\Ubuntu-Bold.ttf" />
-      <AvaloniaResource Include="Assets\Fonts\Ubuntu-Bold.ttf" />
-      <None Remove="Assets\Fonts\Ubuntu-Regular.ttf" />
-      <AvaloniaResource Include="Assets\Fonts\Ubuntu-Regular.ttf" />
       <None Remove="Assets\Images\logo.png" />
       <AvaloniaResource Include="Assets\Images\logo.png" />
       <None Remove="Assets\Images\project_icon.png" />
       <AvaloniaResource Include="Assets\Images\project_icon.png" />
+      <None Update="NLog.config">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Remove="Assets\Images\flax_logo.svg" />
+      <AvaloniaResource Include="Assets\Images\flax_logo.svg" />
     </ItemGroup>
 
     <ItemGroup>
@@ -58,7 +64,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Assets\Images\" />
       <Folder Include="Controls\" />
     </ItemGroup>
 </Project>

@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Launcher.ViewModels"
+             x:DataType="vm:EngineViewModel"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="75"
+             Height="75"
+             x:Class="Launcher.Views.EngineView">
+    <Design.DataContext>
+        <vm:EngineViewModel />
+    </Design.DataContext>
+
+    <Border
+        Padding="10"
+        BorderThickness="1"
+        BorderBrush="{DynamicResource LineBackground}"
+        Background="{DynamicResource SecondaryBackground}"
+        CornerRadius="5">
+        <Grid ColumnDefinitions="Auto, Auto, *">
+            <Label Classes="icon-only" Content="&#xE00E;" VerticalAlignment="Center" />
+            <Grid Grid.Column="1" RowDefinitions="*, *">
+                <Label
+                    Padding="0"
+                    Content="{Binding EngineName}" />
+                <Label
+                    Grid.Row="1"
+                    Padding="0"
+                    FontSize="8"
+                    HorizontalAlignment="Center"
+                    Content="{Binding EngineName}" />
+            </Grid>
+            <Grid Grid.Column="2" ColumnDefinitions="Auto, Auto" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button Classes="caution" Content="Delete"></Button>
+                <Button Grid.Column="1" Classes="icon-only" Content="&#xE270;"></Button>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,89 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vmd="clr-namespace:Launcher.ViewModels.Dialogs"
+             xmlns:views="clr-namespace:Launcher.Views"
+             xmlns:dialogs="clr-namespace:Launcher.Views.Dialogs"
+             x:DataType="vmd:DownloadEngineDialogModel"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
+             Width="600" Height="400"
+             x:Class="Launcher.Views.Dialogs.DownloadEngineDialog">
+  <Design.DataContext>
+    <vmd:DownloadEngineDialogModel />
+  </Design.DataContext>
+
+  <views:DialogBase CloseCommand="{Binding CloseDialogCommand}" PageName="{Binding PageName}">
+    <Carousel Name="Pages" SelectedIndex="0">
+      <Carousel.PageTransition>
+        <CompositePageTransition>
+          <!-- <CrossFade Duration="0:00:0.3" FadeInEasing="QuadraticEaseInOut" FadeOutEasing="QuadraticEaseInOut"/> -->
+          <PageSlide Duration="0:00:0.2" SlideInEasing="QuadraticEaseInOut" SlideOutEasing="QuadraticEaseInOut"
+                     Orientation="Horizontal" />
+        </CompositePageTransition>
+      </Carousel.PageTransition>
+      <Carousel.Items>
+        <!-- Installation page with all available pages for download -->
+        <ScrollViewer>
+          <ItemsControl ItemsSource="{Binding RemoteEngines}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Border Background="{DynamicResource SecondaryBackground}"
+                        Margin="5"
+                        BorderThickness="1"
+                        BorderBrush="{DynamicResource LineBackground}" CornerRadius="5"
+                        Padding="10 5">
+                  <Grid ColumnDefinitions="Auto, *, Auto">
+                    <Svg Path="avares://Launcher/Assets/Images/flax_logo.svg" Width="32" />
+                    <Border Grid.Column="1" Padding="10 0">
+                      <StackPanel>
+                        <Label Content="{Binding Name, StringFormat='Flax {0}'}"></Label>
+                        <Label Content="{Binding Version}" FontSize="12"></Label>
+                      </StackPanel>
+                    </Border>
+                    <Button Grid.Column="2" Classes="primary" HorizontalAlignment="Right"
+                            Content="Install"
+                            Command="{Binding $parent[dialogs:DownloadEngineDialog].SelectEngineCommand}"
+                            CommandParameter="{Binding}" />
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+        <!-- Configuration Page where the user can configure the download -->
+        <Panel Background="Transparent" Width="NaN" Height="NaN">
+          <Grid RowDefinitions="*, Auto">
+            <Border>
+              <StackPanel>
+                <Label Content="Select which platform tools to install:" />
+                <ListBox ItemsSource="{Binding SelectedRemotePackages}">
+                  <ListBox.ItemTemplate>
+                    <DataTemplate>
+                      <CheckBox
+                        Content="{Binding PackageName}"
+                        IsEnabled="{Binding !IsCurrentPlatform}"
+                        IsChecked="{Binding IsChecked}" />
+                    </DataTemplate>
+                  </ListBox.ItemTemplate>
+                </ListBox>
+              </StackPanel>
+            </Border>
+            <Grid Grid.Row="1" ColumnDefinitions="*, *">
+              <Button
+                HorizontalAlignment="Center"
+                Content="Back"
+                Command="{Binding $parent[dialogs:DownloadEngineDialog].GoBackCommand}" />
+              <Button
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                Classes="primary"
+                Content="Install"
+                Command="{Binding InstallSelectedEngineCommand}" />
+            </Grid>
+          </Grid>
+        </Panel>
+      </Carousel.Items>
+    </Carousel>
+  </views:DialogBase>
+</UserControl>
