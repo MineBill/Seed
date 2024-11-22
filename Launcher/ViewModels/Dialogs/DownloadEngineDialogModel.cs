@@ -106,6 +106,8 @@ public partial class DownloadEngineDialogModel(
             .Select(p => new RemotePackageViewModel(p));
         foreach (var package in packagesToAdd)
         {
+            if (package.IsCurrentPlatform)
+                package.IsChecked = true;
             SelectedRemotePackages.Add(package);
         }
     }

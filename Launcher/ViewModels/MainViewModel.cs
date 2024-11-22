@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -6,6 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using DialogHostAvalonia;
 using DialogHostAvalonia.Positioners;
 using Launcher.Services;
+using Launcher.Services.Dummies;
 using Launcher.ViewModels.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,9 +26,22 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    public CenteredDialogPopupPositioner Positioner { get; } = new();
+    private readonly ProjectsPageViewModel _projectsPage = new();
+    private readonly EnginesPageViewModel _enginesPage = new();
 
-    [ObservableProperty] private bool _sidebarExtended = true;
+    private IEngineDownloader _engineDownloader;
+
+    [ObservableProperty]
+    private bool _sidebarExtended = true;
+
+    [ObservableProperty]
+    private string _currentDownloadAction = string.Empty;
+
+    [ObservableProperty]
+    private bool _isDownloading;
+
+    [ObservableProperty]
+    private float _downloadProgress;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsProjectsPage))]
@@ -36,16 +51,23 @@ public partial class MainViewModel : ViewModelBase
     public bool IsProjectsPage => CurrentPage == _projectsPage;
     public bool IsEnginesPage => CurrentPage == _enginesPage;
 
-    private readonly ProjectsPageViewModel _projectsPage = new();
-    private readonly EnginesPageViewModel _enginesPage = new();
+    public CenteredDialogPopupPositioner Positioner { get; } = new();
+    public CancellationTokenSource CancellationTokenSource { get; set; } = new();
 
     public MainViewModel()
     {
         _currentPage = _projectsPage;
+        _engineDownloader = new DummyEngineDownloader();
     }
 
     public MainViewModel(IServiceProvider provider)
     {
+        _engineDownloader = provider.GetService<IEngineDownloader>()!;
+        _engineDownloader.DownloadStarted += EngineDownloaderOnDownloadStarted;
+        _engineDownloader.DownloadFinished += EngineDownloaderOnDownloadFinished;
+        _engineDownloader.ActionChanged += EngineDownloaderOnActionChanged;
+        _engineDownloader.Progress.ProgressChanged += OnDownloadProgressChanged;
+
         _projectsPage = new ProjectsPageViewModel(
             provider.GetService<IEngineManager>()!,
             provider.GetService<IProjectManager>()!,
@@ -53,7 +75,10 @@ public partial class MainViewModel : ViewModelBase
         );
         _enginesPage = new EnginesPageViewModel(
             provider.GetService<IEngineManager>()!,
-            provider.GetService<IEngineDownloader>()!);
+            _engineDownloader,
+            provider.GetService<IPreferencesManager>()!,
+            CancellationTokenSource.Token
+        );
         _currentPage = _projectsPage;
     }
 
@@ -87,5 +112,33 @@ public partial class MainViewModel : ViewModelBase
         {
             Console.WriteLine($"Got nothing");
         }
+    }
+
+    [RelayCommand]
+    private void CancelActiveDownload()
+    {
+        CancellationTokenSource.Cancel();
+        EngineDownloaderOnDownloadFinished();
+    }
+
+    private void OnDownloadProgressChanged(object? sender, float e)
+    {
+        DownloadProgress = Math.Clamp(e * 100.0f, 0f, 100.0f);
+    }
+
+    private void EngineDownloaderOnDownloadFinished()
+    {
+        IsDownloading = false;
+    }
+
+    private void EngineDownloaderOnDownloadStarted()
+    {
+        IsDownloading = true;
+        DownloadProgress = 0;
+    }
+
+    private void EngineDownloaderOnActionChanged(string action)
+    {
+        CurrentDownloadAction = action;
     }
 }

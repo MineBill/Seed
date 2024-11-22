@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -23,16 +24,29 @@ public partial class EnginesPageViewModel : ViewModelBase
 
     private readonly IEngineManager _engineManager;
     private readonly IEngineDownloader _engineDownloader;
-    [ObservableProperty] private ObservableCollection<EngineViewModel> _engines = [];
+    private readonly IPreferencesManager _preferencesManager;
+    private CancellationToken _cancellationToken;
 
-    public EnginesPageViewModel() : this(new DummyEngineManager(), new DummyEngineDownloader())
+    [ObservableProperty]
+    private ObservableCollection<EngineViewModel> _engines = [];
+
+    public EnginesPageViewModel() : this(
+        new DummyEngineManager(),
+        new DummyEngineDownloader(),
+        new JsonPreferencesManager())
     {
     }
 
-    public EnginesPageViewModel(IEngineManager engineManager, IEngineDownloader engineDownloader)
+    public EnginesPageViewModel(
+        IEngineManager engineManager,
+        IEngineDownloader engineDownloader,
+        IPreferencesManager preferencesManager,
+        CancellationToken cancellationToken = default)
     {
         _engineManager = engineManager;
         _engineDownloader = engineDownloader;
+        _preferencesManager = preferencesManager;
+        _cancellationToken = cancellationToken;
 
         _engineManager.Engines.CollectionChanged += (_, args) =>
         {
@@ -99,6 +113,17 @@ public partial class EnginesPageViewModel : ViewModelBase
         if (result is not null)
         {
             Console.WriteLine($"Got request to download {result.Result.Item1.Name}");
+
+            try
+            {
+                var engine = await _engineDownloader.DownloadVersion(result.Result.Item1, result.Result.Item2, "path",
+                    _cancellationToken);
+                _engineManager.AddEngine(engine);
+            }
+            catch (TaskCanceledException tce)
+            {
+                Logger.Info(tce, "Download was canceled");
+            }
         }
     }
 

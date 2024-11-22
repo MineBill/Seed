@@ -67,7 +67,7 @@
               </StackPanel>
             </Button>
           </StackPanel>
-          <Panel Grid.Row="1" MaxWidth="180">
+          <Panel Grid.Row="1" MaxWidth="180" IsVisible="{Binding IsDownloading}">
             <Border
               Background="{DynamicResource PrimaryBackground}"
               BorderThickness="1"
@@ -77,13 +77,17 @@
               IsVisible="{Binding SidebarExtended}">
               <Grid ColumnDefinitions="*, Auto">
                 <StackPanel>
-                  <Label Content="Downloading" VerticalAlignment="Center" />
-                  <ProgressBar IsIndeterminate="True" Value="20" MinWidth="10" />
+                  <WrapPanel>
+                    <Label Content="{Binding CurrentDownloadAction}" VerticalAlignment="Center" />
+                  </WrapPanel>
+                  <ProgressBar Value="{Binding DownloadProgress}" ShowProgressText="True" MinWidth="10" />
                 </StackPanel>
-                <Button Grid.Column="1" Classes="icon-only" Content="&#xE4F6;" />
+                <Button Grid.Column="1" Classes="icon-only" Content="&#xE4F6;"
+                        Command="{Binding CancelActiveDownloadCommand}" />
               </Grid>
             </Border>
-            <controls:ProgressRing IsIndeterminate="True" StartAngle="90" EndAngle="450" Value="10" BorderThickness="3"
+            <controls:ProgressRing StartAngle="90" EndAngle="450" Value="{Binding DownloadProgress}"
+                                   BorderThickness="3"
                                    IsVisible="{Binding !SidebarExtended}" />
           </Panel>
           <Button Grid.Row="2" Classes="icon-only" Content="&#xE272;"
