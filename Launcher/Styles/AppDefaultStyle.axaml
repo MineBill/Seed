@@ -78,20 +78,8 @@
     <Setter Property="Foreground" Value="WhiteSmoke" />
   </Style>
 
-  <Style Selector="Button.caution /template/ ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource PrimaryCaution}" />
-    <Setter Property="Foreground" Value="WhiteSmoke" />
-
-    <Setter Property="Transitions">
-      <Transitions>
-        <BrushTransition Property="Background" Duration="0:0:0.1" Easing="SineEaseIn" />
-      </Transitions>
-    </Setter>
-  </Style>
-
-  <Style Selector="Button:pointerover.caution /template/ ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource PrimaryCautionHover}" />
-    <Setter Property="Foreground" Value="WhiteSmoke" />
+  <Style Selector="Button.flyout">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
   </Style>
 
   <Style Selector="Button.flyout /template/ ContentPresenter">
@@ -117,6 +105,22 @@
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}" />
     <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"></Setter>
+  </Style>
+
+  <Style Selector="Button.caution /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PrimaryCaution}" />
+    <Setter Property="Foreground" Value="WhiteSmoke" />
+
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.1" Easing="SineEaseIn" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button:pointerover.caution /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PrimaryCautionHover}" />
+    <Setter Property="Foreground" Value="WhiteSmoke" />
   </Style>
 
   <Style Selector="Separator">

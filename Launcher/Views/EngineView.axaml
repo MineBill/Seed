@@ -3,6 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Launcher.ViewModels"
+             xmlns:views="clr-namespace:Launcher.Views"
+             xmlns:controls="clr-namespace:Launcher.Controls"
              x:DataType="vm:EngineViewModel"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="75"
              Height="75"
@@ -11,29 +13,38 @@
     <vm:EngineViewModel />
   </Design.DataContext>
 
+  <UserControl.Resources>
+    <controls:CustomFlyout x:Key="ContextMenu" Placement="BottomEdgeAlignedLeft" ShowMode="Standard">
+      <StackPanel>
+        <Button Classes="flyout" Content="Configure"
+                Command="{Binding $parent[views:EnginesPageView].((vm:EnginesPageViewModel)DataContext).ShowDownloadDialogCommand}" />
+        <Button Classes="flyout" Content="Open Directory"
+                Command="{Binding OpenEngineDirectoryCommand}" />
+        <Separator />
+        <Button Classes="flyout caution" Content="Delete" />
+      </StackPanel>
+    </controls:CustomFlyout>
+  </UserControl.Resources>
+
   <Border
+    ContextFlyout="{DynamicResource ContextMenu}"
     Padding="10"
     BorderThickness="1"
     BorderBrush="{DynamicResource LineBackground}"
     Background="{DynamicResource SecondaryBackground}"
     CornerRadius="5">
-    <Grid ColumnDefinitions="Auto, Auto, *">
-      <Label Classes="icon-only" Content="&#xE00E;" VerticalAlignment="Center" />
-      <Grid Grid.Column="1" RowDefinitions="*, *">
+    <Grid ColumnDefinitions="Auto, *, Auto">
+      <Image Source="{SvgImage /Assets/Images/flax_logo.svg}" />
+      <StackPanel Grid.Column="1" Margin="5">
         <Label
-          Padding="0"
-          Content="{Binding EngineName}" />
+          Content="{Binding EngineName, StringFormat='Flax - {0}'}" />
         <Label
-          Grid.Row="1"
-          Padding="0"
-          FontSize="8"
-          HorizontalAlignment="Center"
-          Content="{Binding EngineName}" />
-      </Grid>
-      <Grid Grid.Column="2" ColumnDefinitions="Auto, Auto" HorizontalAlignment="Right" VerticalAlignment="Center">
-        <Button Classes="caution" Content="Delete"></Button>
-        <Button Grid.Column="1" Classes="icon-only" Content="&#xE270;"></Button>
-      </Grid>
+          FontSize="10"
+          Content="{Binding EngineVersion, StringFormat='v{0}'}" />
+      </StackPanel>
+      <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="10">
+        <Button Classes="icon-only" Content="&#xE270;" Flyout="{StaticResource ContextMenu}" />
+      </StackPanel>
     </Grid>
   </Border>
 </UserControl>

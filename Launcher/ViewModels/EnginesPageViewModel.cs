@@ -32,14 +32,16 @@ public partial class EnginesPageViewModel : PageViewModel
     public EnginesPageViewModel() : this(
         new DummyEngineManager(),
         new DummyEngineDownloader(),
-        new JsonPreferencesManager())
+        new JsonPreferencesManager(),
+        new DummyFileService())
     {
     }
 
     public EnginesPageViewModel(
         IEngineManager engineManager,
         IEngineDownloader engineDownloader,
-        IPreferencesManager preferencesManager)
+        IPreferencesManager preferencesManager,
+        IFilesService filesService)
     {
         PageName = PageNames.Installs;
         _engineManager = engineManager;
@@ -52,7 +54,7 @@ public partial class EnginesPageViewModel : PageViewModel
             {
                 foreach (var engine in args.NewItems)
                 {
-                    Engines.Add(new EngineViewModel((engine as Engine)!));
+                    Engines.Add(new EngineViewModel((engine as Engine)!, filesService));
                 }
             }
 
@@ -70,7 +72,7 @@ public partial class EnginesPageViewModel : PageViewModel
         };
         foreach (var engine in _engineManager.Engines)
         {
-            Engines.Add(new EngineViewModel(engine));
+            Engines.Add(new EngineViewModel(engine, filesService));
         }
     }
 
@@ -84,22 +86,7 @@ public partial class EnginesPageViewModel : PageViewModel
             return;
         }
 
-        var totalCount = versions.Count;
-
-        var enginesRemoved = versions.RemoveAll(e => e.SupportedPlatformTools.Count == 0);
-
-        foreach (var installed in _engineManager.Engines)
-        {
-            foreach (var remote in versions.ToList())
-            {
-                if (installed.Version is NormalVersion normalVersion && normalVersion.Version == remote.Version)
-                    versions.Remove(remote);
-            }
-        }
-
-        Logger.Info(
-            "Found {EnginesCount} available engine versions, {Removed} not supported and {Installed} already installed",
-            totalCount, enginesRemoved, _engineManager.Engines.Count);
+        FilterEngineVersions(versions);
 
         // All versions are installed. Rare scenario.
         if (versions.Count == 0)
@@ -122,6 +109,62 @@ public partial class EnginesPageViewModel : PageViewModel
                 Logger.Info(tce, "Download was canceled");
             }
         }
+    }
+
+    [RelayCommand]
+    private async Task ShowGitVersionDownloadDialog()
+    {
+        var versions = await _engineDownloader.GetGithubWorkflows();
+        if (versions is null)
+        {
+            Logger.Error("No engine versions found. Weird.");
+            return;
+        }
+
+        // versions[0].
+        // FilterEngineVersions(versions);
+
+        // All versions are installed. Rare scenario.
+        if (versions.Count == 0)
+            return;
+
+        // var vm = new DownloadEngineDialogModel(versions);
+        // var result = await vm.ShowDialog();
+        // if (result is not null)
+        // {
+        //     Console.WriteLine($"Got request to download {result.Result.Item1.Name}");
+        //
+        //     try
+        //     {
+        //         var engine = await _engineDownloader.DownloadVersion(result.Result.Item1, result.Result.Item2,
+        //             _preferencesManager.GetInstallLocation());
+        //         _engineManager.AddEngine(engine);
+        //     }
+        //     catch (TaskCanceledException tce)
+        //     {
+        //         Logger.Info(tce, "Download was canceled");
+        //     }
+        // }
+    }
+
+    private void FilterEngineVersions(List<RemoteEngine> versions)
+    {
+        var totalCount = versions.Count;
+
+        var enginesRemoved = versions.RemoveAll(e => e.SupportedPlatformTools.Count == 0);
+
+        foreach (var installed in _engineManager.Engines)
+        {
+            foreach (var remote in versions.ToList())
+            {
+                if (installed.Version is NormalVersion normalVersion && normalVersion.Version == remote.Version)
+                    versions.Remove(remote);
+            }
+        }
+
+        Logger.Info(
+            "Found {EnginesCount} available engine versions, {Removed} not supported and {Installed} already installed",
+            totalCount, enginesRemoved, _engineManager.Engines.Count);
     }
 
     private async Task DownloadEngine(RemoteEngine engine, List<RemotePackage> packages)

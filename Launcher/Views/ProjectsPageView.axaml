@@ -24,11 +24,9 @@
               <Flyout Placement="BottomEdgeAlignedLeft" ShowMode="Transient">
                 <StackPanel>
                   <Button Classes="flyout" Content="Add from disk"
-                          HorizontalAlignment="Stretch"
                           HorizontalContentAlignment="Center"
                           Command="{Binding AddProjectFromDiskCommand}" />
                   <Button Classes="flyout" Content="Clone from repo"
-                          HorizontalAlignment="Stretch"
                           HorizontalContentAlignment="Center" />
                 </StackPanel>
               </Flyout>

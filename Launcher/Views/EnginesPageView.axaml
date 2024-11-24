@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Launcher.ViewModels"
+             xmlns:controls="clr-namespace:Launcher.Controls"
              x:DataType="vm:EnginesPageViewModel"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Launcher.Views.EnginesPageView">
@@ -14,7 +15,7 @@
           <Button Classes="page-button" Content="Locate" />
           <Button Classes="page-button primary" Content="Download">
             <Button.Flyout>
-              <Flyout Placement="BottomEdgeAlignedLeft" ShowMode="Transient">
+              <controls:CustomFlyout Placement="BottomEdgeAlignedLeft" ShowMode="Transient">
                 <StackPanel>
                   <Button Classes="flyout" Content="Normal Release"
                           HorizontalAlignment="Stretch"
@@ -24,7 +25,7 @@
                           HorizontalAlignment="Stretch"
                           HorizontalContentAlignment="Center" />
                 </StackPanel>
-              </Flyout>
+              </controls:CustomFlyout>
             </Button.Flyout>
           </Button>
         </StackPanel>
