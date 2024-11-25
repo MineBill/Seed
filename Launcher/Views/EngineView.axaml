@@ -17,7 +17,7 @@
     <controls:CustomFlyout x:Key="ContextMenu" Placement="BottomEdgeAlignedLeft" ShowMode="Standard">
       <StackPanel>
         <Button Classes="flyout" Content="Configure"
-                Command="{Binding $parent[views:EnginesPageView].((vm:EnginesPageViewModel)DataContext).ShowDownloadDialogCommand}" />
+                Command="{Binding OpenEngineConfigurationCommand}" />
         <Button Classes="flyout" Content="Open Directory"
                 Command="{Binding OpenEngineDirectoryCommand}" />
         <Separator />

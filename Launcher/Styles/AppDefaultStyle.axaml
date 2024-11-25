@@ -2,7 +2,7 @@
         xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <Design.PreviewWith>
-    <Border Padding="10" Background="{DynamicResource PrimaryBackground}">
+    <Border Width="200" Padding="10" Background="{DynamicResource PrimaryBackground}">
       <!-- Add Controls for Previewer Here -->
       <StackPanel>
         <Button Content="Start"></Button>
@@ -19,6 +19,11 @@
         <Button Classes="page-button primary" Content="New" />
         <Button Classes="primary" Content="Test" />
         <Button Classes="flyout" Content="Test" />
+        <ComboBox PlaceholderText="Release">
+          <ComboBoxItem Classes="flyout" Content="Debug" />
+          <ComboBoxItem Classes="flyout" Content="Development" />
+          <ComboBoxItem Classes="flyout" Content="Release" IsSelected="True" />
+        </ComboBox>
       </StackPanel>
     </Border>
   </Design.PreviewWith>
@@ -224,5 +229,37 @@
   <Style
     Selector="ListBox.no-selection-background ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
     <Setter Property="Background" Value="Transparent" />
+  </Style>
+
+  <Style Selector="ComboBoxItem.flyout">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <!-- <Setter Property="Padding" Value="5" /> -->
+    <Setter Property="CornerRadius" Value="4" />
+    <Setter Property="Margin" Value="2 1" />
+  </Style>
+
+  <Style Selector="ComboBoxItem.flyout /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+    <Setter Property="Foreground" Value="{DynamicResource SecondaryForeground}" />
+
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.1" Easing="SineEaseIn" />
+        <BrushTransition Property="Foreground" Duration="0:0:0.1" Easing="SineEaseIn" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="ComboBoxItem:pointerover.flyout /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PrimaryAccentColor}" />
+    <Setter Property="Foreground" Value="WhiteSmoke" />
+  </Style>
+
+  <Style Selector="ComboBox:dropdownopen /template/ Border#PopupBorder">
+    <Setter Property="Padding" Value="0 -3" />
+    <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+    <Setter Property="CornerRadius" Value="4" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}" />
   </Style>
 </Styles>

@@ -9,9 +9,9 @@ public class Engine
 {
     public enum Configuration
     {
-        Debug,
-        Development,
-        Release
+        Debug = 0,
+        Development = 1,
+        Release = 2
     }
 
     /// <summary>

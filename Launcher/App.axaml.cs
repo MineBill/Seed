@@ -43,6 +43,7 @@ public class App : Application
         ViewLocator.Register<EnginesPageViewModel, EnginesPageView>();
         ViewLocator.Register<EngineViewModel, EngineView>();
         ViewLocator.Register<DownloadEngineDialogModel, DownloadEngineDialog>();
+        ViewLocator.Register<EngineConfigurationDialogModel, EngineConfigurationDialog>();
     }
 
     public override void OnFrameworkInitializationCompleted()

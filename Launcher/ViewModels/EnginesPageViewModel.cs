@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DialogHostAvalonia;
 using Launcher.DataModels;
 using Launcher.Services;
 using Launcher.Services.DefaultImplementations;
@@ -15,8 +13,6 @@ using Launcher.ViewModels.Dialogs;
 using NLog;
 
 namespace Launcher.ViewModels;
-
-using EngineDownloadPacket = (RemoteEngine, List<RemotePackage>);
 
 public partial class EnginesPageViewModel : PageViewModel
 {
@@ -54,7 +50,7 @@ public partial class EnginesPageViewModel : PageViewModel
             {
                 foreach (var engine in args.NewItems)
                 {
-                    Engines.Add(new EngineViewModel((engine as Engine)!, filesService));
+                    Engines.Add(new EngineViewModel((engine as Engine)!, filesService, engineManager));
                 }
             }
 
@@ -72,7 +68,7 @@ public partial class EnginesPageViewModel : PageViewModel
         };
         foreach (var engine in _engineManager.Engines)
         {
-            Engines.Add(new EngineViewModel(engine, filesService));
+            Engines.Add(new EngineViewModel(engine, filesService, engineManager));
         }
     }
 
