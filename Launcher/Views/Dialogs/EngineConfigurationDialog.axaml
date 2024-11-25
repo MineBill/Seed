@@ -22,7 +22,8 @@
             <ComboBox
               Grid.Column="1"
               SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-              SelectedIndex="{Binding Configuration}" Width="150">
+              PlaceholderText="{Binding CurrentConfigurationText}"
+              Width="150">
               <ComboBoxItem Classes="flyout" Content="Debug" IsSelected="{Binding IsDebug}" />
               <ComboBoxItem Classes="flyout" Content="Development" IsSelected="{Binding IsDevelop}" />
               <ComboBoxItem Classes="flyout" Content="Release" IsSelected="{Binding IsRelease}" />

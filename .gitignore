@@ -7,3 +7,4 @@ riderModule.iml
 .vscode/
 .vs/
 global.json
+*.DotSettings.user

@@ -17,7 +17,6 @@ public partial class EngineConfigurationDialogModel(Engine engine, IEngineManage
     public bool IsRelease => engine.PreferredConfiguration == Engine.Configuration.Release;
 
     public string CurrentConfigurationText => engine.PreferredConfiguration.ToString();
-    public int Configuration => (int)engine.PreferredConfiguration;
 
     public EngineConfigurationDialogModel() : this(new Engine
         {
