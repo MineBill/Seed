@@ -56,6 +56,7 @@
 
       <SolidColorBrush x:Key="PrimaryAccentColor">#0079cb</SolidColorBrush>
       <SolidColorBrush x:Key="PrimaryAccentColorLight1">#0092f5</SolidColorBrush>
+      <SolidColorBrush x:Key="PrimaryAccentColorDisabled">#7eb3e8</SolidColorBrush>
 
       <SolidColorBrush x:Key="PrimaryCaution">Crimson</SolidColorBrush>
       <SolidColorBrush x:Key="PrimaryCautionHover">#ed365b</SolidColorBrush>

@@ -17,7 +17,7 @@
         <Button Classes="icon-only" Content="&#xE272;" />
         <Button Classes="page-button" Content="Add" />
         <Button Classes="page-button primary" Content="New" />
-        <Button Classes="primary" Content="Test" />
+        <Button Classes="primary disabled" Content="Test" />
         <Button Classes="flyout" Content="Test" />
         <ComboBox PlaceholderText="Release">
           <ComboBoxItem Classes="flyout" Content="Debug" />
@@ -34,6 +34,10 @@
 
   <Style Selector="Label.page-header">
     <Setter Property="FontSize" Value="25" />
+  </Style>
+  
+  <Style Selector="Label.template-header">
+    <Setter Property="FontSize" Value="18" />
   </Style>
 
   <Style Selector="Button">
@@ -76,6 +80,10 @@
         <BrushTransition Property="Background" Duration="0:0:0.1" Easing="SineEaseIn" />
       </Transitions>
     </Setter>
+  </Style>
+  
+  <Style Selector="Button.primary.disabled /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PrimaryAccentColorDisabled}" />
   </Style>
 
   <Style Selector="Button:pointerover.primary /template/ ContentPresenter">
@@ -231,6 +239,18 @@
     <Setter Property="Background" Value="Transparent" />
   </Style>
 
+  <Style Selector="TextBox">
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}" />
+    <Setter Property="CornerRadius" Value="4" />
+  </Style>
+
+  <Style Selector="ComboBox">
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}" />
+    <Setter Property="CornerRadius" Value="4" />
+  </Style>
+
   <Style Selector="ComboBoxItem.flyout">
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <!-- <Setter Property="Padding" Value="5" /> -->
@@ -261,5 +281,9 @@
     <Setter Property="CornerRadius" Value="4" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}" />
+  </Style>
+  
+  <Style Selector="DataValidationErrors">
+    <Setter Property="Theme" Value="{StaticResource TooltipDataValidationErrors}" />
   </Style>
 </Styles>

@@ -50,6 +50,10 @@
       </None>
       <None Remove="Assets\Images\flax_logo.svg" />
       <AvaloniaResource Include="Assets\Images\flax_logo.svg" />
+      <None Remove="Assets\BundledProjects\BasicScene.png" />
+      <AvaloniaResource Include="Assets\BundledProjects\BasicScene.png" />
+      <None Remove="Assets\BundledProjects\BasicScene.zip" />
+      <AvaloniaResource Include="Assets\BundledProjects\BasicScene.zip" />
     </ItemGroup>
 
     <ItemGroup>

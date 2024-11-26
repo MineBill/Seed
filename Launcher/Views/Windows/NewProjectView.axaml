@@ -5,20 +5,85 @@
              xmlns:vmw="clr-namespace:Launcher.ViewModels.Windows"
              xmlns:views="clr-namespace:Launcher.Views"
              x:DataType="vmw:NewProjectViewModel"
-             mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="500"
-             Width="700" Height="500"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+             Width="800" Height="500"
              x:Class="Launcher.Views.Windows.NewProjectView">
-  <!-- <Border Padding="10"> -->
-  <!--     <Grid RowDefinitions="Auto, *"> -->
-  <!--         <Grid ColumnDefinitions="*, Auto"> -->
-  <!--             <Label Classes="page-header" Content="New Project" /> -->
-  <!--             <Button Grid.Column="1" Classes="close" Command="{Binding CloseCommand}" /> -->
-  <!--         </Grid> -->
-  <!--     </Grid> -->
-  <!-- </Border> -->
-  <views:DialogBase CloseCommand="{Binding CloseDialogCommand}">
-    <Border Background="GreenYellow">
-      <Button Content="Extra" />
+  <Design.DataContext>
+    <vmw:NewProjectViewModel />
+  </Design.DataContext>
+  <views:DialogBase CloseCommand="{Binding CloseDialogCommand}" PageName="New Project">
+    <Border>
+      <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, *">
+        <Border Grid.Row="0" Grid.ColumnSpan="2" Padding="5">
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label VerticalAlignment="Center" Content="Flax:" />
+            <ComboBox SelectedItem="{Binding SelectedEngine}" Width="150" ItemsSource="{Binding Engines}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <Label Content="{Binding Name}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+          </StackPanel>
+        </Border>
+        <Grid Grid.Column="0" Grid.Row="1" RowDefinitions="Auto, *">
+          <Label Content="Select a project template:" />
+          <Border
+            Grid.Row="1"
+            Background="{DynamicResource SecondaryBackground}"
+            CornerRadius="4"
+            BorderThickness="1"
+            BorderBrush="{DynamicResource LineBackground}">
+            <ListBox
+              SelectedItem="{Binding SelectedTemplate}"
+              ItemsSource="{Binding ProjectTemplates}">
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <Label Content="{Binding Name}" />
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </Border>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1" RowDefinitions="Auto, Auto, *" Margin="5">
+          <Label Content="Description" />
+          <!-- Description and preview -->
+          <Border Grid.Row="1" BorderBrush="Aqua" BorderThickness="0" Padding="5">
+            <Grid ColumnDefinitions="Auto, *">
+              <Image Source="{Binding SelectedTemplate.Icon^}" MaxWidth="128" />
+              <TextBlock Grid.Column="1"
+                         Padding="5"
+                         Text="{Binding SelectedTemplate.Description}"
+                         TextWrapping="Wrap">
+              </TextBlock>
+            </Grid>
+          </Border>
+          <Grid Grid.Row="2" RowDefinitions="*, Auto">
+            <StackPanel Spacing="10">
+              <Grid ColumnDefinitions="100, *">
+                <Label VerticalAlignment="Center" Content="Name" HorizontalAlignment="Left" />
+                <TextBox Grid.Column="1" HorizontalAlignment="Stretch"
+                         Text="{Binding Name}" />
+              </Grid>
+              <Grid ColumnDefinitions="100, *, Auto">
+                <Label VerticalAlignment="Center" Content="Parent Folder" HorizontalAlignment="Left" />
+                <TextBox Grid.Column="1" HorizontalAlignment="Stretch"
+                         Text="{Binding ParentFolder}">
+                </TextBox>
+                <Button Grid.Column="2" Content="&#xE256;" Classes="icon-only"
+                        Command="{Binding SelectParentFolderCommand}" />
+              </Grid>
+            </StackPanel>
+            <Button Grid.Row="1"
+                    Classes="primary"
+                    Classes.disabled="{Binding HasErrors}"
+                    Content="Create"
+                    Command="{Binding CreateProjectCommand}"
+                    IsEnabled="{Binding !HasErrors}"
+                    HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+          </Grid>
+        </Grid>
+      </Grid>
     </Border>
   </views:DialogBase>
 </UserControl>

@@ -12,11 +12,14 @@ using Launcher.Services.Dummies;
 using Launcher.ViewModels.Windows;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
+using NLog;
 
 namespace Launcher.ViewModels;
 
 public partial class ProjectsPageViewModel : PageViewModel
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     private readonly IEngineManager _engineManager;
     private readonly IProjectManager _projectManager;
     private readonly IFilesService _filesService;
@@ -80,9 +83,21 @@ public partial class ProjectsPageViewModel : PageViewModel
     [RelayCommand]
     private async Task ShowNewProjectDialog()
     {
-        var vm = new NewProjectViewModel();
-        await vm.ShowDialog();
-        Console.WriteLine(vm.Thingy);
+        var vm = new NewProjectViewModel(
+            _engineManager,
+            _filesService,
+            _projectManager.Projects.Where(p => p.IsTemplate).ToList());
+        var result = await vm.ShowDialog();
+        if (result is not null)
+        {
+            if (result.Result is null)
+            {
+                Logger.Error("Failed to create new project");
+                return;
+            }
+
+            _projectManager.AddProject(result.Result);
+        }
     }
 
     [RelayCommand]
