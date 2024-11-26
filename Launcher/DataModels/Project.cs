@@ -57,6 +57,4 @@ public record Project(string Name, string Path, EngineVersion? EngineVersion = n
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(List<Project>))]
-internal partial class ProjectGenerationContext : JsonSerializerContext
-{
-}
+internal partial class ProjectGenerationContext : JsonSerializerContext;

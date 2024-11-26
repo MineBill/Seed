@@ -58,6 +58,4 @@ public class UserPreferences
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(UserPreferences))]
-internal partial class UserPreferencesGenerationContext : JsonSerializerContext
-{
-}
+internal partial class UserPreferencesGenerationContext : JsonSerializerContext;
