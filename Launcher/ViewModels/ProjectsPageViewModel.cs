@@ -9,10 +9,10 @@ using DialogHostAvalonia;
 using Launcher.DataModels;
 using Launcher.Services;
 using Launcher.Services.Dummies;
-using Launcher.ViewModels.Windows;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using NLog;
+using NewProjectDialogModel = Launcher.ViewModels.Dialogs.NewProjectDialogModel;
 
 namespace Launcher.ViewModels;
 
@@ -83,7 +83,7 @@ public partial class ProjectsPageViewModel : PageViewModel
     [RelayCommand]
     private async Task ShowNewProjectDialog()
     {
-        var vm = new NewProjectViewModel(
+        var vm = new NewProjectDialogModel(
             _engineManager,
             _filesService,
             _projectManager.Projects.Where(p => p.IsTemplate).ToList());

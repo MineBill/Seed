@@ -9,10 +9,8 @@ using Launcher.Services;
 using Launcher.Services.DefaultImplementations;
 using Launcher.ViewModels;
 using Launcher.ViewModels.Dialogs;
-using Launcher.ViewModels.Windows;
 using Launcher.Views;
 using Launcher.Views.Dialogs;
-using Launcher.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Launcher;
@@ -36,7 +34,7 @@ public class App : Application
         AvaloniaXamlLoader.Load(this);
         // Register all ViewModel->View relations here to prevent use of reflection in the view locator.
         ViewLocator.Register<MainViewModel, MainView>();
-        ViewLocator.Register<NewProjectViewModel, NewProjectView>();
+        ViewLocator.Register<NewProjectDialogModel, NewProjectDialog>();
         ViewLocator.Register<SettingsDialogModel, SettingsDialog>();
         ViewLocator.Register<ProjectsPageViewModel, ProjectsPageView>();
         ViewLocator.Register<ProjectViewModel, ProjectView>();

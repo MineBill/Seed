@@ -61,8 +61,8 @@
         <DependentUpon>MainWindow.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Views\Windows\NewProjectView.axaml.cs">
-        <DependentUpon>NewProjectView.axaml</DependentUpon>
+      <Compile Update="Views\Dialogs\NewProjectDialog.axaml.cs">
+        <DependentUpon>NewProjectDialog.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

@@ -12,12 +12,11 @@ using CommunityToolkit.Mvvm.Input;
 using Launcher.DataModels;
 using Launcher.Services;
 using Launcher.Services.Dummies;
-using Launcher.ViewModels.Dialogs;
 using NLog;
 
-namespace Launcher.ViewModels.Windows;
+namespace Launcher.ViewModels.Dialogs;
 
-public partial class NewProjectViewModel : DialogModelBase<Project?>
+public partial class NewProjectDialogModel : DialogModelBase<Project?>
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -37,7 +36,7 @@ public partial class NewProjectViewModel : DialogModelBase<Project?>
     private string _parentFolder = string.Empty;
 
     [Required]
-    [CustomValidation(typeof(NewProjectViewModel), nameof(ValidatePath))]
+    [CustomValidation(typeof(NewProjectDialogModel), nameof(ValidatePath))]
     public string ParentFolder
     {
         get => _parentFolder;
@@ -61,7 +60,7 @@ public partial class NewProjectViewModel : DialogModelBase<Project?>
     private readonly IFilesService _filesService;
 
     /// <inheritdoc/>
-    public NewProjectViewModel(
+    public NewProjectDialogModel(
         IEngineManager engineManager,
         IFilesService filesService,
         List<Project> templateProjects
@@ -86,7 +85,7 @@ public partial class NewProjectViewModel : DialogModelBase<Project?>
         }
     }
 
-    public NewProjectViewModel()
+    public NewProjectDialogModel()
     {
         _engineManager = new DummyEngineManager();
         _filesService = new DummyFileService();
@@ -111,7 +110,7 @@ public partial class NewProjectViewModel : DialogModelBase<Project?>
 
     public static ValidationResult? ValidatePath(string name, ValidationContext context)
     {
-        var instance = (NewProjectViewModel)context.ObjectInstance;
+        var instance = (NewProjectDialogModel)context.ObjectInstance;
         if (instance.Name == string.Empty)
             return new ValidationResult("Name is empty");
 
