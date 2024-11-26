@@ -72,14 +72,6 @@ public partial class ProjectsPageViewModel : PageViewModel
     }
 
     [RelayCommand]
-    private void AddTestProject()
-    {
-        Projects.Add(new ProjectViewModel(
-            new Project("Project", "Path", new NormalVersion(Version.Parse("1.9"))),
-            new DummyProjectManager()));
-    }
-
-    [RelayCommand]
     private async Task ShowNewProjectDialog()
     {
         var vm = new NewProjectDialogModel(

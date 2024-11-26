@@ -17,8 +17,6 @@
       <Grid>
         <Label Classes="page-header" Content="Projects" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
-          <Button Classes="page-button" Content="Add Test Project"
-                  Command="{Binding AddTestProjectCommand}" />
           <Button Classes="page-button" Content="Add">
             <Button.Flyout>
               <Flyout Placement="BottomEdgeAlignedLeft" ShowMode="Transient">
