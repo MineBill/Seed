@@ -54,6 +54,8 @@
       <AvaloniaResource Include="Assets\BundledProjects\BasicScene.png" />
       <None Remove="Assets\BundledProjects\BasicScene.zip" />
       <AvaloniaResource Include="Assets\BundledProjects\BasicScene.zip" />
+      <None Remove="Assets\Images\BasicScene.png" />
+      <AvaloniaResource Include="Assets\Images\BasicScene.png" />
     </ItemGroup>
 
     <ItemGroup>
