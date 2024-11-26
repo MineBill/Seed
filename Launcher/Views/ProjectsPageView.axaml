@@ -13,7 +13,7 @@
   </Design.DataContext>
 
   <Border Padding="20">
-    <Grid RowDefinitions="Auto, Auto, *" ColumnDefinitions="*">
+    <Grid RowDefinitions="Auto, Auto, Auto, *" ColumnDefinitions="*">
       <Grid>
         <Label Classes="page-header" Content="Projects" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
@@ -36,10 +36,11 @@
         </StackPanel>
       </Grid>
       <Separator Grid.Row="1" Margin="0 5" />
+      <TextBox Grid.Row="2" Watermark="Search term" UseFloatingWatermark="True" Text="{Binding SearchTerm}" />
       <ListBox
         Classes="no-selection-background"
-        Grid.Row="2"
-        ItemsSource="{Binding Projects}">
+        Grid.Row="3"
+        ItemsSource="{Binding FilteredProjects}">
         <ListBox.ItemsPanel>
           <ItemsPanelTemplate>
             <WrapPanel />

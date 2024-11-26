@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,13 @@ public partial class ProjectsPageViewModel : PageViewModel
     private readonly IFilesService _filesService;
 
     [ObservableProperty]
+    private string _searchTerm = string.Empty;
+
+    [ObservableProperty]
     private ObservableCollection<ProjectViewModel> _projects = [];
+
+    [ObservableProperty]
+    private IEnumerable<ProjectViewModel> _filteredProjects = [];
 
     public ProjectsPageViewModel() : this(
         new DummyEngineManager(),
@@ -69,6 +76,8 @@ public partial class ProjectsPageViewModel : PageViewModel
         {
             Projects.Add(new ProjectViewModel(project, projectManager));
         }
+
+        FilteredProjects = Projects;
     }
 
     [RelayCommand]
@@ -108,7 +117,7 @@ public partial class ProjectsPageViewModel : PageViewModel
         ]);
         if (file is null) return;
 
-        var filePathWithoutFlaxproj = file.Path.LocalPath[..^(file.Name.Length+1)];
+        var filePathWithoutFlaxproj = file.Path.LocalPath[..^(file.Name.Length + 1)];
         var duplicate = _projectManager.Projects.Any(p => p.Path.Equals(filePathWithoutFlaxproj));
         if (duplicate)
         {
@@ -121,6 +130,18 @@ public partial class ProjectsPageViewModel : PageViewModel
         }
 
         _projectManager.TryAddProject(file.Path.LocalPath);
+    }
+
+    partial void OnSearchTermChanged(string value)
+    {
+        if (value == string.Empty)
+        {
+            FilteredProjects = Projects;
+            return;
+        }
+
+        FilteredProjects = Projects.Where(p =>
+            p.ProjectName.Contains(value, StringComparison.InvariantCultureIgnoreCase));
     }
 
     private static async void ShowNoEngineDialog()
