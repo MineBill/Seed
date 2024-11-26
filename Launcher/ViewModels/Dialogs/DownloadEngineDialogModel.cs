@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Launcher.DataModels;
-using Launcher.Services;
-using Launcher.Services.DefaultImplementations;
-using Launcher.Services.Dummies;
 using NLog;
 
 namespace Launcher.ViewModels.Dialogs;

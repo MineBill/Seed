@@ -1,15 +1,11 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DialogHostAvalonia;
 using DialogHostAvalonia.Positioners;
 using Launcher.Services;
-using Launcher.Services.Dummies;
 using Launcher.ViewModels.Dialogs;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Launcher.ViewModels;
 

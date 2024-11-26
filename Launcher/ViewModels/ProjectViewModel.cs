@@ -1,5 +1,4 @@
 using System;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Launcher.DataModels;
 using Launcher.Services;

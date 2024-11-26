@@ -10,7 +10,6 @@ using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
 using Launcher.DataModels;
-using Microsoft.Extensions.DependencyInjection;
 // using MsBox.Avalonia;
 // using MsBox.Avalonia.Enums;
 using NLog;
