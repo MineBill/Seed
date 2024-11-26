@@ -13,7 +13,7 @@ public class CustomFlyout : Flyout
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-    private List<Button> mRegisteredButtons = [];
+    private readonly List<Button> _registeredButtons = [];
 
     protected override void OnOpened()
     {
@@ -22,7 +22,7 @@ public class CustomFlyout : Flyout
             foreach (var button in c.GetVisualDescendants().OfType<Button>())
             {
                 button.Click += OnClick;
-                mRegisteredButtons.Add(button);
+                _registeredButtons.Add(button);
             }
         }
 
@@ -31,7 +31,7 @@ public class CustomFlyout : Flyout
 
     protected override void OnClosed()
     {
-        mRegisteredButtons.ForEach(x => x.Click -= OnClick);
+        _registeredButtons.ForEach(x => x.Click -= OnClick);
         base.OnClosed();
     }
 
