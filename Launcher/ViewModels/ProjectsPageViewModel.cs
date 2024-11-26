@@ -116,8 +116,19 @@ public partial class ProjectsPageViewModel : PageViewModel
         ]);
         if (file is null) return;
 
-        // _projectManager.AddProject();
-        Console.WriteLine(file.Path);
+        var filePathWithoutFlaxproj = file.Path.LocalPath[..^(file.Name.Length+1)];
+        var duplicate = _projectManager.Projects.Any(p => p.Path.Equals(filePathWithoutFlaxproj));
+        if (duplicate)
+        {
+            var box = MessageBoxManager.GetMessageBoxStandard(
+                "Error",
+                "This project is already added.",
+                icon: Icon.Error);
+            await box.ShowWindowDialogAsync(App.Current.Desktop.MainWindow!);
+            return;
+        }
+
+        _projectManager.TryAddProject(file.Path.LocalPath);
     }
 
     private static async void ShowNoEngineDialog()

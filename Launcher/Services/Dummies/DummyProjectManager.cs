@@ -12,6 +12,11 @@ public class DummyProjectManager : IProjectManager
     {
     }
 
+    public bool TryAddProject(string path)
+    {
+        return false;
+    }
+
     public void RemoveProject(Project project)
     {
     }

@@ -22,6 +22,13 @@ public interface IProjectManager
     public void AddProject(Project project);
 
     /// <summary>
+    /// Tries to add a project from an existing path
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public bool TryAddProject(string path);
+
+    /// <summary>
     /// Remove a project from the list of known projects.
     /// Will immediately save the known projects list to the filesystem.
     /// </summary>

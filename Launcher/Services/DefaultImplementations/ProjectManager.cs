@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Launcher.DataModels;
 using NLog;
 
@@ -40,6 +41,25 @@ public class ProjectManager : IProjectManager
             Save();
             break;
         }
+    }
+
+    public bool TryAddProject(string path)
+    {
+        if (!Path.Exists(path)) return false;
+
+        var projFile = File.ReadAllText(path);
+        var root = JsonNode.Parse(projFile);
+        if (root is null) return false;
+        if (!root.AsObject().ContainsKey("MinEngineVersion"))
+            return false;
+        var ok = Version.TryParse(root["MinEngineVersion"]!.ToString(), out var version);
+        if (!ok) return false;
+        var engines = _engineManager.Engines.OrderBy(e => e.Version);
+        var engine = engines.FirstOrDefault(e => e.Version.CompareTo(new NormalVersion(version!)) >= 0);
+        if (engine is null) return false;
+
+        AddProject(new Project(root["Name"]!.ToString(), Directory.GetParent(path)!.FullName, engine.Version));
+        return true;
     }
 
     public void RemoveProject(Project project)
