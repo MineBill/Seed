@@ -8,12 +8,6 @@ namespace Launcher.Services.Dummies;
 
 public class DummyEngineDownloader : IEngineDownloader
 {
-    public event Action<string>? ActionChanged;
-    public event Action? DownloadStarted;
-    public event Action? DownloadFinished;
-    public string CurrentAction { get; } = string.Empty;
-    public Progress<float> Progress { get; } = new();
-
     public Task<List<RemoteEngine>?> GetAvailableVersions()
     {
         return Task.FromResult<List<RemoteEngine>?>(null);
@@ -32,11 +26,6 @@ public class DummyEngineDownloader : IEngineDownloader
 
     public Task<Engine> DownloadFromWorkflow(GitHubWorkflow workflow, List<GitHubArtifact> platformTools,
         string installFolderPath)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void StopDownloads()
     {
         throw new NotImplementedException();
     }

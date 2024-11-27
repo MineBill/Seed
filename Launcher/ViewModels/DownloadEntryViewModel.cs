@@ -37,5 +37,6 @@ public partial class DownloadEntryViewModel : ViewModelBase
     [RelayCommand]
     private void CancelDownload()
     {
+        Entry.Cancel();
     }
 }

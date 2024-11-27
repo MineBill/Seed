@@ -14,6 +14,7 @@ public class DownloadManager : IDownloadManager
     {
         _downloads.Add(entry);
         EntryAdded?.Invoke(entry);
+        entry.Cancelled += () => { RemoveDownload(entry); };
     }
 
     public void RemoveDownload(DownloadEntry entry)

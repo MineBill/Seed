@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Launcher.Services;
@@ -6,7 +7,9 @@ namespace Launcher.Services;
 public partial class DownloadEntry : ObservableObject
 {
     public event Action<string>? ActionChanged;
+    public event Action? Cancelled;
     public readonly Progress<float> Progress = new();
+    public CancellationTokenSource CancellationTokenSource = new();
 
     [ObservableProperty]
     private string _title = string.Empty;
@@ -21,6 +24,19 @@ public partial class DownloadEntry : ObservableObject
             _currentAction = value;
             ActionChanged?.Invoke(value);
         }
+    }
+
+
+    public DownloadEntry()
+    {
+        CancellationTokenSource.TryReset();
+    }
+
+    public void Cancel()
+    {
+        CancellationTokenSource.Cancel();
+        CancellationTokenSource = new();
+        Cancelled?.Invoke();
     }
 }
 

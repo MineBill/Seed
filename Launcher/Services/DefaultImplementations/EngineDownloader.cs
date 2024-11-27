@@ -26,25 +26,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
     public const string GithubWorkflowApiUrl =
         "https://api.github.com/repos/FlaxEngine/FlaxEngine/actions/workflows/cd.yml/runs?per_page=3";
 
-    // public event Action<string>? ActionChanged;
-    // public event Action? DownloadStarted;
-    // public event Action? DownloadFinished;
-
     private readonly HttpClient _client = new();
-    // public Progress<float> Progress { get; } = new();
-
-    // private string _currentAction = string.Empty;
-    private CancellationTokenSource _cancellationTokenSource = new();
-
-    // public string CurrentAction
-    // {
-    //     get => _currentAction;
-    //     private set
-    //     {
-    //         _currentAction = value;
-    //         ActionChanged?.Invoke(value);
-    //     }
-    // }
 
     /// <inheritdoc />
     public async Task<List<RemoteEngine>?> GetAvailableVersions()
@@ -189,9 +171,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
         var download = new DownloadEntry();
         downloadManager.AddDownload(download);
 
-        // DownloadStarted?.Invoke();
-        _cancellationTokenSource.TryReset();
-        var cancellationToken = _cancellationTokenSource.Token;
+        var cancellationToken = download.CancellationTokenSource.Token;
 
         var tempEditorFile = Path.GetTempFileName();
         download.Title = $"Downloading {engine.Name}";
@@ -250,7 +230,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
     {
         var download = new DownloadEntry();
         downloadManager.AddDownload(download);
-        var cancellationToken = _cancellationTokenSource.Token;
+        var cancellationToken = download.CancellationTokenSource.Token;
 
         _client.DefaultRequestHeaders.Accept.Clear();
         _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -324,11 +304,5 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
                 Engine.Configuration.Release
             }
         };
-    }
-
-    public void StopDownloads()
-    {
-        _cancellationTokenSource.Cancel();
-        _cancellationTokenSource = new CancellationTokenSource();
     }
 }

@@ -37,6 +37,4 @@ public interface IEngineDownloader
     /// <returns></returns>
     public Task<Engine> DownloadFromWorkflow(GitHubWorkflow workflow, List<GitHubArtifact> platformTools,
         string installFolderPath);
-
-    public void StopDownloads();
 }
