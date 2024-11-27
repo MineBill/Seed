@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Launcher.DataModels;
 
 namespace Launcher.Services.Dummies;
@@ -12,9 +13,14 @@ public class DummyProjectManager : IProjectManager
     {
     }
 
-    public bool TryAddProject(string path)
+    Project? IProjectManager.TryAddProject(string path)
     {
-        return false;
+        throw new System.NotImplementedException();
+    }
+
+    public Task<Project?> AddProjectFromGitRepo(string repoUrl, string destination)
+    {
+        throw new System.NotImplementedException();
     }
 
     public void RemoveProject(Project project)

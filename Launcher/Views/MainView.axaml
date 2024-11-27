@@ -34,7 +34,7 @@
         Background="{DynamicResource SecondaryBackground}"
         Padding="10"
         BorderThickness="0 0 1 0" BorderBrush="{DynamicResource LineBackground}">
-        <Grid ShowGridLines="{Binding IsDebugging}" RowDefinitions="*, Auto, Auto">
+        <Grid ShowGridLines="{Binding IsDebugging}" RowDefinitions="*, *, Auto">
           <StackPanel Spacing="5">
             <Image PointerPressed="InputElement_OnPointerPressed" IsVisible="{Binding !SidebarExtended}"
                    Source="avares://Launcher/Assets/Images/logo.png" Width="32">
@@ -67,31 +67,20 @@
               </StackPanel>
             </Button>
           </StackPanel>
-          <Panel Grid.Row="1" MaxWidth="180" IsVisible="{Binding IsDownloading}">
-            <Border
-              Background="{DynamicResource PrimaryBackground}"
-              BorderThickness="1"
-              BorderBrush="{DynamicResource LineBackground}"
-              CornerRadius="5"
-              Padding="5"
-              IsVisible="{Binding SidebarExtended}">
-              <Grid ColumnDefinitions="*, Auto">
-                <StackPanel>
-                  <WrapPanel>
-                    <Label Content="{Binding CurrentDownloadAction}" VerticalAlignment="Center" />
-                  </WrapPanel>
-                  <ProgressBar Value="{Binding DownloadProgress}" ShowProgressText="True" MinWidth="10" />
-                </StackPanel>
-                <Button Grid.Column="1" Classes="icon-only" Content="&#xE4F6;"
-                        Command="{Binding CancelActiveDownloadCommand}" />
-              </Grid>
-            </Border>
-            <controls:ProgressRing StartAngle="90" EndAngle="450" Value="{Binding DownloadProgress}"
-                                   BorderThickness="3"
-                                   IsVisible="{Binding !SidebarExtended}" />
-          </Panel>
-          <Button Grid.Row="2" Classes="icon-only" Content="&#xE272;"
-                  Command="{Binding ShowSettingsDialogCommand}" />
+
+          <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding ActiveDownloads}" VerticalAlignment="Bottom">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <ReversibleStackPanel ReverseOrder="True" Spacing="5" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+            </ItemsControl>
+          </ScrollViewer>
+          <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Classes="icon-only" Content="&#xE272;"
+                    Command="{Binding ShowSettingsDialogCommand}" />
+          </StackPanel>
         </Grid>
       </Border>
     </Grid>

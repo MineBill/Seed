@@ -9,6 +9,7 @@ using CommunityToolkit.Mvvm.Input;
 using Launcher.DataModels;
 using Launcher.Services;
 using Launcher.Services.Dummies;
+using Launcher.ViewModels.Dialogs;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using NLog;
@@ -98,6 +99,13 @@ public partial class ProjectsPageViewModel : PageViewModel
 
             _projectManager.AddProject(result.Result);
         }
+    }
+
+    [RelayCommand]
+    private async Task ShowGitCloneDialog()
+    {
+        var vm = new GitCloneDialogModel(_filesService, _projectManager);
+        await vm.ShowDialog();
     }
 
     [RelayCommand]

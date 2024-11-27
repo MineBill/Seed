@@ -25,6 +25,7 @@
                           HorizontalContentAlignment="Center"
                           Command="{Binding AddProjectFromDiskCommand}" />
                   <Button Classes="flyout" Content="Clone from repo"
+                          Command="{Binding ShowGitCloneDialogCommand}"
                           HorizontalContentAlignment="Center" />
                 </StackPanel>
               </Flyout>

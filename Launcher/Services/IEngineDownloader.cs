@@ -7,12 +7,12 @@ namespace Launcher.Services;
 
 public interface IEngineDownloader
 {
-    public event Action<string> ActionChanged;
-    public event Action DownloadStarted;
-    public event Action DownloadFinished;
-
-    public string CurrentAction { get; }
-    public Progress<float> Progress { get; }
+    // public event Action<string> ActionChanged;
+    // public event Action DownloadStarted;
+    // public event Action DownloadFinished;
+    //
+    // public string CurrentAction { get; }
+    // public Progress<float> Progress { get; }
 
     public Task<List<RemoteEngine>?> GetAvailableVersions();
 

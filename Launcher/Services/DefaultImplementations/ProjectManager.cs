@@ -6,8 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 using Launcher.DataModels;
+using LibGit2Sharp;
 using NLog;
+using Version = System.Version;
 
 namespace Launcher.Services.DefaultImplementations;
 
@@ -16,13 +19,15 @@ public class ProjectManager : IProjectManager
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
     private readonly IEngineManager _engineManager;
+    private readonly IDownloadManager _downloadManager;
 
     public event IProjectManager.SaveEvent? OnSaved;
     public ObservableCollection<Project> Projects { get; private set; } = new();
 
-    public ProjectManager(IEngineManager engineManager)
+    public ProjectManager(IEngineManager engineManager, IDownloadManager downloadManager)
     {
         _engineManager = engineManager;
+        _downloadManager = downloadManager;
 
         LoadProjects();
         ValidateProjects();
@@ -43,23 +48,56 @@ public class ProjectManager : IProjectManager
         }
     }
 
-    public bool TryAddProject(string path)
+    public Project? TryAddProject(string path)
     {
-        if (!Path.Exists(path)) return false;
+        if (!Path.Exists(path)) return null;
 
         var projFile = File.ReadAllText(path);
         var root = JsonNode.Parse(projFile);
-        if (root is null) return false;
+        if (root is null) return null;
         if (!root.AsObject().ContainsKey("MinEngineVersion"))
-            return false;
+            return null;
         var ok = Version.TryParse(root["MinEngineVersion"]!.ToString(), out var version);
-        if (!ok) return false;
+        if (!ok) return null;
         var engines = _engineManager.Engines.OrderBy(e => e.Version);
         var engine = engines.FirstOrDefault(e => e.Version.CompareTo(new NormalVersion(version!)) >= 0);
-        if (engine is null) return false;
+        if (engine is null) return null;
 
-        AddProject(new Project(root["Name"]!.ToString(), Directory.GetParent(path)!.FullName, engine.Version));
-        return true;
+        return new Project(root["Name"]!.ToString(), Directory.GetParent(path)!.FullName, path, engine.Version);
+    }
+
+    public Task<Project?> AddProjectFromGitRepo(string repoUrl, string destination)
+    {
+        return Task.Run(() =>
+        {
+            var download = new DownloadEntry();
+            _downloadManager.AddDownload(download);
+            download.Title = "Cloning repo";
+            IProgress<float> progress = download.Progress;
+
+            var options = new CloneOptions
+            {
+                RecurseSubmodules = true
+            };
+            options.OnCheckoutProgress += (path, steps, totalSteps) =>
+            {
+                download.CurrentAction = "Checking out";
+                progress.Report(steps / (float)totalSteps);
+            };
+            options.FetchOptions.OnTransferProgress += transferProgress =>
+            {
+                download.CurrentAction = $"Received {transferProgress.ReceivedBytes} bytes";
+                progress.Report(transferProgress.ReceivedObjects / (float)transferProgress.TotalObjects);
+                return true;
+            };
+            Repository.Clone(repoUrl, destination, options);
+            _downloadManager.RemoveDownload(download);
+
+            var projectFiles = Directory.GetFiles(destination).Where(f => f.EndsWith("flaxproj")).ToArray();
+            if (projectFiles.Length > 1) return null;
+
+            return TryAddProject(projectFiles[0]);
+        });
     }
 
     public void RemoveProject(Project project)

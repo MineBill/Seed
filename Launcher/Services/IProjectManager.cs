@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Launcher.DataModels;
 
 namespace Launcher.Services;
@@ -26,7 +27,9 @@ public interface IProjectManager
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    public bool TryAddProject(string path);
+    public Project? TryAddProject(string path);
+
+    public Task<Project?> AddProjectFromGitRepo(string repoUrl, string destination);
 
     /// <summary>
     /// Remove a project from the list of known projects.

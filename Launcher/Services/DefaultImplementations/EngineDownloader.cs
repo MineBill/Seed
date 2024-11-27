@@ -16,7 +16,8 @@ using NLog;
 
 namespace Launcher.Services.DefaultImplementations;
 
-public class EngineDownloader(IPreferencesManager preferencesManager) : IEngineDownloader
+public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadManager downloadManager)
+    : IEngineDownloader
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -25,25 +26,25 @@ public class EngineDownloader(IPreferencesManager preferencesManager) : IEngineD
     public const string GithubWorkflowApiUrl =
         "https://api.github.com/repos/FlaxEngine/FlaxEngine/actions/workflows/cd.yml/runs?per_page=3";
 
-    public event Action<string>? ActionChanged;
-    public event Action? DownloadStarted;
-    public event Action? DownloadFinished;
+    // public event Action<string>? ActionChanged;
+    // public event Action? DownloadStarted;
+    // public event Action? DownloadFinished;
 
     private readonly HttpClient _client = new();
-    public Progress<float> Progress { get; } = new();
+    // public Progress<float> Progress { get; } = new();
 
-    private string _currentAction = string.Empty;
+    // private string _currentAction = string.Empty;
     private CancellationTokenSource _cancellationTokenSource = new();
 
-    public string CurrentAction
-    {
-        get => _currentAction;
-        private set
-        {
-            _currentAction = value;
-            ActionChanged?.Invoke(value);
-        }
-    }
+    // public string CurrentAction
+    // {
+    //     get => _currentAction;
+    //     private set
+    //     {
+    //         _currentAction = value;
+    //         ActionChanged?.Invoke(value);
+    //     }
+    // }
 
     /// <inheritdoc />
     public async Task<List<RemoteEngine>?> GetAvailableVersions()
@@ -185,42 +186,48 @@ public class EngineDownloader(IPreferencesManager preferencesManager) : IEngineD
     public async Task<Engine> DownloadVersion(RemoteEngine engine, List<RemotePackage> platformTools,
         string installFolderPath)
     {
-        DownloadStarted?.Invoke();
+        var download = new DownloadEntry();
+        downloadManager.AddDownload(download);
+
+        // DownloadStarted?.Invoke();
         _cancellationTokenSource.TryReset();
         var cancellationToken = _cancellationTokenSource.Token;
 
         var tempEditorFile = Path.GetTempFileName();
-        CurrentAction = $"Downloading {engine.Name}";
+        download.Title = $"Downloading {engine.Name}";
+        download.CurrentAction = $"Downloading...";
         var editorUrl = engine.GetEditorPackage().EditorUrl;
         await using (var file = new FileStream(tempEditorFile, FileMode.Create, FileAccess.Write, FileShare.None))
-            await _client.DownloadDataAsync(editorUrl, file, Progress, cancellationToken: cancellationToken);
+            await _client.DownloadDataAsync(editorUrl, file, download.Progress, cancellationToken: cancellationToken);
         // await DownloadFile(editorUrl, tempEditorFile);
         // create sub folder for this engine installation
         var editorInstallFolder = Path.Combine(installFolderPath, engine.Name);
 
         // TODO: Check for errors
         // ZipFile.ExtractToDirectory(tempEditorFile, editorInstallFolder);
-        CurrentAction = "Extracting editor";
-        await ZipHelpers.ExtractToDirectoryAsync(tempEditorFile, editorInstallFolder, Progress, cancellationToken);
+        download.CurrentAction = "Extracting editor";
+        await ZipHelpers.ExtractToDirectoryAsync(tempEditorFile, editorInstallFolder, download.Progress,
+            cancellationToken);
 
         var installedPackages = new List<Package>(platformTools.Count);
         foreach (var tools in platformTools)
         {
-            CurrentAction = $"Downloading platform tools for {tools.Name}";
+            download.CurrentAction = $"Downloading platform tools: {tools.Name}";
             var tmpFile = Path.GetTempFileName();
             await using (var file = new FileStream(tmpFile, FileMode.Create, FileAccess.Write, FileShare.None))
-                await _client.DownloadDataAsync(tools.Url, file, Progress, cancellationToken: cancellationToken);
+                await _client.DownloadDataAsync(tools.Url, file, download.Progress,
+                    cancellationToken: cancellationToken);
 
             var installFolder = Path.Combine(editorInstallFolder, tools.TargetPath);
-            CurrentAction = $"Extracting {tools.Name}";
-            await ZipHelpers.ExtractToDirectoryAsync(tmpFile, installFolder, Progress, cancellationToken);
+            download.CurrentAction = $"Extracting {tools.Name}";
+            await ZipHelpers.ExtractToDirectoryAsync(tmpFile, installFolder, download.Progress, cancellationToken);
 
             installedPackages.Add(new Package(tools.Name, installFolder));
         }
 
-        CurrentAction = "Done!";
+        download.CurrentAction = "Done!";
 
-        DownloadFinished?.Invoke();
+        downloadManager.RemoveDownload(download);
         return new Engine
         {
             Name = engine.Name,
@@ -241,7 +248,8 @@ public class EngineDownloader(IPreferencesManager preferencesManager) : IEngineD
     public async Task<Engine> DownloadFromWorkflow(GitHubWorkflow workflow, List<GitHubArtifact> platformTools,
         string installFolderPath)
     {
-        DownloadStarted?.Invoke();
+        var download = new DownloadEntry();
+        downloadManager.AddDownload(download);
         var cancellationToken = _cancellationTokenSource.Token;
 
         _client.DefaultRequestHeaders.Accept.Clear();
@@ -251,53 +259,57 @@ public class EngineDownloader(IPreferencesManager preferencesManager) : IEngineD
             new AuthenticationHeaderValue("Bearer", preferencesManager.Preferences.GithubAccessToken);
 
         var tempEditorFile = Path.GetTempFileName();
-        CurrentAction = $"Downloading commit {workflow.CommitHash}";
+        download.Title = $"Downloading {workflow.CommitHash}";
+        download.CurrentAction = $"Downloading...";
         var editorUrl = workflow.EditorArtifact.DownloadUrl;
         await using (var file = new FileStream(tempEditorFile, FileMode.Create, FileAccess.Write, FileShare.None))
-            await _client.DownloadDataAsync(editorUrl, file, Progress,
+            await _client.DownloadDataAsync(editorUrl, file, download.Progress,
                 contentLength: workflow.EditorArtifact.SizeInBytes, cancellationToken: cancellationToken);
 
         var editorInstallFolder = Path.Combine(installFolderPath, workflow.CommitHash);
 
         // TODO: Check for errors
-        CurrentAction = "Extracting artifact";
+        download.CurrentAction = "Extracting artifact";
 
         // Because the artifacts are zips inside a zip, we need to extract the nested zip first.
         // To do that, create a folder named after the commit and extract the first zip there.
         // Then extract that zip to the destination folder.
         var nestedZipPath = Path.Combine(Path.GetTempPath(), workflow.CommitHash);
-        await ZipHelpers.ExtractToDirectoryAsync(tempEditorFile, nestedZipPath, Progress, cancellationToken);
+        await ZipHelpers.ExtractToDirectoryAsync(tempEditorFile, nestedZipPath, download.Progress, cancellationToken);
 
-        CurrentAction = "Extracting editor";
+        download.CurrentAction = "Extracting editor";
         // TODO: This should return at least one but maybe check that.
         var nestedZip = Directory.GetFiles(nestedZipPath)[0];
-        await ZipHelpers.ExtractToDirectoryAsync(nestedZip, editorInstallFolder, Progress, cancellationToken);
+        await ZipHelpers.ExtractToDirectoryAsync(nestedZip, editorInstallFolder, download.Progress, cancellationToken);
 
         var installedPackages = new List<Package>(platformTools.Count);
         foreach (var tools in platformTools)
         {
-            CurrentAction = $"Downloading platform tools for {tools.Name}";
+            download.CurrentAction = $"Downloading platform tools: {tools.Name}";
             var tmpFile = Path.GetTempFileName();
             await using (var file = new FileStream(tmpFile, FileMode.Create, FileAccess.Write, FileShare.None))
-                await _client.DownloadDataAsync(tools.DownloadUrl, file, Progress, contentLength: tools.SizeInBytes,
+                await _client.DownloadDataAsync(tools.DownloadUrl, file, download.Progress,
+                    contentLength: tools.SizeInBytes,
                     cancellationToken: cancellationToken);
 
             var installFolder = Path.Combine(editorInstallFolder, tools.TargetPath);
-            CurrentAction = $"Extracting {tools.Name} artifact";
+            download.CurrentAction = $"Extracting {tools.Name} artifact";
 
             var nestedPlatformZipPath = Path.GetRandomFileName();
-            await ZipHelpers.ExtractToDirectoryAsync(tmpFile, nestedPlatformZipPath, Progress, cancellationToken);
+            await ZipHelpers.ExtractToDirectoryAsync(tmpFile, nestedPlatformZipPath, download.Progress,
+                cancellationToken);
 
-            CurrentAction = $"Extracting {tools.Name}";
+            download.CurrentAction = $"Extracting {tools.Name}";
             var nestedPlatformZip = Directory.GetFiles(nestedPlatformZipPath)[0];
-            await ZipHelpers.ExtractToDirectoryAsync(nestedPlatformZip, installFolder, Progress, cancellationToken);
+            await ZipHelpers.ExtractToDirectoryAsync(nestedPlatformZip, installFolder, download.Progress,
+                cancellationToken);
 
             installedPackages.Add(new Package(tools.Name, installFolder));
         }
 
-        CurrentAction = "Done!";
+        download.CurrentAction = "Done!";
 
-        DownloadFinished?.Invoke();
+        downloadManager.RemoveDownload(download);
         return new Engine
         {
             Name = $"CI Build {workflow.CommitHash[..5]}",

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -23,24 +25,19 @@ public partial class MainViewModel : ViewModelBase
     }
 
     private readonly IEngineDownloader _engineDownloader;
+    private readonly IDownloadManager _downloadManager;
     private readonly Func<PageNames, PageViewModel> _pageFactory;
 
     [ObservableProperty]
     private bool _sidebarExtended = true;
 
     [ObservableProperty]
-    private string _currentDownloadAction = string.Empty;
-
-    [ObservableProperty]
-    private bool _isDownloading;
-
-    [ObservableProperty]
-    private float _downloadProgress;
-
-    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsProjectsPage))]
     [NotifyPropertyChangedFor(nameof(IsEnginesPage))]
     private PageViewModel _currentPage;
+
+    [ObservableProperty]
+    private ObservableCollection<DownloadEntryViewModel> _activeDownloads = [];
 
     public bool IsProjectsPage => CurrentPage.PageName == PageNames.Projects;
     public bool IsEnginesPage => CurrentPage.PageName == PageNames.Installs;
@@ -53,28 +50,28 @@ public partial class MainViewModel : ViewModelBase
     //     _engineDownloader = new DummyEngineDownloader();
     // }
 
-    public MainViewModel(IEngineDownloader engineDownloader, Func<PageNames, PageViewModel> factory)
+    public MainViewModel(
+        IEngineDownloader engineDownloader,
+        IDownloadManager downloadManager,
+        Func<PageNames, PageViewModel> factory)
     {
         _pageFactory = factory;
         _engineDownloader = engineDownloader;
-        _engineDownloader.DownloadStarted += EngineDownloaderOnDownloadStarted;
-        _engineDownloader.DownloadFinished += EngineDownloaderOnDownloadFinished;
-        _engineDownloader.ActionChanged += EngineDownloaderOnActionChanged;
-        _engineDownloader.Progress.ProgressChanged += OnDownloadProgressChanged;
+        _downloadManager = downloadManager;
 
-        // _projectsPage = new ProjectsPageViewModel(
-        //     provider.GetService<IEngineManager>()!,
-        //     provider.GetService<IProjectManager>()!,
-        //     provider.GetService<IFilesService>()!
-        // );
-        // _enginesPage = new EnginesPageViewModel(
-        //     provider.GetService<IEngineManager>()!,
-        //     _engineDownloader,
-        //     provider.GetService<IPreferencesManager>()!,
-        //     CancellationTokenSource.Token
-        // );
+        downloadManager.EntryAdded += EngineDownloaderOnDownloadStarted;
+        downloadManager.EntryRemoved += EngineDownloaderOnDownloadFinished;
 
         CurrentPage = _pageFactory.Invoke(PageNames.Projects);
+    }
+
+    public MainViewModel()
+    {
+        ActiveDownloads.Add(new DownloadEntryViewModel(new DownloadEntry() { CurrentAction = "Downloading" }));
+        ActiveDownloads.Add(new DownloadEntryViewModel(new DownloadEntry() { CurrentAction = "Downloading" }));
+        ActiveDownloads.Add(new DownloadEntryViewModel(new DownloadEntry() { CurrentAction = "Downloading" }));
+        ActiveDownloads.Add(new DownloadEntryViewModel(new DownloadEntry() { CurrentAction = "Downloading" }));
+        ActiveDownloads.Add(new DownloadEntryViewModel(new DownloadEntry() { CurrentAction = "Downloading" }));
     }
 
     public void ToggleSidebar()
@@ -110,30 +107,39 @@ public partial class MainViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void CancelActiveDownload()
+    private void AddFakeDownload()
     {
-        _engineDownloader.StopDownloads();
-        EngineDownloaderOnDownloadFinished();
+        Task.Run(async () =>
+        {
+            var download = new DownloadEntry();
+            _downloadManager.AddDownload(download);
+            IProgress<float> prog = download.Progress;
+
+            download.CurrentAction = "Starting download";
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            download.CurrentAction = "Progress (1 / 4)";
+            prog.Report(0.25f);
+            await Task.Delay(TimeSpan.FromSeconds(2));
+            download.CurrentAction = "Progress (2 / 4)";
+            prog.Report(0.5f);
+            await Task.Delay(TimeSpan.FromSeconds(3));
+            download.CurrentAction = "Progress (3 / 4)";
+            prog.Report(0.75f);
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            download.CurrentAction = "Progress (4 / 4)";
+            prog.Report(1.0f);
+            await Task.Delay(TimeSpan.FromSeconds(3));
+            _downloadManager.RemoveDownload(download);
+        });
     }
 
-    private void OnDownloadProgressChanged(object? sender, float e)
+    private void EngineDownloaderOnDownloadFinished(DownloadEntry entry)
     {
-        DownloadProgress = Math.Clamp(e * 100.0f, 0f, 100.0f);
+        ActiveDownloads.Remove(ActiveDownloads.FirstOrDefault(d => d.Entry == entry));
     }
 
-    private void EngineDownloaderOnDownloadFinished()
+    private void EngineDownloaderOnDownloadStarted(DownloadEntry entry)
     {
-        IsDownloading = false;
-    }
-
-    private void EngineDownloaderOnDownloadStarted()
-    {
-        IsDownloading = true;
-        DownloadProgress = 0;
-    }
-
-    private void EngineDownloaderOnActionChanged(string action)
-    {
-        CurrentDownloadAction = action;
+        ActiveDownloads.Add(new DownloadEntryViewModel(entry));
     }
 }

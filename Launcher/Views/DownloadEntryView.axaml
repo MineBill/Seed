@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Launcher.ViewModels"
+             x:DataType="vm:DownloadEntryViewModel"
+             mc:Ignorable="d" d:DesignWidth="180"
+             Width="180"
+             x:Class="Launcher.Views.DownloadEntryView">
+  <Design.DataContext>
+    <vm:DownloadEntryViewModel />
+  </Design.DataContext>
+  <Border
+    Background="{DynamicResource PrimaryBackground}"
+    BorderThickness="1"
+    BorderBrush="{DynamicResource LineBackground}"
+    CornerRadius="5"
+    Padding="5">
+    <Grid ColumnDefinitions="*, Auto" RowDefinitions="*, *, Auto">
+      <TextBlock
+        TextWrapping="Wrap"
+        FontSize="14"
+        Text="{Binding Entry.Title}" />
+      <TextBlock
+        Grid.Row="1"
+        TextWrapping="Wrap"
+        FontSize="12"
+        Text="{Binding CurrentActionText}" />
+      <ProgressBar Grid.Column="0" Grid.Row="2" Value="{Binding DownloadProgress}" ShowProgressText="True"
+                   MinWidth="10" />
+      <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Classes="icon-only" Content="&#xE4F6;"
+              Command="{Binding CancelDownloadCommand}" />
+    </Grid>
+  </Border>
+  <!-- <controls:ProgressRing StartAngle="90" EndAngle="450" Value="{Binding DownloadProgress}" -->
+  <!--                        BorderThickness="3" -->
+  <!--                        IsVisible="{Binding !SidebarExtended}" /> -->
+</UserControl>

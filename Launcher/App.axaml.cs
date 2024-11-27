@@ -41,6 +41,8 @@ public class App : Application
         ViewLocator.Register<EngineViewModel, EngineView>();
         ViewLocator.Register<DownloadEngineDialogModel, DownloadEngineDialog>();
         ViewLocator.Register<EngineConfigurationDialogModel, EngineConfigurationDialog>();
+        ViewLocator.Register<GitCloneDialogModel, GitCloneDialog>();
+        ViewLocator.Register<DownloadEntryViewModel, DownloadEntryView>();
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -60,6 +62,7 @@ public class App : Application
         services.AddSingleton<IEngineManager, EngineManager>();
         services.AddSingleton<IProjectManager, ProjectManager>();
         services.AddSingleton<IPreferencesManager, JsonPreferencesManager>();
+        services.AddSingleton<IDownloadManager, DownloadManager>();
 
         services.AddSingleton<MainViewModel>();
 
