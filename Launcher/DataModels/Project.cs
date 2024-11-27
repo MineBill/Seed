@@ -11,8 +11,9 @@ namespace Launcher.DataModels;
 /// </summary>
 /// <param name="Name">The name of the project.</param>
 /// <param name="Path">Where the project is located in the filesystem.</param>
+/// <param name="FlaxProj">Full path to the .flaxproj file</param>
 /// <param name="EngineVersion">The associated engine version with this project.</param>
-public record Project(string Name, string Path, EngineVersion? EngineVersion = null)
+public record Project(string Name, string Path, string FlaxProj, EngineVersion? EngineVersion = null)
 {
     /// <summary>
     /// Utility to get the project
@@ -51,7 +52,7 @@ public record Project(string Name, string Path, EngineVersion? EngineVersion = n
     /// <returns></returns>
     public bool ValidateInstallation()
     {
-        return File.Exists(System.IO.Path.Combine(Path, $"{Name}.flaxproj"));
+        return File.Exists(FlaxProj);
     }
 }
 

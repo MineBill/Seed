@@ -21,7 +21,7 @@ public partial class ProjectViewModel(Project project, IProjectManager projectMa
         : "avares://Launcher/Assets/Images/BasicScene.png";
 
     public ProjectViewModel() : this(
-        new Project("Some Project Name", "Path", new NormalVersion(Version.Parse("1.9"))),
+        new Project("Some Project Name", "Path", "", new NormalVersion(Version.Parse("1.9"))),
         new DummyProjectManager())
     {
     }

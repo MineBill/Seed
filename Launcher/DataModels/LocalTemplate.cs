@@ -40,13 +40,13 @@ public class LocalTemplate : ProjectTemplate
         Directory.Delete(Path.Combine(projectFolder, "Cache"), recursive: true);
         Directory.Delete(Path.Combine(projectFolder, "Binaries"), recursive: true);
 
-        var flaxproj = Path.Combine(projectFolder, Project.Name) + ".flaxproj";
-        var jsonText = await File.ReadAllTextAsync(flaxproj);
+        var flaxProj = Path.GetRelativePath(Project.Path, Project.FlaxProj);
+        var jsonText = await File.ReadAllTextAsync(Project.FlaxProj);
         var json = JsonNode.Parse(jsonText);
         if (json != null)
             json["Name"] = name;
 
-        await using (var file = new FileStream(flaxproj, FileMode.Create))
+        await using (var file = new FileStream(Project.FlaxProj, FileMode.Create))
         {
             await using var writer = new Utf8JsonWriter(file, new JsonWriterOptions
             {
@@ -55,9 +55,10 @@ public class LocalTemplate : ProjectTemplate
             json?.WriteTo(writer);
         }
 
-        File.Move(flaxproj, Path.Combine(projectFolder, name + ".flaxproj"));
+        var newFlaxProj = Path.Combine(projectFolder, name + ".flaxproj");
+        File.Move(Path.Combine(projectFolder, flaxProj), newFlaxProj);
 
-        return new Project(name, projectFolder, engine.Version);
+        return new Project(name, projectFolder, FlaxProj: newFlaxProj, engine.Version);
     }
 
     /// <inheritdoc/>
