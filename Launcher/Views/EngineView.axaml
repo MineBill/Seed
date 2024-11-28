@@ -21,7 +21,7 @@
         <Button Classes="flyout" Content="Open Directory"
                 Command="{Binding OpenEngineDirectoryCommand}" />
         <Separator />
-        <Button Classes="flyout caution" Content="Delete" />
+        <Button Classes="flyout caution" Content="Delete" Command="{Binding DeleteEngineCommand}" />
       </StackPanel>
     </controls:CustomFlyout>
   </UserControl.Resources>

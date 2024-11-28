@@ -59,7 +59,7 @@ public partial class EnginesPageViewModel : PageViewModel
                 foreach (var engine in args.OldItems)
                 {
                     var old = Engines.Where(x => x.EngineVersion == ((engine as Engine)!).Version);
-                    foreach (var o in old)
+                    foreach (var o in old.ToList())
                     {
                         Engines.Remove(o);
                     }

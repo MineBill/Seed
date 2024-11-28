@@ -36,4 +36,10 @@ public partial class EngineViewModel(Engine engine, IFilesService files, IEngine
         var vm = new EngineConfigurationDialogModel(engine, engineManager);
         await vm.ShowDialog();
     }
+
+    [RelayCommand]
+    private void DeleteEngine()
+    {
+        engineManager.DeleteEngine(engine);
+    }
 }

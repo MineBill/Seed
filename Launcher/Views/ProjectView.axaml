@@ -50,9 +50,13 @@
         </Button>
       </Grid>
       <Label CornerRadius="0" Background="{DynamicResource SecondaryBackground}"
+             Classes.caution="{Binding EngineMissing}"
              Content="{Binding EngineVersion}"
+             ToolTip.Tip="asd"
+             ToolTip.ServiceEnabled="{Binding EngineMissing}"
              VerticalAlignment="Top"
-             HorizontalAlignment="Right" />
+             HorizontalAlignment="Right">
+      </Label>
       <!-- This border is drawn on top of the parent border, which has ClipToBound=true. This allows us to correctly draw the border
             without other items with sharp corner draw above it. -->
       <Border Classes="inner-border" />

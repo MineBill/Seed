@@ -35,7 +35,7 @@
   <Style Selector="Label.page-header">
     <Setter Property="FontSize" Value="25" />
   </Style>
-  
+
   <Style Selector="Label.template-header">
     <Setter Property="FontSize" Value="18" />
   </Style>
@@ -81,7 +81,7 @@
       </Transitions>
     </Setter>
   </Style>
-  
+
   <Style Selector="Button.primary.disabled /template/ ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource PrimaryAccentColorDisabled}" />
   </Style>
@@ -118,6 +118,10 @@
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}" />
     <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"></Setter>
+  </Style>
+
+  <Style Selector="Label.caution">
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryCaution}" />
   </Style>
 
   <Style Selector="Button.caution /template/ ContentPresenter">
@@ -282,7 +286,7 @@
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}" />
   </Style>
-  
+
   <Style Selector="DataValidationErrors">
     <Setter Property="Theme" Value="{StaticResource TooltipDataValidationErrors}" />
   </Style>

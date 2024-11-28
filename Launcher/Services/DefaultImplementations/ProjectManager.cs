@@ -109,11 +109,11 @@ public class ProjectManager : IProjectManager
     public void RunProject(Project project)
     {
         if (_engineManager.Engines.Count == 0)
-        {
             return;
-        }
 
-        var engine = _engineManager.Engines.First(x => x.Version == project.EngineVersion);
+        var engine = _engineManager.Engines.FirstOrDefault(x => x.Version == project.EngineVersion);
+        if (engine is null) return;
+
         var enginePath = engine.GetExecutablePath(engine.PreferredConfiguration);
 
         if (OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD())
