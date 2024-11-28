@@ -57,7 +57,8 @@ public partial class ProjectsPageViewModel : PageViewModel
             {
                 foreach (var project in args.NewItems)
                 {
-                    Projects.Add(new ProjectViewModel((project as Project)!, projectManager, _engineManager));
+                    Projects.Add(new ProjectViewModel((project as Project)!, projectManager, _engineManager,
+                        _filesService));
                 }
             }
 
@@ -75,9 +76,9 @@ public partial class ProjectsPageViewModel : PageViewModel
         };
         foreach (var project in _projectManager.Projects)
         {
-            Projects.Add(new ProjectViewModel(project, projectManager, _engineManager));
+            Projects.Add(new ProjectViewModel(project, projectManager, _engineManager, _filesService));
         }
-        
+
         FilteredProjects = Projects;
     }
 

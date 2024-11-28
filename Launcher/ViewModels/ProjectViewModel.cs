@@ -1,10 +1,12 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Launcher.DataModels;
 using Launcher.Services;
 using Launcher.Services.Dummies;
+using Launcher.ViewModels.Dialogs;
 using NLog;
 
 namespace Launcher.ViewModels;
@@ -13,6 +15,8 @@ public partial class ProjectViewModel : ViewModelBase
 {
     private readonly Project _project;
     private readonly IProjectManager _projectManager;
+    private readonly IFilesService _filesService;
+
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
     public string EngineVersion => _project.EngineVersion?.ToString() ?? "null";
@@ -29,15 +33,21 @@ public partial class ProjectViewModel : ViewModelBase
     public ProjectViewModel() : this(
         new Project("Some Project Name", "Path", "", new NormalVersion(Version.Parse("1.9"))),
         new DummyProjectManager(),
-        new DummyEngineManager())
+        new DummyEngineManager(),
+        new DummyFileService())
     {
     }
 
     /// <inheritdoc/>
-    public ProjectViewModel(Project project, IProjectManager projectManager, IEngineManager engineManager)
+    public ProjectViewModel(
+        Project project,
+        IProjectManager projectManager,
+        IEngineManager engineManager,
+        IFilesService filesService)
     {
         _project = project;
         _projectManager = projectManager;
+        _filesService = filesService;
 
         EngineMissing = _project.Engine is null;
         engineManager.Engines.CollectionChanged += (_, args) =>
@@ -85,6 +95,31 @@ public partial class ProjectViewModel : ViewModelBase
     {
         _project.EngineVersion = new NormalVersion(version);
         OnPropertyChanged(nameof(EngineVersion));
+    }
+
+    [RelayCommand]
+    private void OpenConfiguration()
+    {
+    }
+
+    [RelayCommand]
+    private void OpenDirectory()
+    {
+        _filesService.OpenFolder(_project.Path);
+    }
+
+    [RelayCommand]
+    private async Task Delete()
+    {
+        var vm = new ConfirmDialogModel("Are you sure you want to remove this project?");
+        var result = await vm.ShowDialog();
+        if (result is not null)
+        {
+            if (result.Result == ConfirmAction.Yes)
+            {
+                _projectManager.RemoveProject(_project);
+            }
+        }
     }
 
     [RelayCommand]

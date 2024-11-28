@@ -43,6 +43,7 @@ public class App : Application
         ViewLocator.Register<EngineConfigurationDialogModel, EngineConfigurationDialog>();
         ViewLocator.Register<GitCloneDialogModel, GitCloneDialog>();
         ViewLocator.Register<DownloadEntryViewModel, DownloadEntryView>();
+        ViewLocator.Register<ConfirmDialogModel, ConfirmDialog>();
     }
 
     public override void OnFrameworkInitializationCompleted()
