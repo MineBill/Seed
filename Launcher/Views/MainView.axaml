@@ -11,7 +11,7 @@
         x:DataType="vm:MainViewModel"
         UseLayoutRounding="True"
         Icon="/Assets/Images/logo.png"
-        Title="Seed">
+        Title="Seed Launcher">
 
   <Design.DataContext>
     <vm:MainViewModel />
