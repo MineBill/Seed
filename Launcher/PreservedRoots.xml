@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <linker>
     <assembly fullname="Launcher">
-        <type fullname="Launcher.ViewModels.Dialogs.NewProjectDialogModel" preserve="all" />
+        <type fullname="Launcher.ViewModels.Dialogs.NewProjectDialogModel" preserve="all"/>
+        <type fullname="Launcher.ViewModels.Dialogs.GitCloneDialogModel" preserve="all"/>
     </assembly>
 </linker>
