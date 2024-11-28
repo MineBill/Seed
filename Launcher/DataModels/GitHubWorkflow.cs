@@ -84,3 +84,6 @@ public class GitHubWorkflow
         return DateTime.Compare(CreatedAt, workflow.CreatedAt);
     }
 }
+
+[JsonSerializable(typeof(GitHubWorkflow))]
+internal partial class GitHubWorkflowGenerationContext : JsonSerializerContext;

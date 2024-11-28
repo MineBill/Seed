@@ -86,4 +86,6 @@ public class GitHubArtifact
         return false;
     }
 }
-// TODO: Use a JsonSerializerContext to avoid some reflection.
+
+[JsonSerializable(typeof(GitHubArtifact))]
+internal partial class GitHubArtifactGenerationContext : JsonSerializerContext;

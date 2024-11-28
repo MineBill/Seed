@@ -64,3 +64,10 @@ public class RemoteEngine : IComparable<RemoteEngine>
         return false;
     }
 }
+
+
+[JsonSerializable(typeof(RemoteEngine))]
+internal partial class RemoteEngineGenerationContext : JsonSerializerContext;
+
+[JsonSerializable(typeof(List<RemoteEngine>))]
+internal partial class RemoteEngineListGenerationContext : JsonSerializerContext;

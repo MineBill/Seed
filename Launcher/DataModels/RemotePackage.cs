@@ -81,3 +81,6 @@ public class RemotePackage(string name, string targetPath, string url)
         }
     }
 }
+
+[JsonSerializable(typeof(RemotePackage))]
+internal partial class RemotePackageGenerationContext : JsonSerializerContext;

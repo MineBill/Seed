@@ -48,10 +48,7 @@ public class EngineManager : IEngineManager
 
         try
         {
-            var engines = JsonSerializer.Deserialize<List<Engine>>(json, new JsonSerializerOptions
-            {
-                TypeInfoResolver = EngineGenerationContext.Default,
-            });
+            var engines = JsonSerializer.Deserialize(json, EngineListGenerationContext.Default.ListEngine);
             if (engines is null)
             {
                 // TODO: Log this
@@ -94,11 +91,7 @@ public class EngineManager : IEngineManager
 
         using var file = new FileStream(enginesFile, FileMode.Create, FileAccess.Write, FileShare.None);
 
-        JsonSerializer.Serialize(file, Engines.ToList(), new JsonSerializerOptions
-        {
-            TypeInfoResolver = EngineGenerationContext.Default,
-            WriteIndented = true
-        });
+        JsonSerializer.Serialize(file, Engines.ToList(), EngineListGenerationContext.Default.ListEngine);
     }
 
     static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)

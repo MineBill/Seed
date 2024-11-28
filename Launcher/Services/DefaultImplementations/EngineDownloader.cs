@@ -47,7 +47,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
             if (tree is null)
                 return null;
 
-            var engines = tree["versions"].Deserialize<List<RemoteEngine>>();
+            var engines = tree["versions"].Deserialize(RemoteEngineListGenerationContext.Default.ListRemoteEngine);
             return engines;
         }
         catch (JsonException je)
@@ -89,7 +89,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
 
             foreach (var workflowNode in workflows["workflow_runs"]!.AsArray())
             {
-                var workflow = workflowNode?.Deserialize<GitHubWorkflow>();
+                var workflow = workflowNode?.Deserialize(GitHubWorkflowGenerationContext.Default.GitHubWorkflow);
                 if (workflow is null || !workflow.IsValid)
                     continue;
 
@@ -106,7 +106,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
                 var artifacts = JsonNode.Parse(artifactsJson);
                 foreach (var artifactNode in artifacts!["artifacts"]!.AsArray())
                 {
-                    var artifact = artifactNode.Deserialize<GitHubArtifact>();
+                    var artifact = artifactNode.Deserialize(GitHubArtifactGenerationContext.Default.GitHubArtifact);
                     if (artifact is null)
                         continue;
 

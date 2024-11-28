@@ -174,10 +174,7 @@ public class ProjectManager : IProjectManager
         try
         {
             // TODO: Handle this properly
-            var projects = JsonSerializer.Deserialize<List<Project>?>(json, new JsonSerializerOptions
-            {
-                TypeInfoResolver = ProjectGenerationContext.Default
-            });
+            var projects = JsonSerializer.Deserialize(json, ProjectListGenerationContext.Default.ListProject);
             if (projects is null)
             {
                 Logger.Warn("Json serializer returned a null project.");
@@ -227,11 +224,7 @@ public class ProjectManager : IProjectManager
 
         using var file = new FileStream(saveFile, FileMode.Create, FileAccess.Write, FileShare.None);
 
-        JsonSerializer.Serialize(file, Projects.ToList(), new JsonSerializerOptions
-        {
-            TypeInfoResolver = ProjectGenerationContext.Default,
-            WriteIndented = true
-        });
+        JsonSerializer.Serialize(file, Projects.ToList(), ProjectListGenerationContext.Default.ListProject);
 
         OnSaved?.Invoke();
     }

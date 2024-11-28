@@ -110,7 +110,8 @@ public class GithubAuthenticator
         );
 
         var response = await _client.PostAsync("/login/device/code", content);
-        return await response.Content.ReadFromJsonAsync<DeviceCodeResponse>();
+        return await response.Content.ReadFromJsonAsync(DeviceCodeResponseGenerationContext.Default
+            .DeviceCodeResponse);
     }
 }
 
@@ -161,3 +162,6 @@ public struct DeviceCodeResponse
     [JsonPropertyName("interval")]
     public int Interval { get; set; }
 }
+
+[JsonSerializable(typeof(DeviceCodeResponse))]
+internal partial class DeviceCodeResponseGenerationContext : JsonSerializerContext;

@@ -94,9 +94,17 @@ public class Package(string name, string path)
 }
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
-[JsonSerializable(typeof(List<Package>))]
+[JsonSerializable(typeof(Package))]
 internal partial class PackageGenerationContext : JsonSerializerContext;
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
-[JsonSerializable(typeof(List<Engine>))]
+[JsonSerializable(typeof(Engine))]
 internal partial class EngineGenerationContext : JsonSerializerContext;
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(List<Package>))]
+internal partial class PackageListGenerationContext : JsonSerializerContext;
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(List<Engine>))]
+internal partial class EngineListGenerationContext : JsonSerializerContext;

@@ -57,5 +57,9 @@ public record Project(string Name, string Path, string FlaxProj, EngineVersion? 
 }
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
-[JsonSerializable(typeof(List<Project>))]
+[JsonSerializable(typeof(Project))]
 internal partial class ProjectGenerationContext : JsonSerializerContext;
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(List<Project>))]
+internal partial class ProjectListGenerationContext : JsonSerializerContext;
