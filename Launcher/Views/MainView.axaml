@@ -10,6 +10,7 @@
         xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia.ProgressRing"
         x:DataType="vm:MainViewModel"
         UseLayoutRounding="True"
+        Icon="/Assets/Images/logo.png"
         Title="Seed">
 
   <Design.DataContext>
