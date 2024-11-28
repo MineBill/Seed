@@ -6,7 +6,10 @@ namespace Launcher.Services.Dummies;
 
 public class DummyProjectManager : IProjectManager
 {
+#pragma warning disable 67
     public event IProjectManager.SaveEvent? OnSaved;
+#pragma warning restore 67
+
     public ObservableCollection<Project> Projects { get; } = [];
 
     public void AddProject(Project project)

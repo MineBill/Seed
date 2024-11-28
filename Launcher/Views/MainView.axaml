@@ -7,15 +7,12 @@
         Width="1100" Height="650"
         x:Class="Launcher.Views.MainView"
         xmlns:vm="clr-namespace:Launcher.ViewModels"
+        xmlns:launcher="clr-namespace:Launcher"
         x:DataType="vm:MainViewModel"
+        d:DataContext="{x:Static launcher:DesignData.DesignMainViewModel}"
         UseLayoutRounding="True"
         Icon="/Assets/Images/logo.png"
         Title="Seed Launcher">
-
-  <Design.DataContext>
-    <vm:MainViewModel />
-  </Design.DataContext>
-
   <dialogHost:DialogHost
     DialogMargin="0"
     dialogHost:DialogHostStyle.CornerRadius="9"

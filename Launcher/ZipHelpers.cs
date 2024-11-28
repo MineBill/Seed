@@ -31,7 +31,7 @@ public static class ZipHelpers
             }
 
             // Create folder anyway since a folder may not have an entry
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
             await using var file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
             await using (var entryStream = entry.Open())
             {
@@ -68,7 +68,7 @@ public static class ZipHelpers
             }
     
             // Create folder anyway since a folder may not have an entry
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
             await using var file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
             await using (var entryStream = entry.Open())
             {

@@ -191,7 +191,7 @@ public class ProjectManager : IProjectManager
                     {
                         project.Engine = _engineManager.Engines.First(x => x.Version == project.EngineVersion);
                     }
-                    catch (InvalidOperationException ioe)
+                    catch (InvalidOperationException)
                     {
                         // NOTE: We do not perform any kind of automatic increase in the project version.
                         // If a new patch gets released, the user must explicitly set their project to use

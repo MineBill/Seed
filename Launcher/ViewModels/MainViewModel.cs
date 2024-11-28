@@ -44,12 +44,6 @@ public partial class MainViewModel : ViewModelBase
 
     public CenteredDialogPopupPositioner Positioner { get; } = new();
 
-    // public MainViewModel()
-    // {
-    //     _currentPage = new ProjectsPageViewModel(new DummyEngineManager(), new DummyProjectManager());
-    //     _engineDownloader = new DummyEngineDownloader();
-    // }
-
     public MainViewModel(
         IEngineDownloader engineDownloader,
         IDownloadManager downloadManager,
@@ -63,15 +57,6 @@ public partial class MainViewModel : ViewModelBase
         downloadManager.EntryRemoved += EngineDownloaderOnDownloadFinished;
 
         CurrentPage = _pageFactory.Invoke(PageNames.Projects);
-    }
-
-    public MainViewModel()
-    {
-        ActiveDownloads.Add(new DownloadEntryViewModel(new DownloadEntry() { CurrentAction = "Downloading" }));
-        ActiveDownloads.Add(new DownloadEntryViewModel(new DownloadEntry() { CurrentAction = "Downloading" }));
-        ActiveDownloads.Add(new DownloadEntryViewModel(new DownloadEntry() { CurrentAction = "Downloading" }));
-        ActiveDownloads.Add(new DownloadEntryViewModel(new DownloadEntry() { CurrentAction = "Downloading" }));
-        ActiveDownloads.Add(new DownloadEntryViewModel(new DownloadEntry() { CurrentAction = "Downloading" }));
     }
 
     public void ToggleSidebar()
@@ -135,7 +120,7 @@ public partial class MainViewModel : ViewModelBase
 
     private void EngineDownloaderOnDownloadFinished(DownloadEntry entry)
     {
-        ActiveDownloads.Remove(ActiveDownloads.FirstOrDefault(d => d.Entry == entry));
+        ActiveDownloads.Remove(ActiveDownloads.FirstOrDefault(d => d.Entry == entry)!);
     }
 
     private void EngineDownloaderOnDownloadStarted(DownloadEntry entry)
