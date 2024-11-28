@@ -62,11 +62,13 @@ public class BundledTemplate(string displayName, string actualName, string descr
             json?.WriteTo(writer);
         }
 
-        var newProjFile = Path.Combine(unzippedPath, name + ".flaxproj");
-        File.Move(projFile, newProjFile);
-        Directory.Move(unzippedPath, Path.Combine(parentFolder, name));
+        var projectFolder = Path.Combine(parentFolder, name);
 
-        return new Project(name, Path.Combine(parentFolder, name), FlaxProj: newProjFile, engine.Version);
+        var newProjFile = Path.Combine(projectFolder, name + ".flaxproj");
+        Directory.Move(unzippedPath, projectFolder);
+        File.Move(Path.Combine(projectFolder, ProjectName + ".flaxproj"), newProjFile);
+
+        return new Project(name, projectFolder, FlaxProj: newProjFile, engine.Version);
     }
 
     public override Task<Bitmap> Icon => Task.FromResult(icon);
