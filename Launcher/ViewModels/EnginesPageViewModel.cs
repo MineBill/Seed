@@ -162,8 +162,4 @@ public partial class EnginesPageViewModel : PageViewModel
             "Found {EnginesCount} available engine versions, {Removed} not supported and {Installed} already installed",
             totalCount, enginesRemoved, _engineManager.Engines.Count);
     }
-
-    private async Task DownloadEngine(RemoteEngine engine, List<RemotePackage> packages)
-    {
-    }
 }

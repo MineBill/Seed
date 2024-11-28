@@ -67,7 +67,7 @@ public partial class DownloadEngineDialogModel(List<RemoteEngine> remoteEngines)
     }
 
     [RelayCommand]
-    private async Task InstallSelectedEngine()
+    private void InstallSelectedEngine()
     {
         if (SelectedEngine is null || SelectedRemotePackages is null)
         {
@@ -76,16 +76,6 @@ public partial class DownloadEngineDialogModel(List<RemoteEngine> remoteEngines)
         }
 
         var tools = SelectedRemotePackages.Where(p => p.IsChecked).Select(vm => vm.Package).ToList();
-
-        // try
-        // {
-        //     var engine = await downloader.DownloadVersion(SelectedEngine, tools, preferences.GetInstallLocation());
-        //     engineManager.AddEngine(engine);
-        // }
-        // catch (TaskCanceledException e)
-        // {
-        //     Logger.Info(e, "Task canceled");
-        // }
 
         CloseDialogWithParam((SelectedEngine, tools));
     }
