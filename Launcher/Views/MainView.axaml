@@ -7,7 +7,6 @@
         Width="1100" Height="650"
         x:Class="Launcher.Views.MainView"
         xmlns:vm="clr-namespace:Launcher.ViewModels"
-        xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia.ProgressRing"
         x:DataType="vm:MainViewModel"
         UseLayoutRounding="True"
         Icon="/Assets/Images/logo.png"
