@@ -90,23 +90,28 @@ public class GithubAuthenticator
     private async Task<HttpResponseMessage> RequestToken(string deviceCode)
     {
         using var content = new StringContent(
-            JsonSerializer.Serialize(new
-            {
-                client_id = ClientId,
-                device_code = deviceCode,
-                grant_type = "urn:ietf:params:oauth:grant-type:device_code"
-            }), Encoding.UTF8, "application/json"
+            JsonSerializer.Serialize(new TokenRequest
+                {
+                    ClientId = ClientId,
+                    DeviceCode = deviceCode,
+                    GrantType = "urn:ietf:params:oauth:grant-type:device_code"
+                },
+                TokenRequestGenerationContext.Default.TokenRequest),
+            Encoding.UTF8, "application/json"
         );
         return await _client.PostAsync("login/oauth/access_token", content);
     }
 
+
     public async Task<DeviceCodeResponse> RequestDeviceCode()
     {
         using var content = new StringContent(
-            JsonSerializer.Serialize(new
-            {
-                client_id = ClientId
-            }), Encoding.UTF8, "application/json"
+            JsonSerializer.Serialize(new DeviceCodeRequest
+                {
+                    ClientId = ClientId
+                },
+                DeviceCodeRequestGenerationContext.Default.DeviceCodeRequest),
+            Encoding.UTF8, "application/json"
         );
 
         var response = await _client.PostAsync("/login/device/code", content);
@@ -162,6 +167,30 @@ public struct DeviceCodeResponse
     [JsonPropertyName("interval")]
     public int Interval { get; set; }
 }
+
+internal class TokenRequest
+{
+    [JsonPropertyName("client_id")]
+    public required string ClientId;
+
+    [JsonPropertyName("device_code")]
+    public required string DeviceCode;
+
+    [JsonPropertyName("grant_type")]
+    public required string GrantType;
+}
+
+[JsonSerializable(typeof(TokenRequest))]
+internal partial class TokenRequestGenerationContext : JsonSerializerContext;
+
+internal class DeviceCodeRequest
+{
+    [JsonPropertyName("client_id")]
+    public required string ClientId;
+}
+
+[JsonSerializable(typeof(DeviceCodeRequest))]
+internal partial class DeviceCodeRequestGenerationContext : JsonSerializerContext;
 
 [JsonSerializable(typeof(DeviceCodeResponse))]
 internal partial class DeviceCodeResponseGenerationContext : JsonSerializerContext;
