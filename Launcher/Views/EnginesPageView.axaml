@@ -17,7 +17,7 @@
             <Button.Flyout>
               <controls:CustomFlyout Placement="BottomEdgeAlignedLeft" ShowMode="Transient">
                 <StackPanel>
-                  <Button Classes="flyout" Content="Normal Release"
+                  <Button Classes="flyout" Content="Official Release"
                           HorizontalAlignment="Stretch"
                           HorizontalContentAlignment="Center"
                           Command="{Binding ShowDownloadDialogCommand}" />
