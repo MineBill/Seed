@@ -5,7 +5,7 @@
              xmlns:vmd="clr-namespace:Launcher.ViewModels.Dialogs"
              x:DataType="vmd:MessageBoxDialogModel"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="100"
-             Width="300" Height="100"
+             MinWidth="300" MinHeight="100"
              x:Class="Launcher.Views.Dialogs.MessageBoxDialog">
   <Design.DataContext>
     <vmd:MessageBoxDialogModel />
