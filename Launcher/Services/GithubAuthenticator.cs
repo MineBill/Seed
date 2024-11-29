@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NLog;
 
-namespace Seed.Services.Implementations;
+namespace Launcher.Services;
 
 public class GithubAuthenticator
 {
@@ -101,7 +101,6 @@ public class GithubAuthenticator
         );
         return await _client.PostAsync("login/oauth/access_token", content);
     }
-
 
     public async Task<DeviceCodeResponse> RequestDeviceCode()
     {
