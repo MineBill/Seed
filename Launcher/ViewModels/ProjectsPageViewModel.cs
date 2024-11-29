@@ -85,6 +85,12 @@ public partial class ProjectsPageViewModel : PageViewModel
     [RelayCommand]
     private async Task ShowNewProjectDialog()
     {
+        if (_engineManager.Engines.Count == 0)
+        {
+            await ShowNoEngineDialog();
+            return;
+        }
+
         var vm = new NewProjectDialogModel(
             _engineManager,
             _filesService,
@@ -105,6 +111,12 @@ public partial class ProjectsPageViewModel : PageViewModel
     [RelayCommand]
     private async Task ShowGitCloneDialog()
     {
+        if (_engineManager.Engines.Count == 0)
+        {
+            await ShowNoEngineDialog();
+            return;
+        }
+
         var vm = new GitCloneDialogModel(_filesService, _projectManager);
         await vm.ShowDialog();
     }
@@ -114,7 +126,7 @@ public partial class ProjectsPageViewModel : PageViewModel
     {
         if (_engineManager.Engines.Count == 0)
         {
-            ShowNoEngineDialog();
+            await ShowNoEngineDialog();
             return;
         }
 
@@ -153,12 +165,10 @@ public partial class ProjectsPageViewModel : PageViewModel
             p.ProjectName.Contains(value, StringComparison.InvariantCultureIgnoreCase));
     }
 
-    private static async void ShowNoEngineDialog()
+    private static async Task ShowNoEngineDialog()
     {
-        var box = MessageBoxManager.GetMessageBoxStandard(
-            "Warning",
-            "No engine installation detected. Please install an engine version first.",
-            icon: Icon.Warning);
-        await box.ShowWindowDialogAsync(App.Current.Desktop.MainWindow!);
+        var vm = new MessageBoxDialogModel("No engine installation detected. Please install an engine first.",
+            MessageDialogActions.Ok);
+        await vm.ShowDialog();
     }
 }

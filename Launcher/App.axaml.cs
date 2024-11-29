@@ -44,6 +44,7 @@ public class App : Application
         ViewLocator.Register<GitCloneDialogModel, GitCloneDialog>();
         ViewLocator.Register<DownloadEntryViewModel, DownloadEntryView>();
         ViewLocator.Register<ConfirmDialogModel, ConfirmDialog>();
+        ViewLocator.Register<MessageBoxDialogModel, MessageBoxDialog>();
     }
 
     public override void OnFrameworkInitializationCompleted()

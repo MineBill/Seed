@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vmd="clr-namespace:Launcher.ViewModels.Dialogs"
+             x:DataType="vmd:MessageBoxDialogModel"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="100"
+             Width="300" Height="100"
+             x:Class="Launcher.Views.Dialogs.MessageBoxDialog">
+  <Design.DataContext>
+    <vmd:MessageBoxDialogModel />
+  </Design.DataContext>
+
+  <Border Padding="20 5">
+    <Grid ColumnDefinitions="*" RowDefinitions="*, Auto">
+      <TextBlock Grid.ColumnSpan="2"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Center"
+                 TextWrapping="Wrap"
+                 Text="{Binding Message}" />
+
+      <ItemsControl Grid.Row="1" ItemsSource="{Binding UserActions}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <UniformGrid Columns="{Binding UserActions.Count}" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Button Content="{Binding Action}"
+                    Margin="5"
+                    MaxWidth="80"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding Command}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </Grid>
+  </Border>
+</UserControl>
