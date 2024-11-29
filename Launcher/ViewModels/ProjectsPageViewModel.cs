@@ -150,7 +150,11 @@ public partial class ProjectsPageViewModel : PageViewModel
             return;
         }
 
-        _projectManager.TryAddProject(file.Path.LocalPath);
+        var project = _projectManager.ParseProject(file.Path.LocalPath);
+        if (project is not null)
+        {
+            _projectManager.AddProject(project);
+        }
     }
 
     partial void OnSearchTermChanged(string value)

@@ -48,7 +48,7 @@ public class ProjectManager : IProjectManager
         }
     }
 
-    public Project? TryAddProject(string path)
+    public Project? ParseProject(string path)
     {
         if (!Path.Exists(path)) return null;
 
@@ -96,7 +96,7 @@ public class ProjectManager : IProjectManager
             var projectFiles = Directory.GetFiles(destination).Where(f => f.EndsWith("flaxproj")).ToArray();
             if (projectFiles.Length > 1) return null;
 
-            return TryAddProject(projectFiles[0]);
+            return ParseProject(projectFiles[0]);
         });
     }
 

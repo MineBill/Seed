@@ -16,7 +16,7 @@ public class DummyProjectManager : IProjectManager
     {
     }
 
-    Project? IProjectManager.TryAddProject(string path)
+    Project? IProjectManager.ParseProject(string path)
     {
         throw new System.NotImplementedException();
     }

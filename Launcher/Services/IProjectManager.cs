@@ -27,7 +27,7 @@ public interface IProjectManager
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    public Project? TryAddProject(string path);
+    public Project? ParseProject(string path);
 
     public Task<Project?> AddProjectFromGitRepo(string repoUrl, string destination);
 
