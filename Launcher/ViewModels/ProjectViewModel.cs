@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -15,6 +16,7 @@ public partial class ProjectViewModel : ViewModelBase
 {
     private readonly Project _project;
     private readonly IProjectManager _projectManager;
+    private readonly IEngineManager _engineManager;
     private readonly IFilesService _filesService;
 
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -48,6 +50,7 @@ public partial class ProjectViewModel : ViewModelBase
         _project = project;
         _projectManager = projectManager;
         _filesService = filesService;
+        _engineManager = engineManager;
 
         EngineMissing = _project.Engine is null;
         engineManager.Engines.CollectionChanged += (_, args) =>
@@ -98,8 +101,13 @@ public partial class ProjectViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void OpenConfiguration()
+    private async Task OpenConfiguration()
     {
+        var vm = new ProjectConfigurationDialogModel(_project, _engineManager.Engines.ToList());
+        await vm.ShowDialog();
+        _projectManager.Save();
+
+        OnPropertyChanged(nameof(EngineVersion));
     }
 
     [RelayCommand]

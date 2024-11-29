@@ -46,6 +46,7 @@ public class App : Application
         ViewLocator.Register<ConfirmDialogModel, ConfirmDialog>();
         ViewLocator.Register<MessageBoxDialogModel, MessageBoxDialog>();
         ViewLocator.Register<AuthenticationDialogModel, AuthenticationDialog>();
+        ViewLocator.Register<ProjectConfigurationDialogModel, ProjectConfigurationDialog>();
     }
 
     public override void OnFrameworkInitializationCompleted()

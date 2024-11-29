@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:Launcher.Views"
+             xmlns:vmd="clr-namespace:Launcher.ViewModels.Dialogs"
+             xmlns:launcher="clr-namespace:Launcher"
+             x:DataType="vmd:ProjectConfigurationDialogModel"
+             d:DataContext="{x:Static launcher:DesignData.DesignProjectConfigDialogModel}"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="350"
+             Width="400" Height="350"
+             x:Class="Launcher.Views.Dialogs.ProjectConfigurationDialog">
+  <views:DialogBase CloseCommand="{Binding CloseDialogCommand}"
+                    PageName="{Binding ProjectName, StringFormat='Configuring {0}'}">
+    <Border>
+      <Grid RowDefinitions="*, Auto">
+        <StackPanel>
+          <Grid ColumnDefinitions="*, *">
+            <Label Content="Engine" VerticalAlignment="Center" />
+            <ComboBox
+              Grid.Column="1"
+              ItemsSource="{Binding Engines}"
+              SelectedItem="{Binding SelectedEngine}"
+              Width="150">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <Label Content="{Binding DisplayName}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+          </Grid>
+        </StackPanel>
+        <Button Grid.Row="1" Classes="primary" Content="Done" HorizontalAlignment="Center"
+                Command="{Binding CloseDialogCommand}" />
+      </Grid>
+    </Border>
+  </views:DialogBase>
+</UserControl>
