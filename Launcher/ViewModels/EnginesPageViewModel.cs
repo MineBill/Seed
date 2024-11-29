@@ -21,6 +21,8 @@ public partial class EnginesPageViewModel : PageViewModel
     private readonly IEngineManager _engineManager;
     private readonly IEngineDownloader _engineDownloader;
     private readonly IPreferencesManager _preferencesManager;
+    private readonly GithubAuthenticator _githubAuthenticator;
+    private readonly IFilesService _filesService;
 
     [ObservableProperty]
     private ObservableCollection<EngineViewModel> _engines = [];
@@ -29,6 +31,7 @@ public partial class EnginesPageViewModel : PageViewModel
         new DummyEngineManager(),
         new DummyEngineDownloader(),
         new JsonPreferencesManager(),
+        new GithubAuthenticator(),
         new DummyFileService())
     {
     }
@@ -37,12 +40,15 @@ public partial class EnginesPageViewModel : PageViewModel
         IEngineManager engineManager,
         IEngineDownloader engineDownloader,
         IPreferencesManager preferencesManager,
+        GithubAuthenticator githubAuthenticator,
         IFilesService filesService)
     {
         PageName = PageNames.Installs;
         _engineManager = engineManager;
         _engineDownloader = engineDownloader;
         _preferencesManager = preferencesManager;
+        _githubAuthenticator = githubAuthenticator;
+        _filesService = filesService;
 
         _engineManager.Engines.CollectionChanged += (_, args) =>
         {
@@ -110,20 +116,62 @@ public partial class EnginesPageViewModel : PageViewModel
     [RelayCommand]
     private async Task ShowGitVersionDownloadDialog()
     {
+        var vm = new MessageBoxDialogModel(
+            """
+            Daily CI builds are built from the latest source code changes and might contain some bugs.
+            Use them if you want bleeding edge features and/or help test the engine.
+            """,
+            MessageDialogActions.Ok);
+        await vm.ShowDialog();
+
+        if (_preferencesManager.Preferences.GithubAccessToken is null)
+        {
+            var response = await _githubAuthenticator.RequestDeviceCode();
+            var authDialog = new AuthenticationDialogModel(response, _githubAuthenticator, _filesService);
+            var result = await authDialog.ShowDialog();
+            if (result is null)
+                return;
+            Logger.Debug("Got access token: {Token}", result.Result);
+            _preferencesManager.Preferences.GithubAccessToken = result.Result;
+            _preferencesManager.Save();
+        }
+
         var versions = await _engineDownloader.GetGithubWorkflows();
         if (versions is null)
         {
+            var dialog = new MessageBoxDialogModel("No versions found.", MessageDialogActions.Ok);
+            await dialog.ShowDialog();
             Logger.Error("No engine versions found. Weird.");
             return;
         }
 
-        // versions[0].
-        // FilterEngineVersions(versions);
-
-        // All versions are installed. Rare scenario.
+        FilterEngineVersions(versions);
         if (versions.Count == 0)
+        {
+            var dialog = new MessageBoxDialogModel("Already have the latest master version installed",
+                MessageDialogActions.Ok);
+            await dialog.ShowDialog();
             return;
+        }
 
+        try
+        {
+            var engine = await _engineDownloader.DownloadFromWorkflow(versions[0], versions[0].SupportedPlatformTools,
+                _preferencesManager.GetInstallLocation());
+            _engineManager.AddEngine(engine);
+        }
+        catch (TaskCanceledException tce)
+        {
+            Logger.Debug(tce, "Task canceled");
+        }
+        //
+        // // versions[0].
+        // // FilterEngineVersions(versions);
+        //
+        // // All versions are installed. Rare scenario.
+        // if (versions.Count == 0)
+        //     return;
+        //
         // var vm = new DownloadEngineDialogModel(versions);
         // var result = await vm.ShowDialog();
         // if (result is not null)
@@ -161,5 +209,32 @@ public partial class EnginesPageViewModel : PageViewModel
         Logger.Info(
             "Found {EnginesCount} available engine versions, {Removed} not supported and {Installed} already installed",
             totalCount, enginesRemoved, _engineManager.Engines.Count);
+    }
+
+    private void FilterEngineVersions(List<GitHubWorkflow> versions)
+    {
+        var totalCount = versions.Count;
+
+        var enginesRemoved = versions.RemoveAll(e => e.SupportedPlatformTools.Count == 0);
+
+        foreach (var installed in _engineManager.Engines)
+        {
+            foreach (var remote in versions.ToList())
+            {
+                if (installed.Version is GitVersion gitVersion && gitVersion.Commit == remote.CommitHash)
+                    versions.Remove(remote);
+            }
+        }
+
+        Logger.Info(
+            "Found {EnginesCount} available engine versions, {Removed} not supported and {Installed} already installed",
+            totalCount, enginesRemoved, _engineManager.Engines.Count);
+    }
+
+    private static async Task ShowNoEngineDialog()
+    {
+        var vm = new MessageBoxDialogModel("No engine installation detected. Please install an engine first.",
+            MessageDialogActions.Ok);
+        await vm.ShowDialog();
     }
 }

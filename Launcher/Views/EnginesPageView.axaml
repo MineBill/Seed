@@ -23,7 +23,8 @@
                           Command="{Binding ShowDownloadDialogCommand}" />
                   <Button Classes="flyout" Content="GitHub Release"
                           HorizontalAlignment="Stretch"
-                          HorizontalContentAlignment="Center" />
+                          HorizontalContentAlignment="Center"
+                          Command="{Binding ShowGitVersionDownloadDialogCommand}" />
                 </StackPanel>
               </controls:CustomFlyout>
             </Button.Flyout>

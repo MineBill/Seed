@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+             xmlns:vmd="clr-namespace:Launcher.ViewModels.Dialogs"
+             xmlns:launcher="clr-namespace:Launcher"
+             xmlns:views="clr-namespace:Launcher.Views"
+             x:DataType="vmd:AuthenticationDialogModel"
+             d:DataContext="{x:Static launcher:DesignData.DesignAuthenticationDialogModel}"
+             x:Class="Launcher.Views.Dialogs.AuthenticationDialog">
+  <views:DialogBase PageName="Authentication" CloseCommand="{Binding CancelAndCloseCommand}">
+    <Grid ColumnDefinitions="*" RowDefinitions="Auto, *, Auto">
+      <TextBlock TextWrapping="Wrap">
+        To authenticate click the button below to open the authentication page on your
+        default browser and paste the following code:
+      </TextBlock>
+      <SelectableTextBlock
+        Grid.Row="1" FontSize="60"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Text="{Binding UserCode}" />
+      <StackPanel Grid.Row="2" Spacing="10">
+        <Button HorizontalAlignment="Center" Classes="primary" Content="Open Verification Page"
+                Command="{Binding OpenAuthPageCommand }" />
+        <TextBlock TextWrapping="Wrap">
+          Once access is granted, this dialog will automatically close.
+        </TextBlock>
+        <ProgressBar IsIndeterminate="True" />
+        <Expander Header="More information | Privacy" ExpandDirection="Down">
+          <StackPanel>
+            <TextBlock TextWrapping="Wrap">
+              To obtain daily CI builds from the Flax repository, authentication with Github is required.
+              This process ensures the creation of a personalized access token.
+              This authentication token grants the launcher exclusively read access to public repositories,
+              including Flax, and download access to artifacts(builds) from Continuous Integration (CI)
+              from these repositories. Importantly, this token is restricted from accessing private
+              repositories or any confidential information. It never leaves your computer and is stored
+              in your preferences file, and you have the option to replace it with a personally
+              generated token.
+            </TextBlock>
+          </StackPanel>
+        </Expander>
+
+      </StackPanel>
+    </Grid>
+  </views:DialogBase>
+</UserControl>

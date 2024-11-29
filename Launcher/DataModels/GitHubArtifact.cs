@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
@@ -12,7 +13,7 @@ public class GitHubArtifact
     /// The id of this artifact.
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public ulong Id { get; set; }
 
     /// <summary>
     /// The name of the artifact, as displayed on the website.

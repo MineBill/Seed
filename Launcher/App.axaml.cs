@@ -45,6 +45,7 @@ public class App : Application
         ViewLocator.Register<DownloadEntryViewModel, DownloadEntryView>();
         ViewLocator.Register<ConfirmDialogModel, ConfirmDialog>();
         ViewLocator.Register<MessageBoxDialogModel, MessageBoxDialog>();
+        ViewLocator.Register<AuthenticationDialogModel, AuthenticationDialog>();
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -65,6 +66,7 @@ public class App : Application
         services.AddSingleton<IProjectManager, ProjectManager>();
         services.AddSingleton<IPreferencesManager, JsonPreferencesManager>();
         services.AddSingleton<IDownloadManager, DownloadManager>();
+        services.AddSingleton<GithubAuthenticator>();
 
         services.AddSingleton<MainViewModel>();
 

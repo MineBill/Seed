@@ -30,6 +30,7 @@ public class GithubAuthenticator
     public async Task<AuthenticationResult> Authenticate(
         DeviceCodeResponse deviceCodeResponse, CancellationToken cancellationToken = default)
     {
+        Logger.Info("Initializing Github authentication");
         const float extraSafetyDelay = 0.2f;
         return await Task.Run(async () =>
         {
@@ -43,7 +44,7 @@ public class GithubAuthenticator
                 var error = json!["error"]?.ToString();
                 if (error is null)
                 {
-                    // fucking finally
+                    Logger.Info("Successfully got access token");
                     var token = json["access_token"]?.ToString()!;
                     return new AuthenticationResult(token,
                         AuthenticationError.Ok);
@@ -104,12 +105,13 @@ public class GithubAuthenticator
 
     public async Task<DeviceCodeResponse> RequestDeviceCode()
     {
+        var stringContent = JsonSerializer.Serialize(new DeviceCodeRequest
+            {
+                ClientId = ClientId
+            },
+            DeviceCodeRequestGenerationContext.Default.DeviceCodeRequest);
         using var content = new StringContent(
-            JsonSerializer.Serialize(new DeviceCodeRequest
-                {
-                    ClientId = ClientId
-                },
-                DeviceCodeRequestGenerationContext.Default.DeviceCodeRequest),
+            stringContent,
             Encoding.UTF8, "application/json"
         );
 
@@ -170,13 +172,13 @@ public struct DeviceCodeResponse
 internal class TokenRequest
 {
     [JsonPropertyName("client_id")]
-    public required string ClientId;
+    public required string ClientId { get; set; }
 
     [JsonPropertyName("device_code")]
-    public required string DeviceCode;
+    public required string DeviceCode { get; set; }
 
     [JsonPropertyName("grant_type")]
-    public required string GrantType;
+    public required string GrantType { get; set; }
 }
 
 [JsonSerializable(typeof(TokenRequest))]
@@ -185,9 +187,10 @@ internal partial class TokenRequestGenerationContext : JsonSerializerContext;
 internal class DeviceCodeRequest
 {
     [JsonPropertyName("client_id")]
-    public required string ClientId;
+    public required string ClientId { get; set; }
 }
 
+[JsonSerializable(typeof(string))]
 [JsonSerializable(typeof(DeviceCodeRequest))]
 internal partial class DeviceCodeRequestGenerationContext : JsonSerializerContext;
 
