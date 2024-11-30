@@ -30,6 +30,7 @@
             <Button Content="{Binding Action}"
                     Margin="5"
                     MaxWidth="80"
+                    Classes.primary="{Binding Primary}"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
                     Command="{Binding Command}" />

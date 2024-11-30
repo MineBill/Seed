@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -18,14 +19,15 @@ public enum MessageDialogActions
 
 public partial class MessageBoxDialogModel : DialogModelBase<MessageDialogActions>
 {
-    public record UserAction(string Action, ICommand Command);
+    public record UserAction(string Action, ICommand Command, bool Primary = false);
 
     public string Message { get; }
 
     [ObservableProperty]
     private ObservableCollection<UserAction> _userActions = new();
 
-    public MessageBoxDialogModel() : this("I am a simple message", MessageDialogActions.Ok | MessageDialogActions.Cancel | MessageDialogActions.Yes)
+    public MessageBoxDialogModel() : this("I am a simple message",
+        MessageDialogActions.Ok | MessageDialogActions.Cancel | MessageDialogActions.Yes)
     {
     }
 
@@ -51,15 +53,14 @@ public partial class MessageBoxDialogModel : DialogModelBase<MessageDialogAction
 
         if (userActions.HasFlag(MessageDialogActions.Yes))
         {
-            UserActions.Add(new("Yes", ActionYesCommand));
+            UserActions.Add(new("Yes", ActionYesCommand, Primary: true));
         }
 
         if (userActions.HasFlag(MessageDialogActions.Confirm))
         {
-            UserActions.Add(new("Confirm", ActionConfirmCommand));
+            UserActions.Add(new("Confirm", ActionConfirmCommand, Primary: true));
         }
     }
-
 
     [RelayCommand]
     private void ActionCancel()

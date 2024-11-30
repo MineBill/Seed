@@ -40,11 +40,12 @@ public partial class EngineViewModel(Engine engine, IFilesService files, IEngine
     [RelayCommand]
     private async Task DeleteEngine()
     {
-        var vm = new ConfirmDialogModel($"Are you sure you want to delete {engine.Name}?");
+        var vm = new MessageBoxDialogModel($"Are you sure you want to delete {engine.Name}?",
+            MessageDialogActions.No | MessageDialogActions.Yes);
         var result = await vm.ShowDialog();
         if (result is null) return;
 
-        if (result.Result == ConfirmAction.Yes)
+        if (result.Result == MessageDialogActions.Yes)
         {
             engineManager.DeleteEngine(engine);
         }
