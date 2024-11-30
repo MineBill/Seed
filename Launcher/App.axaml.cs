@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.ServiceModel.Syndication;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -18,7 +20,8 @@ public enum PageNames
 {
     None,
     Projects,
-    Installs
+    Installs,
+    News,
 }
 
 public class App : Application
@@ -46,6 +49,7 @@ public class App : Application
         ViewLocator.Register<MessageBoxDialogModel, MessageBoxDialog>();
         ViewLocator.Register<AuthenticationDialogModel, AuthenticationDialog>();
         ViewLocator.Register<ProjectConfigurationDialogModel, ProjectConfigurationDialog>();
+        ViewLocator.Register<NewsPageViewModel, NewsPageView>();
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -67,11 +71,13 @@ public class App : Application
         services.AddSingleton<IPreferencesManager, JsonPreferencesManager>();
         services.AddSingleton<IDownloadManager, DownloadManager>();
         services.AddSingleton<GithubAuthenticator>();
+        services.AddSingleton<NewsFetcher>();
 
         services.AddSingleton<MainViewModel>();
 
         services.AddTransient<ProjectsPageViewModel>();
         services.AddTransient<EnginesPageViewModel>();
+        services.AddTransient<NewsPageViewModel>();
         services.AddTransient<SettingsDialogModel>();
         services.AddTransient<DownloadEngineDialogModel>();
 
@@ -80,9 +86,12 @@ public class App : Application
             {
                 PageNames.Projects => x.GetRequiredService<ProjectsPageViewModel>(),
                 PageNames.Installs => x.GetRequiredService<EnginesPageViewModel>(),
+                PageNames.News => x.GetRequiredService<NewsPageViewModel>(),
                 _ => throw new InvalidOperationException()
             }
         );
+
+        services.AddSingleton<Func<List<NewsItem>>>(x => () => x.GetRequiredService<NewsFetcher>().Items);
 
         var provider = services.BuildServiceProvider();
 

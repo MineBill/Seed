@@ -53,4 +53,16 @@ public static class DesignData
     public static readonly ProjectConfigurationDialogModel DesignProjectConfigDialogModel =
         new(new Project("BipBop", "somepath", "somepath.flaxproj"),
             [new Engine { Version = new NormalVersion(System.Version.Parse("1.8")) }]);
+
+    public static readonly NewsPageViewModel DesignNewsPageViewModel = new NewsPageViewModel(() =>
+    [
+        new NewsItem(
+            "Flax 1.8 released",
+            "https://flaxengine.com/wp-content/uploads/2024/03/Post_Flax18.jpg",
+            "https://flaxengine.com/blog/flax-1-8-released/", DateTime.Now),
+        new NewsItem(
+            "Flax 1.7.2 released",
+            "https://flaxengine.com/wp-content/uploads/2023/12/Post_Flax172.jpg",
+            "https://flaxengine.com/blog/flax-1-7-2-released/", DateTime.Now),
+    ], new DummyFileService());
 }

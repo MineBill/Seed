@@ -34,6 +34,7 @@ public partial class MainViewModel : ViewModelBase
     private bool _sidebarExtended = true;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsNewsPage))]
     [NotifyPropertyChangedFor(nameof(IsProjectsPage))]
     [NotifyPropertyChangedFor(nameof(IsEnginesPage))]
     private PageViewModel _currentPage;
@@ -41,6 +42,7 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<DownloadEntryViewModel> _activeDownloads = [];
 
+    public bool IsNewsPage => CurrentPage.PageName == PageNames.News;
     public bool IsProjectsPage => CurrentPage.PageName == PageNames.Projects;
     public bool IsEnginesPage => CurrentPage.PageName == PageNames.Installs;
 
@@ -68,6 +70,12 @@ public partial class MainViewModel : ViewModelBase
     public void ToggleSidebar()
     {
         SidebarExtended = !SidebarExtended;
+    }
+
+    [RelayCommand]
+    private void GoToNews()
+    {
+        CurrentPage = _pageFactory.Invoke(PageNames.News);
     }
 
     [RelayCommand]

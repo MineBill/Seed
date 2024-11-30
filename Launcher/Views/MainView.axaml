@@ -41,6 +41,18 @@
             </Image>
             <Button
               Classes="sidebar"
+              Classes.selected="{Binding IsNewsPage}"
+              Command="{Binding GoToNewsCommand}">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <Label
+                  Classes.icon-filled="{Binding SidebarExtended}"
+                  Classes.icon-only="{Binding !SidebarExtended}"
+                  Content="&#xE344;" />
+                <Label Content="News" IsVisible="{Binding SidebarExtended}" MinWidth="150" />
+              </StackPanel>
+            </Button>
+            <Button
+              Classes="sidebar"
               Classes.selected="{Binding IsProjectsPage}"
               Command="{Binding GoToProjectsCommand}">
               <StackPanel Orientation="Horizontal" Spacing="10">
