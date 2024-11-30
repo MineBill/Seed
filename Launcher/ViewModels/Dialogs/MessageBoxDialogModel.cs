@@ -9,11 +9,11 @@ namespace Launcher.ViewModels.Dialogs;
 [Flags]
 public enum MessageDialogActions
 {
-    Ok,
-    No,
-    Yes,
-    Confirm,
-    Cancel
+    Ok = 1 << 0,
+    No = 1 << 1,
+    Yes = 1 << 2,
+    Confirm = 1 << 3,
+    Cancel = 1 << 4
 }
 
 public partial class MessageBoxDialogModel : DialogModelBase<MessageDialogActions>
