@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Launcher.DataModels;
 
@@ -8,6 +9,9 @@ public partial class ProjectConfigurationDialogModel : DialogModelBase<Unit>
 {
     [ObservableProperty]
     private Engine? _selectedEngine;
+
+    [ObservableProperty]
+    private string _projectArguments;
 
     private readonly Project _project;
 
@@ -22,11 +26,17 @@ public partial class ProjectConfigurationDialogModel : DialogModelBase<Unit>
         Engines = engines;
 
         SelectedEngine = _project.Engine;
+        ProjectArguments = _project.ProjectArguments ?? string.Empty;
     }
 
     partial void OnSelectedEngineChanged(Engine? value)
     {
         _project.Engine = value;
         _project.EngineVersion = value?.Version;
+    }
+
+    partial void OnProjectArgumentsChanged(string value)
+    {
+        _project.ProjectArguments = value;
     }
 }

@@ -24,6 +24,7 @@
           <ComboBoxItem Classes="flyout" Content="Development" />
           <ComboBoxItem Classes="flyout" Content="Release" IsSelected="True" />
         </ComboBox>
+        <TextBox Watermark="Enter text" />
       </StackPanel>
     </Border>
   </Design.PreviewWith>

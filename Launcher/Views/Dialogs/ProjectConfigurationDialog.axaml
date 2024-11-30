@@ -11,26 +11,34 @@
              Width="400" Height="350"
              x:Class="Launcher.Views.Dialogs.ProjectConfigurationDialog">
   <views:DialogBase CloseCommand="{Binding CloseDialogCommand}"
-                    PageName="{Binding ProjectName, StringFormat='Configuring {0}'}">
+                    PageName="Project Configuration">
     <Border>
-      <Grid RowDefinitions="*, Auto">
-        <StackPanel>
-          <Grid ColumnDefinitions="*, *">
-            <Label Content="Engine" VerticalAlignment="Center" />
-            <ComboBox
-              Grid.Column="1"
-              ItemsSource="{Binding Engines}"
-              SelectedItem="{Binding SelectedEngine}"
-              Width="150">
-              <ComboBox.ItemTemplate>
-                <DataTemplate>
-                  <Label Content="{Binding DisplayName}" />
-                </DataTemplate>
-              </ComboBox.ItemTemplate>
-            </ComboBox>
-          </Grid>
-        </StackPanel>
-        <Button Grid.Row="1" Classes="primary" Content="Done" HorizontalAlignment="Center"
+      <Grid RowDefinitions="Auto, *, Auto">
+        <Label Grid.Row="0"
+               Margin="0 0 0 20"
+               FontSize="20"
+               HorizontalAlignment="Center"
+               Content="{Binding ProjectName}" />
+        <Grid Grid.Row="1" ColumnDefinitions="*, *" RowDefinitions="Auto, Auto">
+          <Label Content="Engine" VerticalAlignment="Center" />
+          <ComboBox
+            Grid.Row="0"
+            Grid.Column="1"
+            ItemsSource="{Binding Engines}"
+            SelectedItem="{Binding SelectedEngine}"
+            Width="150">
+            <ComboBox.ItemTemplate>
+              <DataTemplate>
+                <Label Content="{Binding DisplayName}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+          <Label Grid.Column="0" Grid.Row="1" Content="Editor Arguments" VerticalAlignment="Center" />
+          <TextBox
+            Grid.Column="1"
+            Grid.Row="1" Text="{Binding ProjectArguments}" />
+        </Grid>
+        <Button Grid.Row="2" Classes="primary" Content="Done" HorizontalAlignment="Center"
                 Command="{Binding CloseDialogCommand}" />
       </Grid>
     </Border>
