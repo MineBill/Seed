@@ -69,9 +69,11 @@
                 <Label VerticalAlignment="Center" Content="Parent Folder" HorizontalAlignment="Left" />
                 <TextBox Grid.Column="1" HorizontalAlignment="Stretch"
                          Text="{Binding ParentFolder}">
+                  <TextBox.InnerRightContent>
+                    <Button Grid.Column="2" Content="&#xE256;" Classes="icon-only"
+                            Command="{Binding SelectParentFolderCommand}" />
+                  </TextBox.InnerRightContent>
                 </TextBox>
-                <Button Grid.Column="2" Content="&#xE256;" Classes="icon-only"
-                        Command="{Binding SelectParentFolderCommand}" />
               </Grid>
             </StackPanel>
             <Button Grid.Row="1"
