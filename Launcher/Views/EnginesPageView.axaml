@@ -21,7 +21,7 @@
                           HorizontalAlignment="Stretch"
                           HorizontalContentAlignment="Center"
                           Command="{Binding ShowDownloadDialogCommand}" />
-                  <Button Classes="flyout" Content="GitHub Release"
+                  <Button Classes="flyout" Content="Latest CI Build"
                           HorizontalAlignment="Stretch"
                           HorizontalContentAlignment="Center"
                           Command="{Binding ShowGitVersionDownloadDialogCommand}" />
