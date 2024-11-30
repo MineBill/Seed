@@ -60,7 +60,7 @@
       <Grid Height="40" VerticalAlignment="Bottom" Background="{DynamicResource SecondaryBackground}"
             ColumnDefinitions="*, Auto">
         <Label Content="{Binding ProjectName}" VerticalAlignment="Center" />
-        <Button Grid.Column="1" Classes="icon-only">
+        <Button Grid.Column="1" Classes="icon-only" Flyout="{StaticResource ContextMenu}">
           <Label VerticalAlignment="Center" Content="&#xE208;" />
         </Button>
       </Grid>
