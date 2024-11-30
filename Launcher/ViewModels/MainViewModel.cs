@@ -26,6 +26,8 @@ public partial class MainViewModel : ViewModelBase
 
     private readonly IEngineDownloader _engineDownloader;
     private readonly IDownloadManager _downloadManager;
+    private readonly IPreferencesManager _preferencesManager;
+    private readonly IFilesService _filesService;
     private readonly Func<PageNames, PageViewModel> _pageFactory;
 
     [ObservableProperty]
@@ -47,11 +49,15 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel(
         IEngineDownloader engineDownloader,
         IDownloadManager downloadManager,
+        IPreferencesManager preferencesManager,
+        IFilesService filesService,
         Func<PageNames, PageViewModel> factory)
     {
         _pageFactory = factory;
         _engineDownloader = engineDownloader;
         _downloadManager = downloadManager;
+        _preferencesManager = preferencesManager;
+        _filesService = filesService;
 
         downloadManager.EntryAdded += EngineDownloaderOnDownloadStarted;
         downloadManager.EntryRemoved += EngineDownloaderOnDownloadFinished;
@@ -79,16 +85,8 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private async Task ShowSettingsDialog()
     {
-        var settingsDialog = new SettingsDialogModel();
-        var result = await settingsDialog.ShowDialog();
-        if (result is not null)
-        {
-            Console.WriteLine($"Got {result.Result}");
-        }
-        else
-        {
-            Console.WriteLine($"Got nothing");
-        }
+        var settingsDialog = new SettingsDialogModel(_preferencesManager, _filesService);
+        await settingsDialog.ShowDialog();
     }
 
     [RelayCommand]

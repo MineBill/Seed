@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Launcher.DataModels;
 using Launcher.Services;
+using Launcher.Services.DefaultImplementations;
 using Launcher.Services.Dummies;
 using Launcher.ViewModels.Dialogs;
 using MsBox.Avalonia;
@@ -24,6 +25,7 @@ public partial class ProjectsPageViewModel : PageViewModel
     private readonly IEngineManager _engineManager;
     private readonly IProjectManager _projectManager;
     private readonly IFilesService _filesService;
+    private readonly IPreferencesManager _preferencesManager;
 
     [ObservableProperty]
     private string _searchTerm = string.Empty;
@@ -37,6 +39,7 @@ public partial class ProjectsPageViewModel : PageViewModel
     public ProjectsPageViewModel() : this(
         new DummyEngineManager(),
         new DummyProjectManager(),
+        new JsonPreferencesManager(),
         new DummyFileService())
     {
     }
@@ -44,12 +47,14 @@ public partial class ProjectsPageViewModel : PageViewModel
     public ProjectsPageViewModel(
         IEngineManager engineManager,
         IProjectManager projectManager,
+        IPreferencesManager preferencesManager,
         IFilesService filesService)
     {
         PageName = PageNames.Projects;
         _engineManager = engineManager;
         _projectManager = projectManager;
         _filesService = filesService;
+        _preferencesManager = preferencesManager;
 
         _projectManager.Projects.CollectionChanged += (_, args) =>
         {
@@ -94,6 +99,7 @@ public partial class ProjectsPageViewModel : PageViewModel
         var vm = new NewProjectDialogModel(
             _engineManager,
             _filesService,
+            _preferencesManager,
             _projectManager.Projects.Where(p => p.IsTemplate).ToList());
         var result = await vm.ShowDialog();
         if (result is not null)

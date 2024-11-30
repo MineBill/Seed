@@ -63,6 +63,7 @@ public partial class NewProjectDialogModel : DialogModelBase<Project?>
     public NewProjectDialogModel(
         IEngineManager engineManager,
         IFilesService filesService,
+        IPreferencesManager preferencesManager,
         List<Project> templateProjects
     )
     {
@@ -82,6 +83,11 @@ public partial class NewProjectDialogModel : DialogModelBase<Project?>
         foreach (var project in templateProjects)
         {
             ProjectTemplates.Add(new LocalTemplate(project));
+        }
+
+        if (preferencesManager.Preferences.NewProjectLocation is not null)
+        {
+            ParentFolder = preferencesManager.Preferences.NewProjectLocation;
         }
     }
 
