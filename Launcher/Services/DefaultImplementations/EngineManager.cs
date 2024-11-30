@@ -51,7 +51,6 @@ public class EngineManager : IEngineManager
             var engines = JsonSerializer.Deserialize(json, EngineListGenerationContext.Default.ListEngine);
             if (engines is null)
             {
-                // TODO: Log this
                 return;
             }
 

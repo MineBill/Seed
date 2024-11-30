@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json.Serialization;
+using ArgumentOutOfRangeException = System.ArgumentOutOfRangeException;
 
 namespace Launcher.DataModels;
 
@@ -31,6 +32,16 @@ public class Engine
 
     [JsonIgnore]
     public string DisplayName => $"{Name} - {Version}";
+
+    [JsonIgnore]
+    public string DisplayNameShort =>
+        Version switch
+        {
+            GitVersion gitVersion => $"CI {gitVersion.Commit[..5]} {gitVersion.CreationTime.ToShortDateString()}",
+            LocalBuild localBuild => $"Local {localBuild.Version}",
+            NormalVersion => Version.ToString(),
+            _ => throw new ArgumentOutOfRangeException(nameof(Version))
+        };
 
     /// <summary>
     /// The preferred configuration to use when selecting the editor executable.

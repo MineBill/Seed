@@ -14,7 +14,7 @@ public partial class EngineViewModel(Engine engine, IFilesService files, IEngine
 
     public string EngineName => engine.Name;
 
-    public EngineViewModel() : this(new Engine()
+    public EngineViewModel() : this(new Engine
         {
             Name = "1.9",
             Version = new NormalVersion(Version.Parse("1.9"))

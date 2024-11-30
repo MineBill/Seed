@@ -37,7 +37,7 @@ public record GitVersion(string Commit, DateTime CreationTime) : EngineVersion
 
     public override string ToString()
     {
-        return Commit;
+        return Commit[..5];
     }
 }
 

@@ -29,7 +29,7 @@
             Width="150">
             <ComboBox.ItemTemplate>
               <DataTemplate>
-                <Label Content="{Binding DisplayName}" />
+                <Label Content="{Binding DisplayNameShort}" />
               </DataTemplate>
             </ComboBox.ItemTemplate>
           </ComboBox>

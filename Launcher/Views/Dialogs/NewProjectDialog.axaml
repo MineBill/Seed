@@ -20,7 +20,7 @@
             <ComboBox SelectedItem="{Binding SelectedEngine}" Width="150" ItemsSource="{Binding Engines}">
               <ComboBox.ItemTemplate>
                 <DataTemplate>
-                  <Label Content="{Binding Name}" />
+                  <Label Content="{Binding DisplayNameShort}" />
                 </DataTemplate>
               </ComboBox.ItemTemplate>
             </ComboBox>
