@@ -73,7 +73,7 @@
 
   <Style Selector="Button.primary  /template/ ContentPresenter">
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Background" Value="{DynamicResource PrimaryAccentColor}" />
+    <Setter Property="Background" Value="{DynamicResource SystemAccentColor}" />
     <Setter Property="Foreground" Value="WhiteSmoke" />
 
     <Setter Property="Transitions">
@@ -84,11 +84,11 @@
   </Style>
 
   <Style Selector="Button.primary.disabled /template/ ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource PrimaryAccentColorDisabled}" />
+    <Setter Property="Background" Value="{DynamicResource SystemAccentColorLight3}" />
   </Style>
 
   <Style Selector="Button:pointerover.primary /template/ ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource PrimaryAccentColorLight1}" />
+    <Setter Property="Background" Value="{DynamicResource SystemAccentColorLight1}" />
     <Setter Property="Foreground" Value="WhiteSmoke" />
   </Style>
 
@@ -109,7 +109,7 @@
   </Style>
 
   <Style Selector="Button:pointerover.flyout /template/ ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource PrimaryAccentColor}" />
+    <!-- <Setter Property="Background" Value="{DynamicResource PrimaryAccentColor}" /> -->
     <Setter Property="Foreground" Value="WhiteSmoke" />
   </Style>
 
@@ -276,7 +276,7 @@
   </Style>
 
   <Style Selector="ComboBoxItem:pointerover.flyout /template/ ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource PrimaryAccentColor}" />
+    <!-- <Setter Property="Background" Value="{DynamicResource PrimaryAccentColor}" /> -->
     <Setter Property="Foreground" Value="WhiteSmoke" />
   </Style>
 
