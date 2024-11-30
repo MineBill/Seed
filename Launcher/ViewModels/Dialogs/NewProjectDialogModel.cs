@@ -89,6 +89,9 @@ public partial class NewProjectDialogModel : DialogModelBase<Project?>
         {
             ParentFolder = preferencesManager.Preferences.NewProjectLocation;
         }
+
+        // Trigger a validation to disable the 'Create' button.
+        ValidateAllProperties();
     }
 
     public NewProjectDialogModel()
