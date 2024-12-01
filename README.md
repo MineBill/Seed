@@ -8,14 +8,14 @@
     A cross-platform launcher for the Flax game engine.
 </p>
 
-![image](https://github.com/MineBill/Seed/assets/30367251/99a2beb1-a3fa-403f-a573-9265d2111ff0)
+![image](https://github.com/user-attachments/assets/33533d92-7f90-4c17-b857-292c2e3a8e12)
+![image](https://github.com/user-attachments/assets/32856c13-ee48-4211-80ff-12c46c313a0f)
 
 
 ## Features
 - Manage multiple installations and platform tools of the Flax game engine, with support for:
     - Stable versions.
     - Nightly CI builds.
-    - Local engine builds.
 - Manage multiple projects:
     - Link your project to a specific engine version.
     - Set engine launch arguments per project.
@@ -39,9 +39,9 @@ Feel free to open issues for any bugs you find or missing features you'd like to
 To build the Seed launcher run the `dotnet build` command.
 
 The binary can be found in `bin/Debug/[Net-Version]` (e.g `bin/Debug/Net7.0` )
-which can be ran using `dotnet Seed.dll` command.
+which can be ran using `dotnet Launcher.dll` command.
 
-For development, it is recommended to use `dotnet run` within the `Seed` (case sensitive) directory.
+For development, it is recommended to use `dotnet run` within the `Launcher` (case sensitive) directory.
 
 ## Contributing
 Feel free to open PRs for bug fixes or small QOL changes but when deciding to work on bigger PRs, it's better to open an issue first to discuss them. Not doing so might result in wasted time on your part, if the PR doesn't align with the project's vision.
