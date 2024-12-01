@@ -1,0 +1,298 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Width="200" Padding="10" Background="{DynamicResource PrimaryBackground}">
+      <!-- Add Controls for Previewer Here -->
+      <StackPanel>
+        <Button Content="Start"></Button>
+        <Button Classes="sidebar" Content="Start2"></Button>
+        <Button>
+          <StackPanel Orientation="Horizontal">
+            <Label Classes="Icon" Content="&#xE028;" />
+            <Label Content="Stop" />
+          </StackPanel>
+        </Button>
+        <Button Classes="close" />
+        <Button Classes="icon-only" Content="&#xE272;" />
+        <Button Classes="page-button" Content="Add" />
+        <Button Classes="page-button primary" Content="New" />
+        <Button Classes="primary disabled" Content="Test" />
+        <Button Classes="flyout" Content="Test" />
+        <ComboBox PlaceholderText="Release">
+          <ComboBoxItem Classes="flyout" Content="Debug" />
+          <ComboBoxItem Classes="flyout" Content="Development" />
+          <ComboBoxItem Classes="flyout" Content="Release" IsSelected="True" />
+        </ComboBox>
+        <TextBox Watermark="Enter text" />
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="Window">
+    <Setter Property="Background" Value="{DynamicResource PrimaryBackground}" />
+  </Style>
+
+  <Style Selector="Label.page-header">
+    <Setter Property="FontSize" Value="25" />
+  </Style>
+
+  <Style Selector="Label.template-header">
+    <Setter Property="FontSize" Value="18" />
+  </Style>
+
+  <Style Selector="Button">
+    <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+  </Style>
+
+  <Style Selector="Button:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundHover}" />
+  </Style>
+
+  <Style Selector="Label.Icon">
+    <Setter Property="Padding" Value="0 5 0 0" />
+    <Setter Property="FontFamily" Value="{DynamicResource Icons}" />
+  </Style>
+  <Style Selector="Label.icon-filled">
+    <Setter Property="Padding" Value="0 5 0 0" />
+    <Setter Property="FontFamily" Value="{DynamicResource IconsFill}" />
+  </Style>
+  <Style Selector="Label.icon-only">
+    <Setter Property="Padding" Value="5" />
+    <Setter Property="FontFamily" Value="{DynamicResource Icons}" />
+  </Style>
+  <Style Selector="Label.icon-only-filled">
+    <Setter Property="Padding" Value="5" />
+    <Setter Property="FontFamily" Value="{DynamicResource IconsFill}" />
+  </Style>
+
+  <Style Selector="Button.page-button">
+    <Setter Property="Padding" Value="15 8" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}"></Setter>
+    <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"></Setter>
+  </Style>
+
+  <Style Selector="Button.primary  /template/ ContentPresenter">
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Background" Value="{DynamicResource SystemAccentColor}" />
+    <Setter Property="Foreground" Value="WhiteSmoke" />
+
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.1" Easing="SineEaseIn" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.primary.disabled /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SystemAccentColorLight3}" />
+  </Style>
+
+  <Style Selector="Button:pointerover.primary /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SystemAccentColorLight1}" />
+    <Setter Property="Foreground" Value="WhiteSmoke" />
+  </Style>
+
+  <Style Selector="Button.flyout">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+  </Style>
+
+  <Style Selector="Button.flyout /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+    <Setter Property="Foreground" Value="{DynamicResource SecondaryForeground}" />
+
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.1" Easing="SineEaseIn" />
+        <BrushTransition Property="Foreground" Duration="0:0:0.1" Easing="SineEaseIn" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button:pointerover.flyout /template/ ContentPresenter">
+    <!-- <Setter Property="Background" Value="{DynamicResource PrimaryAccentColor}" /> -->
+    <Setter Property="Foreground" Value="WhiteSmoke" />
+  </Style>
+
+  <Style Selector="FlyoutPresenter">
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="Padding" Value="5" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}" />
+    <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"></Setter>
+  </Style>
+
+  <Style Selector="Label.caution">
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryCaution}" />
+  </Style>
+
+  <Style Selector="Button.caution /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PrimaryCaution}" />
+    <Setter Property="Foreground" Value="WhiteSmoke" />
+
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.1" Easing="SineEaseIn" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button:pointerover.caution /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PrimaryCautionHover}" />
+    <Setter Property="Foreground" Value="WhiteSmoke" />
+  </Style>
+
+  <Style Selector="Separator">
+    <Setter Property="Background" Value="{DynamicResource LineBackground}"></Setter>
+  </Style>
+
+  <Style Selector="Button.Icon">
+    <Setter Property="Padding" Value="0 5 0 0" />
+    <Setter Property="FontFamily" Value="{DynamicResource Icons}" />
+  </Style>
+  <Style Selector="Button.icon-only  /template/ ContentPresenter">
+    <Setter Property="Padding" Value="5" />
+    <Setter Property="FontFamily" Value="{DynamicResource Icons}" />
+    <Setter Property="FontSize" Value="20" />
+
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource IconForeground}"></Setter>
+    <Setter Property="RenderTransform" Value="scale(1.0)" />
+
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.05" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.close">
+    <Setter Property="Content" Value="&#xE4F6;" />
+    <Setter Property="Padding" Value="5" />
+    <Setter Property="FontFamily" Value="{DynamicResource Icons}" />
+    <Setter Property="FontSize" Value="20" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}"></Setter>
+
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource SecondaryForeground}"></Setter>
+    <Setter Property="RenderTransform" Value="scale(1.0)" />
+
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.05" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.icon-only:pointerover /template/ ContentPresenter">
+    <Setter Property="Padding" Value="5" />
+    <Setter Property="FontFamily" Value="{DynamicResource Icons}" />
+
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource IconForegroundHover}"></Setter>
+    <Setter Property="RenderTransform" Value="scale(1.05)" />
+  </Style>
+
+  <Style Selector="Button.sidebar /template/ ContentPresenter">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource SecondaryForeground}" />
+    <Setter Property="FontSize" Value="18" />
+    <Setter Property="Padding" Value="4" />
+    <Setter Property="CornerRadius" Value="5" />
+
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Foreground" Duration="0:0:0.1" Easing="SineEaseIn" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.sidebar:pointerover /template/ ContentPresenter">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+    <!-- <Setter Property="FontSize" Value="20" /> -->
+    <Setter Property="Padding" Value="4" />
+  </Style>
+
+  <Style Selector="Button.sidebar.selected /template/ ContentPresenter">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="Background" Value="{DynamicResource SelectedBackground}" />
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+
+  </Style>
+  <Style Selector="Button.sidebar.selected:pointerover /template/ ContentPresenter">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="Background" Value="{DynamicResource SelectedBackground}" />
+  </Style>
+
+  <Style Selector="ListBox">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="ListBoxItem">
+    <Setter Property="Padding" Value="5" />
+    <Setter Property="CornerRadius" Value="5" />
+  </Style>
+
+  <Style
+    Selector="ListBox.no-selection-background ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style
+    Selector="ListBox.no-selection-background ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+
+  <Style Selector="TextBox">
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}" />
+    <Setter Property="CornerRadius" Value="4" />
+  </Style>
+
+  <Style Selector="ComboBox">
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}" />
+    <Setter Property="CornerRadius" Value="4" />
+  </Style>
+
+  <Style Selector="ComboBoxItem.flyout">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <!-- <Setter Property="Padding" Value="5" /> -->
+    <Setter Property="CornerRadius" Value="4" />
+    <Setter Property="Margin" Value="2 1" />
+  </Style>
+
+  <Style Selector="ComboBoxItem.flyout /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+    <Setter Property="Foreground" Value="{DynamicResource SecondaryForeground}" />
+
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="0:0:0.1" Easing="SineEaseIn" />
+        <BrushTransition Property="Foreground" Duration="0:0:0.1" Easing="SineEaseIn" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="ComboBoxItem:pointerover.flyout /template/ ContentPresenter">
+    <!-- <Setter Property="Background" Value="{DynamicResource PrimaryAccentColor}" /> -->
+    <Setter Property="Foreground" Value="WhiteSmoke" />
+  </Style>
+
+  <Style Selector="ComboBox:dropdownopen /template/ Border#PopupBorder">
+    <Setter Property="Padding" Value="0 -3" />
+    <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+    <Setter Property="CornerRadius" Value="4" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}" />
+  </Style>
+
+  <Style Selector="DataValidationErrors">
+    <Setter Property="Theme" Value="{StaticResource TooltipDataValidationErrors}" />
+  </Style>
+</Styles>

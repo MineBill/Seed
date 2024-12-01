@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vmd="clr-namespace:Launcher.ViewModels.Dialogs"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
+             xmlns:views="clr-namespace:Launcher.Views"
+             Width="600" Height="400"
+             x:DataType="vmd:SettingsDialogModel"
+             x:Class="Launcher.Views.Dialogs.SettingsDialog">
+  <views:DialogBase CloseCommand="{Binding CloseDialogCommand}" PageName="Settings">
+    <Grid RowDefinitions="*, Auto" ColumnDefinitions="*, *">
+      <StackPanel
+        Grid.Row="0"
+        Grid.Column="0"
+        Grid.ColumnSpan="2">
+        <Grid ColumnDefinitions="Auto, *, Auto">
+          <Label VerticalAlignment="Center" Content="Default Project Location" HorizontalAlignment="Left" />
+          <TextBox Grid.Column="1" HorizontalAlignment="Stretch"
+                   Text="{Binding DefaultProjectPath}">
+            <TextBox.InnerRightContent>
+              <Button Grid.Column="2" Content="&#xE256;" Classes="icon-only"
+                      Command="{Binding SelectFolderCommand}" />
+            </TextBox.InnerRightContent>
+          </TextBox>
+        </Grid>
+      </StackPanel>
+      <Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Content="Cancel"
+              Command="{Binding CloseWithoutSavingCommand}" />
+      <Button Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Classes="primary" Content="Save"
+              Command="{Binding CloseWithSavingCommand}" />
+    </Grid>
+  </views:DialogBase>
+</UserControl>

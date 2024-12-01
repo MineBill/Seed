@@ -1,0 +1,80 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             xmlns:vm="clr-namespace:Launcher.ViewModels"
+             xmlns:views="clr-namespace:Launcher.Views"
+             xmlns:controls="clr-namespace:Launcher.Controls"
+             x:DataType="vm:ProjectViewModel"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="200"
+             Width="200" Height="200"
+             x:Class="Launcher.Views.ProjectView">
+  <Design.DataContext>
+    <vm:ProjectViewModel />
+  </Design.DataContext>
+
+  <UserControl.Resources>
+    <controls:CustomFlyout x:Key="ContextMenu" Placement="BottomEdgeAlignedLeft" ShowMode="Standard">
+      <StackPanel>
+        <Button Classes="flyout" Content="Configure"
+                Command="{Binding OpenConfigurationCommand}" />
+        <Button Classes="flyout" Content="Open Directory"
+                Command="{Binding OpenDirectoryCommand}" />
+        <Separator />
+        <Button Classes="flyout caution" Content="Delete" Command="{Binding DeleteCommand}" />
+      </StackPanel>
+    </controls:CustomFlyout>
+  </UserControl.Resources>
+
+  <UserControl.Styles>
+    <Style Selector="Border.inner-border">
+      <Setter Property="CornerRadius" Value="5" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="BorderBrush" Value="{DynamicResource LineBackground}" />
+    </Style>
+
+    <Style Selector="views|ProjectView">
+      <Setter Property="RenderTransform" Value="scale(1.0)" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
+        </Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="ListBoxItem:pointerover views|ProjectView">
+      <Setter Property="RenderTransform" Value="scale(1.02)" />
+    </Style>
+
+    <Style Selector="ListBoxItem:selected views|ProjectView Border.inner-border">
+      <Setter Property="CornerRadius" Value="5" />
+      <Setter Property="BorderThickness" Value="2" />
+      <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}" />
+    </Style>
+  </UserControl.Styles>
+
+  <Border ZIndex="10" CornerRadius="5" ClipToBounds="True" PointerPressed="InputElement_OnPointerPressed"
+          ContextFlyout="{DynamicResource ContextMenu}">
+    <Grid RowDefinitions="*" ZIndex="-10">
+      <Image asyncImageLoader:ImageLoader.Source="{Binding IconPath}" Stretch="UniformToFill" />
+      <Grid Height="40" VerticalAlignment="Bottom" Background="{DynamicResource SecondaryBackground}"
+            ColumnDefinitions="*, Auto">
+        <Label Content="{Binding ProjectName}" VerticalAlignment="Center" />
+        <Button Grid.Column="1" Classes="icon-only" Flyout="{StaticResource ContextMenu}">
+          <Label VerticalAlignment="Center" Content="&#xE208;" />
+        </Button>
+      </Grid>
+      <Label CornerRadius="0" Background="{DynamicResource SecondaryBackground}"
+             Classes.caution="{Binding EngineMissing}"
+             Content="{Binding EngineVersion}"
+             ToolTip.Tip="asd"
+             ToolTip.ServiceEnabled="{Binding EngineMissing}"
+             VerticalAlignment="Top"
+             HorizontalAlignment="Right">
+      </Label>
+      <!-- This border is drawn on top of the parent border, which has ClipToBound=true. This allows us to correctly draw the border
+            without other items with sharp corner draw above it. -->
+      <Border Classes="inner-border" />
+    </Grid>
+  </Border>
+</UserControl>

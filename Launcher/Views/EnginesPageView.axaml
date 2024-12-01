@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Launcher.ViewModels"
+             xmlns:controls="clr-namespace:Launcher.Controls"
+             x:DataType="vm:EnginesPageViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Launcher.Views.EnginesPageView">
+  <Border Padding="20">
+    <Grid RowDefinitions="Auto, Auto, *" ColumnDefinitions="*">
+      <Grid>
+        <Label Classes="page-header" Content="Installs" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+          <Button Classes="page-button" Content="Locate" />
+          <Button Classes="page-button primary" Content="Download">
+            <Button.Flyout>
+              <controls:CustomFlyout Placement="BottomEdgeAlignedLeft" ShowMode="Transient">
+                <StackPanel>
+                  <Button Classes="flyout" Content="Official Release"
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Center"
+                          Command="{Binding ShowDownloadDialogCommand}" />
+                  <Button Classes="flyout" Content="Latest CI Build"
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Center"
+                          Command="{Binding ShowGitVersionDownloadDialogCommand}" />
+                </StackPanel>
+              </controls:CustomFlyout>
+            </Button.Flyout>
+          </Button>
+        </StackPanel>
+      </Grid>
+      <Separator Grid.Row="1" Margin="0 5" />
+      <ListBox
+        Grid.Row="2"
+        Background="Transparent"
+        ItemsSource="{Binding Engines}">
+      </ListBox>
+    </Grid>
+  </Border>
+</UserControl>

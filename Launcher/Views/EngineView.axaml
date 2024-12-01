@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Launcher.ViewModels"
+             xmlns:views="clr-namespace:Launcher.Views"
+             xmlns:controls="clr-namespace:Launcher.Controls"
+             x:DataType="vm:EngineViewModel"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="75"
+             Height="75"
+             x:Class="Launcher.Views.EngineView">
+  <Design.DataContext>
+    <vm:EngineViewModel />
+  </Design.DataContext>
+
+  <UserControl.Resources>
+    <controls:CustomFlyout x:Key="ContextMenu" Placement="BottomEdgeAlignedLeft" ShowMode="Standard">
+      <StackPanel>
+        <Button Classes="flyout" Content="Configure"
+                Command="{Binding OpenEngineConfigurationCommand}" />
+        <Button Classes="flyout" Content="Open Directory"
+                Command="{Binding OpenEngineDirectoryCommand}" />
+        <Separator />
+        <Button Classes="flyout caution" Content="Delete" Command="{Binding DeleteEngineCommand}" />
+      </StackPanel>
+    </controls:CustomFlyout>
+  </UserControl.Resources>
+
+  <Border
+    ContextFlyout="{DynamicResource ContextMenu}"
+    Padding="10"
+    BorderThickness="1"
+    BorderBrush="{DynamicResource LineBackground}"
+    Background="{DynamicResource SecondaryBackground}"
+    CornerRadius="5">
+    <Grid ColumnDefinitions="Auto, *, Auto">
+      <Image Source="{SvgImage /Assets/Images/flax_logo.svg}" />
+      <StackPanel Grid.Column="1" Margin="5">
+        <Label
+          Content="{Binding EngineName, StringFormat='Flax - {0}'}" />
+        <Label
+          FontSize="10"
+          Content="{Binding EngineVersion, StringFormat='v{0}'}" />
+      </StackPanel>
+      <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="10">
+        <Button Classes="icon-only" Content="&#xE270;" Flyout="{StaticResource ContextMenu}" />
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

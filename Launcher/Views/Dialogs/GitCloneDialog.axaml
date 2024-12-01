@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:Launcher.Views"
+             xmlns:vmd="clr-namespace:Launcher.ViewModels.Dialogs"
+             x:DataType="vmd:GitCloneDialogModel"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
+             Width="500" Height="350"
+             x:Class="Launcher.Views.Dialogs.GitCloneDialog">
+  <Design.DataContext>
+    <vmd:GitCloneDialogModel />
+  </Design.DataContext>
+  <views:DialogBase CloseCommand="{Binding CloseDialogCommand}"
+                    PageName="Clone from git">
+    <Grid RowDefinitions="Auto, *">
+      <StackPanel Grid.Row="0" Spacing="10">
+        <TextBox Watermark="Git repo URL" Text="{Binding RepoURL}" UseFloatingWatermark="True" />
+        <Grid ColumnDefinitions="*, Auto">
+          <TextBox
+            HorizontalAlignment="Stretch"
+            Watermark="Destination Folder"
+            Text="{Binding DestinationFolder}"
+            UseFloatingWatermark="True" />
+          <Button Grid.Column="1" Content="&#xE256;" Classes="icon-only" Command="{Binding SelectParentFolderCommand}" />
+        </Grid>
+        <CheckBox Content="Mark as Template" IsChecked="{Binding MarkAsTemplate}" />
+      </StackPanel>
+      <Button Grid.Row="1"
+              IsEnabled="{Binding !HasErrors}"
+              Classes="primary"
+              Content="Clone"
+              Command="{Binding CloneRepoCommand}"
+              HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+    </Grid>
+  </views:DialogBase>
+</UserControl>

@@ -1,0 +1,97 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="400"
+        Width="1100" Height="650"
+        x:Class="Launcher.Views.MainView"
+        xmlns:vm="clr-namespace:Launcher.ViewModels"
+        xmlns:launcher="clr-namespace:Launcher"
+        x:DataType="vm:MainViewModel"
+        d:DataContext="{x:Static launcher:DesignData.DesignMainViewModel}"
+        UseLayoutRounding="True"
+        Icon="/Assets/Images/logo.png"
+        Title="Seed Launcher">
+  <dialogHost:DialogHost
+    DialogMargin="0"
+    dialogHost:DialogHostStyle.CornerRadius="9"
+    dialogHost:DialogHostStyle.BorderThickness="1"
+    dialogHost:DialogHostStyle.BorderBrush="{DynamicResource LineBackground}"
+    dialogHost:DialogHostStyle.ClipToBounds="True"
+    Background="{DynamicResource PrimaryBackground}"
+    DisableOpeningAnimation="True"
+    PopupPositioner="{Binding Positioner}"
+    CloseOnClickAway="False">
+    <Grid ShowGridLines="{Binding IsDebugging}" ColumnDefinitions="Auto, *">
+      <ContentControl Grid.Column="1" Content="{Binding CurrentPage}" />
+
+      <Border
+        Grid.Column="0"
+        Background="{DynamicResource SecondaryBackground}"
+        Padding="10"
+        BorderThickness="0 0 1 0" BorderBrush="{DynamicResource LineBackground}">
+        <Grid ShowGridLines="{Binding IsDebugging}" RowDefinitions="*, *, Auto">
+          <StackPanel Spacing="5">
+            <Image PointerPressed="InputElement_OnPointerPressed" IsVisible="{Binding !SidebarExtended}"
+                   Source="avares://Launcher/Assets/Images/logo.png" Width="32">
+            </Image>
+            <Image PointerPressed="InputElement_OnPointerPressed" IsVisible="{Binding SidebarExtended}"
+                   Source="avares://Launcher/Assets/Images/logo.png" Width="64">
+            </Image>
+            <Button
+              Classes="sidebar"
+              Classes.selected="{Binding IsNewsPage}"
+              Command="{Binding GoToNewsCommand}">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <Label
+                  Classes.icon-filled="{Binding SidebarExtended}"
+                  Classes.icon-only="{Binding !SidebarExtended}"
+                  Content="&#xE344;" />
+                <Label Content="News" IsVisible="{Binding SidebarExtended}" MinWidth="150" />
+              </StackPanel>
+            </Button>
+            <Button
+              Classes="sidebar"
+              Classes.selected="{Binding IsProjectsPage}"
+              Command="{Binding GoToProjectsCommand}">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <Label
+                  Classes.icon-filled="{Binding SidebarExtended}"
+                  Classes.icon-only="{Binding !SidebarExtended}"
+                  Content="&#xE1DA;" />
+                <Label Content="Projects" IsVisible="{Binding SidebarExtended}" MinWidth="150" />
+              </StackPanel>
+            </Button>
+            <Button
+              Classes="sidebar"
+              Classes.selected="{Binding IsEnginesPage}"
+              Command="{Binding GoToEnginesCommand}">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <Label
+                  Classes.icon-filled="{Binding SidebarExtended}"
+                  Classes.icon-only="{Binding !SidebarExtended}"
+                  Content="&#xE4AA;" />
+                <Label Content="Installs" IsVisible="{Binding SidebarExtended}" MinWidth="150" />
+              </StackPanel>
+            </Button>
+          </StackPanel>
+
+          <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding ActiveDownloads}" VerticalAlignment="Bottom">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <ReversibleStackPanel ReverseOrder="True" Spacing="5" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+            </ItemsControl>
+          </ScrollViewer>
+          <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Classes="icon-only" Content="&#xE272;"
+                    Command="{Binding ShowSettingsDialogCommand}" />
+          </StackPanel>
+        </Grid>
+      </Border>
+    </Grid>
+  </dialogHost:DialogHost>
+</Window>
