@@ -19,7 +19,7 @@ jobs:
           TAG: ${{ github.ref_name }}
         run: echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
   release:
-    needs: [version]
+    needs: [build, version]
     name: Release
     runs-on: ubuntu-latest
     permissions:
