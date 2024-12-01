@@ -34,11 +34,12 @@ jobs:
       run: dotnet restore
 
     - name: Create artifact
-      run: dotnet publish -c ReleaseAOT --runtime linux-x64 Launcher --output Publish/
+      run: dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/
 
     - name: Create AppImage
       if: ${{ startsWith(matrix.runtime, 'linux-') }}
       run: |
+        sudo apt-get install desktop-file-utils
         wget https://github.com/AppImage/appimagetool/releases/download/1.9.0/appimagetool-x86_64.AppImage
         chmod +x appimagetool-x86_64.AppImage
         mkdir -p AppDir/usr/bin
