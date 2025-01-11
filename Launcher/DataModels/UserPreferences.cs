@@ -51,6 +51,11 @@ public class UserPreferences
     /// </summary>
     public Color? AccentColor { get; set; }
 
+    /// <summary>
+    /// Don't check for updates during start-up.
+    /// </summary>
+    public bool SkipUpdates { get; set; }
+
     public SortingType ProjectSortingType { get; set; } = SortingType.OpenDate;
 
     public SortingDirection ProjectSortingDirection { get; set; } = SortingDirection.Descending;

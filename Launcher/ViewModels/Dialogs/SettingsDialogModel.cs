@@ -13,12 +13,16 @@ public partial class SettingsDialogModel : DialogModelBase<Unit>
     [ObservableProperty]
     private string? _defaultProjectPath;
 
+    [ObservableProperty]
+    private bool _skipUpdates;
+
     public SettingsDialogModel(IPreferencesManager preferences, IFilesService filesService)
     {
         _files = filesService;
         _preferences = preferences;
 
         DefaultProjectPath = preferences.Preferences.NewProjectLocation;
+        SkipUpdates = preferences.Preferences.SkipUpdates;
     }
 
     [RelayCommand]
@@ -27,6 +31,12 @@ public partial class SettingsDialogModel : DialogModelBase<Unit>
         var folder = await _files.SelectFolderAsync(DefaultProjectPath);
         if (folder is null) return;
         DefaultProjectPath = folder.Path.LocalPath;
+    }
+
+    [RelayCommand]
+    private void SkipUpdatesChanged()
+    {
+        _preferences.Preferences.SkipUpdates = SkipUpdates;
     }
 
     [RelayCommand]

@@ -24,6 +24,13 @@
             </TextBox.InnerRightContent>
           </TextBox>
         </Grid>
+        <Grid ColumnDefinitions="Auto, *">
+          <Label VerticalAlignment="Center" Content="Skip Updates" HorizontalAlignment="Left" />
+          <CheckBox Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    IsChecked="{Binding SkipUpdates}"
+                    Command="{Binding SkipUpdatesChangedCommand}" />
+        </Grid>
       </StackPanel>
       <Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Content="Cancel"
               Command="{Binding CloseWithoutSavingCommand}" />
