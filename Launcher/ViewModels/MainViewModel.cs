@@ -1,18 +1,24 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DialogHostAvalonia.Positioners;
 using Launcher.Services;
 using Launcher.ViewModels.Dialogs;
+using Launcher.Views.Dialogs;
+using NLog;
 
 namespace Launcher.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     public class CenteredDialogPopupPositioner : IDialogPopupPositioner
     {
         /// <inheritdoc />
@@ -28,6 +34,7 @@ public partial class MainViewModel : ViewModelBase
     private readonly IDownloadManager _downloadManager;
     private readonly IPreferencesManager _preferencesManager;
     private readonly IFilesService _filesService;
+    private readonly UpdateService _updateService;
     private readonly Func<PageNames, PageViewModel> _pageFactory;
 
     [ObservableProperty]
@@ -55,6 +62,7 @@ public partial class MainViewModel : ViewModelBase
         IDownloadManager downloadManager,
         IPreferencesManager preferencesManager,
         IFilesService filesService,
+        UpdateService updateService,
         Func<PageNames, PageViewModel> factory)
     {
         _pageFactory = factory;
@@ -62,11 +70,28 @@ public partial class MainViewModel : ViewModelBase
         _downloadManager = downloadManager;
         _preferencesManager = preferencesManager;
         _filesService = filesService;
+        _updateService = updateService;
 
         downloadManager.EntryAdded += EngineDownloaderOnDownloadStarted;
         downloadManager.EntryRemoved += EngineDownloaderOnDownloadFinished;
 
         CurrentPage = _pageFactory.Invoke(PageNames.Projects);
+
+#if !DEBUG // Disable update checking for local debug builds.
+        if (!_preferencesManager.Preferences.SkipUpdates)
+        {
+            Dispatcher.UIThread.Post(delegate() { _ = CheckUpdates(); });
+        }
+#endif
+    }
+
+    private async Task CheckUpdates()
+    {
+        if (await _updateService.CheckForUpdate() is { } update)
+        {
+            var dialog = new UpdateDialogModel(update, _filesService);
+            await dialog.ShowDialog();
+        }
     }
 
     public void ToggleSidebar()

@@ -1,0 +1,37 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:Launcher.Views"
+             xmlns:vmd="clr-namespace:Launcher.ViewModels.Dialogs"
+             xmlns:mdxaml="https://github.com/whistyun/Markdown.Avalonia.Tight"
+             x:DataType="vmd:UpdateDialogModel"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
+             x:Class="Launcher.Views.Dialogs.UpdateDialog">
+  <views:DialogBase CloseCommand="{Binding CloseDialogCommand}"
+                    PageName="{Binding PageName}">
+    <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, *, Auto">
+      <TextBlock Grid.ColumnSpan="2">
+        A new version is now available!
+        Click <Bold>Download</Bold> to download the new version.
+      </TextBlock>
+      <Border
+        Margin="0 10"
+        CornerRadius="5"
+        BorderThickness="2"
+        BorderBrush="{DynamicResource LineBackground}"
+        Background="{DynamicResource SecondaryBackground}"
+        Padding="10"
+        Grid.Row="1"
+        Grid.Column="0"
+        Grid.ColumnSpan="2">
+        <mdxaml:MarkdownScrollViewer
+          MinHeight="100"
+          Markdown="{Binding Body}" />
+      </Border>
+      <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Content="Skip" />
+      <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Classes="primary" Content="Download"
+              Command="{Binding DownloadUpdateCommand}" />
+    </Grid>
+  </views:DialogBase>
+</UserControl>

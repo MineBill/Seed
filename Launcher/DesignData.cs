@@ -33,6 +33,7 @@ public static class DesignData
         new DownloadManager(),
         new JsonPreferencesManager(),
         new DummyFileService(),
+        new UpdateService(),
         names => DesignProjectsPageViewMode)
     {
         ActiveDownloads =

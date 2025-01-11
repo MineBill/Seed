@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:Launcher.ViewModels"
              xmlns:views="clr-namespace:Launcher.Views"
              xmlns:controls="clr-namespace:Launcher.Controls"
+             xmlns:svg="clr-namespace:Avalonia.Svg;assembly=Avalonia.Svg.Skia"
              x:DataType="vm:EngineViewModel"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="75"
              Height="75"

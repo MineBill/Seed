@@ -50,6 +50,7 @@ public class App : Application
         ViewLocator.Register<AuthenticationDialogModel, AuthenticationDialog>();
         ViewLocator.Register<ProjectConfigurationDialogModel, ProjectConfigurationDialog>();
         ViewLocator.Register<NewsPageViewModel, NewsPageView>();
+        ViewLocator.Register<UpdateDialogModel, UpdateDialog>();
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -72,6 +73,7 @@ public class App : Application
         services.AddSingleton<IDownloadManager, DownloadManager>();
         services.AddSingleton<GithubAuthenticator>();
         services.AddSingleton<NewsFetcher>();
+        services.AddSingleton<UpdateService>();
 
         services.AddSingleton<MainViewModel>();
 
