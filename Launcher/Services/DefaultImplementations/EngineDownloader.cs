@@ -32,32 +32,30 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
     public async Task<List<RemoteEngine>?> GetAvailableVersions()
     {
         var request = new HttpRequestMessage(HttpMethod.Get, FlaxLauncherApiUrl);
-        // _client.DefaultRequestHeaders.Accept.Clear();
-        // _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        // _client.DefaultRequestHeaders.Add("User-Agent", "Seed Launcher for Flax");
         request.Headers.Accept.Clear();
         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         request.Headers.Add("User-Agent", "Seed Launcher for Flax");
 
-        var response = await _client.SendAsync(request, CancellationToken.None);
         try
         {
-            var json = await response.Content.ReadAsStringAsync();
-            var tree = JsonNode.Parse(json);
-            if (tree is null)
-                return null;
+            var response = await _client.SendAsync(request, CancellationToken.None);
+            try
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var tree = JsonNode.Parse(json);
 
-            var engines = tree["versions"].Deserialize(RemoteEngineListGenerationContext.Default.ListRemoteEngine);
-            return engines;
+                var engines = tree?["versions"].Deserialize(RemoteEngineListGenerationContext.Default.ListRemoteEngine);
+                return engines;
+            }
+            catch (JsonException je)
+            {
+                Logger.Error(je, "Failed to read flax api.");
+                return null;
+            }
         }
-        catch (JsonException je)
+        catch (HttpRequestException e)
         {
-            Logger.Error(je, "Failed to read flax api.");
-            // var box = MessageBoxManager.GetMessageBoxStandard(
-            //     "Exception",
-            //     $"An exception occured while deserializing information from the Flax API. It's possible the API has changed. Please make an issue at {Globals.RepoUrl}.",
-            //     icon: Icon.Error);
-            // await box.ShowWindowDialogAsync(App.Current.Desktop.MainWindow!);
+            Logger.Error(e, "Could not get available engine versions due to network issues.");
             return null;
         }
     }
