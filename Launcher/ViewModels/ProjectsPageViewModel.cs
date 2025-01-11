@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -11,6 +13,7 @@ using Launcher.Services;
 using Launcher.Services.DefaultImplementations;
 using Launcher.Services.Dummies;
 using Launcher.ViewModels.Dialogs;
+using LibGit2Sharp;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using NLog;
@@ -24,6 +27,7 @@ public partial class ProjectsPageViewModel : PageViewModel
 
     private readonly IEngineManager _engineManager;
     private readonly IProjectManager _projectManager;
+    private readonly IDownloadManager _downloadManager;
     private readonly IFilesService _filesService;
     private readonly IPreferencesManager _preferencesManager;
 
@@ -40,6 +44,7 @@ public partial class ProjectsPageViewModel : PageViewModel
         new DummyEngineManager(),
         new DummyProjectManager(),
         new JsonPreferencesManager(),
+        new DownloadManager(),
         new DummyFileService())
     {
     }
@@ -48,6 +53,7 @@ public partial class ProjectsPageViewModel : PageViewModel
         IEngineManager engineManager,
         IProjectManager projectManager,
         IPreferencesManager preferencesManager,
+        IDownloadManager downloadManager,
         IFilesService filesService)
     {
         PageName = PageNames.Projects;
@@ -55,6 +61,7 @@ public partial class ProjectsPageViewModel : PageViewModel
         _projectManager = projectManager;
         _filesService = filesService;
         _preferencesManager = preferencesManager;
+        _downloadManager = downloadManager;
 
         _projectManager.Projects.CollectionChanged += (_, args) =>
         {
@@ -161,6 +168,51 @@ public partial class ProjectsPageViewModel : PageViewModel
         {
             _projectManager.AddProject(project);
         }
+    }
+
+    [RelayCommand]
+    private void DownloadSamples()
+    {
+        Task.Run(() =>
+        {
+            var download = new DownloadEntry();
+            _downloadManager.AddDownload(download);
+            download.Title = "Downloading Samples";
+            IProgress<float> progress = download.Progress;
+
+            var options = new CloneOptions
+            {
+                RecurseSubmodules = true
+            };
+            options.OnCheckoutProgress += (path, steps, totalSteps) =>
+            {
+                download.CurrentAction = "Checking out";
+                progress.Report(steps / (float)totalSteps);
+            };
+            options.FetchOptions.OnTransferProgress += transferProgress =>
+            {
+                download.CurrentAction = $"Received {transferProgress.ReceivedBytes} bytes";
+                progress.Report(transferProgress.ReceivedObjects / (float)transferProgress.TotalObjects);
+                return true;
+            };
+            var destination =
+                Path.Combine(_preferencesManager.Preferences.NewProjectLocation ?? Globals.GetDefaultProjectLocation(),
+                    "FlaxSamples");
+            Logger.Debug("Downloading flax samples to {FlaxSamplesDestination}", destination);
+            Repository.Clone("https://github.com/FlaxEngine/FlaxSamples", destination, options);
+            _downloadManager.RemoveDownload(download);
+
+            foreach (var samplePath in Directory.EnumerateDirectories(destination))
+            {
+                var projectFiles = Directory.GetFiles(samplePath).Where(f => f.EndsWith("flaxproj")).ToArray();
+                if (projectFiles.Length != 1) continue;
+                if (_projectManager.ParseProject(projectFiles[0]) is not { } project) continue;
+
+                Logger.Info("Adding flax sample {SampleName}", project.Name);
+                project.IsTemplate = true;
+                _projectManager.AddProject(project);
+            }
+        });
     }
 
     partial void OnSearchTermChanged(string value)

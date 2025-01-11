@@ -26,7 +26,8 @@ public static class DesignData
     };
 
     public static readonly ProjectsPageViewModel DesignProjectsPageViewMode =
-        new(new DummyEngineManager(), new DummyProjectManager(), new JsonPreferencesManager(), new DummyFileService());
+        new(new DummyEngineManager(), new DummyProjectManager(), new JsonPreferencesManager(), new DownloadManager(),
+            new DummyFileService());
 
     public static readonly MainViewModel DesignMainViewModel = new(
         new DummyEngineDownloader(),
