@@ -132,8 +132,17 @@ public partial class ProjectViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void LaunchProject()
+    private async Task LaunchProject()
     {
-        _projectManager.RunProject(_project);
+        try
+        {
+            _projectManager.RunProject(_project);
+        }
+        catch (System.ComponentModel.Win32Exception e)
+        {
+            var vm = new MessageBoxDialogModel($"Encountered an error while launching the project:\n\n{e.Message}",
+                MessageDialogActions.Ok);
+            _ = await vm.ShowDialog();
+        }
     }
 }
