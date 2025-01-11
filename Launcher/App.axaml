@@ -30,6 +30,8 @@
           <SolidColorBrush x:Key="PrimaryForeground">Black</SolidColorBrush>
           <SolidColorBrush x:Key="SecondaryForeground">#3c3c3c</SolidColorBrush>
 
+          <SolidColorBrush x:Key="PrimaryForegroundFaint">#aaa</SolidColorBrush>
+
           <SolidColorBrush x:Key="PrimaryForegroundHover">#777</SolidColorBrush>
           <BoxShadows x:Key="PrimaryShadow">5 5 10 0 DarkGray</BoxShadows>
 
@@ -45,6 +47,8 @@
 
           <SolidColorBrush x:Key="PrimaryForeground">#eee</SolidColorBrush>
           <SolidColorBrush x:Key="SecondaryForeground">#aaa</SolidColorBrush>
+
+          <SolidColorBrush x:Key="PrimaryForegroundFaint">#888</SolidColorBrush>
 
           <SolidColorBrush x:Key="PrimaryForegroundHover">#e2e2e2</SolidColorBrush>
           <BoxShadows x:Key="PrimaryShadow">5 5 10 0 #000</BoxShadows>

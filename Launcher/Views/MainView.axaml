@@ -86,10 +86,15 @@
               </ItemsControl.ItemsPanel>
             </ItemsControl>
           </ScrollViewer>
-          <StackPanel Grid.Row="2" Orientation="Horizontal">
+          <Grid Grid.Row="2">
             <Button Classes="icon-only" Content="&#xE272;"
                     Command="{Binding ShowSettingsDialogCommand}" />
-          </StackPanel>
+            <TextBlock VerticalAlignment="Bottom"
+                       HorizontalAlignment="Right"
+                       FontSize="10"
+                       Foreground="{DynamicResource PrimaryForegroundFaint}"
+                       Text="{Binding Version}" />
+          </Grid>
         </Grid>
       </Border>
     </Grid>

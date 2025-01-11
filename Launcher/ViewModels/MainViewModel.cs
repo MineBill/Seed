@@ -42,6 +42,8 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<DownloadEntryViewModel> _activeDownloads = [];
 
+    public string Version => Assembly.GetEntryAssembly()!.GetName().Version!.ToString();
+
     public bool IsNewsPage => CurrentPage.PageName == PageNames.News;
     public bool IsProjectsPage => CurrentPage.PageName == PageNames.Projects;
     public bool IsEnginesPage => CurrentPage.PageName == PageNames.Installs;
