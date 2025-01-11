@@ -34,7 +34,7 @@ jobs:
       run: dotnet restore
 
     - name: Create artifact
-      run: dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/
+      run: dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=${{ github.event.release.tag_name }}
 
     - name: Create AppImage
       if: ${{ startsWith(matrix.runtime, 'linux-') }}
@@ -56,6 +56,8 @@ jobs:
 
     - name: Upload artifact
       if: ${{ startsWith(matrix.runtime, 'win-') }}
+      run: |
+        rm Publish/Launcher.pdb
       uses: actions/upload-artifact@v4
       with:
         name: Seed.${{ matrix.runtime }}
