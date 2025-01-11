@@ -6,8 +6,9 @@
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-        <Configurations>Debug;Release;Release AOT;ReleaseAOT</Configurations>
+        <Configurations>Debug;Release;ReleaseAOT</Configurations>
         <Platforms>AnyCPU</Platforms>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <PlatformTarget>x64</PlatformTarget>
