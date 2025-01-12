@@ -97,12 +97,6 @@ public partial class ProjectViewModel : ViewModelBase
         };
     }
 
-    public void ChangeVersion(Version version)
-    {
-        _project.EngineVersion = new NormalVersion(version);
-        OnPropertyChanged(nameof(EngineVersion));
-    }
-
     [RelayCommand]
     private async Task OpenConfiguration()
     {
