@@ -4,9 +4,6 @@ on:
     tags:
       - v*
 jobs:
-  build:
-    name: Build
-    uses: ./.github/workflows/dotnet-desktop.yml
   version:
     name: Prepare version string
     runs-on: ubuntu-latest
@@ -18,6 +15,9 @@ jobs:
         env:
           TAG: ${{ github.ref_name }}
         run: echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+  build:
+    name: Build
+    uses: ./.github/workflows/dotnet-desktop.yml
   release:
     needs: [build, version]
     name: Release

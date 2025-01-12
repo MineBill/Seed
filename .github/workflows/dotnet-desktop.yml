@@ -34,7 +34,7 @@ jobs:
       run: dotnet restore
 
     - name: Create artifact
-      run: dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=${{ github.event.release.tag_name }}
+      run: dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=$VERSION
 
     - name: Create AppImage
       if: ${{ startsWith(matrix.runtime, 'linux-') }}
