@@ -39,7 +39,7 @@ jobs:
     - name: Remove win debug info
       if: ${{ startsWith(matrix.runtime, 'win-') }}
       run: |
-        rm Publish/Launcher.pdb
+        rm .\Publish\Launcher.pdb
 
     - name: Create AppImage
       if: ${{ startsWith(matrix.runtime, 'linux-') }}
