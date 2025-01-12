@@ -19,7 +19,7 @@
                FontSize="20"
                HorizontalAlignment="Center"
                Content="{Binding ProjectName}" />
-        <Grid Grid.Row="1" ColumnDefinitions="*, *" RowDefinitions="Auto, Auto">
+        <Grid Grid.Row="1" ColumnDefinitions="*, *" RowDefinitions="Auto, Auto, Auto">
           <Label Content="Engine" VerticalAlignment="Center" />
           <ComboBox
             Grid.Row="0"
@@ -37,6 +37,8 @@
           <TextBox
             Grid.Column="1"
             Grid.Row="1" Text="{Binding ProjectArguments}" />
+          <Label Grid.Column="0" Grid.Row="2" Content="Use as a template" VerticalAlignment="Center" />
+          <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding IsTemplate}" />
         </Grid>
         <Button Grid.Row="2" Classes="primary" Content="Done" HorizontalAlignment="Center"
                 Command="{Binding CloseDialogCommand}" />

@@ -13,6 +13,9 @@ public partial class ProjectConfigurationDialogModel : DialogModelBase<Unit>
     [ObservableProperty]
     private string _projectArguments;
 
+    [ObservableProperty]
+    private bool _isTemplate;
+
     private readonly Project _project;
 
     public string ProjectName => _project.Name;
@@ -27,6 +30,7 @@ public partial class ProjectConfigurationDialogModel : DialogModelBase<Unit>
 
         SelectedEngine = _project.Engine;
         ProjectArguments = _project.ProjectArguments ?? string.Empty;
+        IsTemplate = _project.IsTemplate;
     }
 
     partial void OnSelectedEngineChanged(Engine? value)
@@ -38,5 +42,10 @@ public partial class ProjectConfigurationDialogModel : DialogModelBase<Unit>
     partial void OnProjectArgumentsChanged(string value)
     {
         _project.ProjectArguments = value;
+    }
+
+    partial void OnIsTemplateChanged(bool value)
+    {
+        _project.IsTemplate = value;
     }
 }

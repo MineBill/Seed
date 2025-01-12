@@ -110,6 +110,7 @@ public partial class ProjectViewModel : ViewModelBase
         await vm.ShowDialog();
         _projectManager.Save();
 
+        OnPropertyChanged(nameof(IsTemplate));
         OnPropertyChanged(nameof(EngineVersion));
     }
 
