@@ -22,7 +22,7 @@
         <Button Classes="flyout" Content="Open Directory"
                 Command="{Binding OpenDirectoryCommand}" />
         <Separator />
-        <Button Classes="flyout caution" Content="Delete" Command="{Binding DeleteCommand}" />
+        <Button Classes="flyout caution" Content="Remove" Command="{Binding RemoveCommand}" />
       </StackPanel>
     </controls:CustomFlyout>
   </UserControl.Resources>

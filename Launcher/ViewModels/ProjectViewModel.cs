@@ -120,7 +120,7 @@ public partial class ProjectViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async Task Delete()
+    private async Task Remove()
     {
         var vm = new MessageBoxDialogModel("Are you sure you want to remove this project?",
             MessageDialogActions.No | MessageDialogActions.Yes);
