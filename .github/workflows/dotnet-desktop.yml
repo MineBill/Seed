@@ -39,6 +39,11 @@ jobs:
     - name: Create artifact
       run: dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=$GIT_TAG_NAME
 
+    - name: Compress Artifact
+      if: ${{ startsWith(matrix.runtime, 'win-') }}
+      run: |
+        Compress-Archive Publish Seed-win64.zip
+
     - name: Create AppImage
       if: ${{ startsWith(matrix.runtime, 'linux-') }}
       run: |
@@ -61,4 +66,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Seed.${{ matrix.runtime }}
-        path: Publish/*
+        path: Seed-win64.zip
