@@ -21,6 +21,7 @@
         <Optimize>true</Optimize>
         <PlatformTarget>x64</PlatformTarget>
         <PublishAot>true</PublishAot>
+        <DebugType>none</DebugType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -49,7 +50,7 @@
         <PackageReference Include="NLog" Version="5.3.4"/>
         <PackageReference Include="NLog.Extensions.Logging" Version="5.3.14"/>
         <PackageReference Include="System.Reactive" Version="6.0.1"/>
-        <PackageReference Include="System.ServiceModel.Syndication" Version="9.0.0" />
+        <PackageReference Include="System.ServiceModel.Syndication" Version="9.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
