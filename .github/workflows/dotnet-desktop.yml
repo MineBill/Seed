@@ -36,6 +36,11 @@ jobs:
     - name: Create artifact
       run: dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=${{ github.event.release.tag_name }}
 
+    - name: Remove win debug info
+      if: ${{ startsWith(matrix.runtime, 'win-') }}
+      run: |
+        rm Publish/Launcher.pdb
+
     - name: Create AppImage
       if: ${{ startsWith(matrix.runtime, 'linux-') }}
       run: |
@@ -56,8 +61,6 @@ jobs:
 
     - name: Upload artifact
       if: ${{ startsWith(matrix.runtime, 'win-') }}
-      run: |
-        rm Publish/Launcher.pdb
       uses: actions/upload-artifact@v4
       with:
         name: Seed.${{ matrix.runtime }}
