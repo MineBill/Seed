@@ -30,6 +30,7 @@ jobs:
       id: tag_name
       with:
         tagRegex: "v(.*)"
+        tagRegexGroup: 1
 
     - name: Install .NET
       uses: actions/setup-dotnet@v3
@@ -40,7 +41,9 @@ jobs:
       run: dotnet restore
 
     - name: Create artifact
-      run: dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=$GIT_TAG_NAME
+      run: |
+        echo $GIT_TAG_NAME
+        dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=$GIT_TAG_NAME
 
     - name: Compress Artifact
       if: ${{ startsWith(matrix.runtime, 'win-') }}
