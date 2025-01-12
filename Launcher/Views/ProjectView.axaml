@@ -64,10 +64,18 @@
           <Label VerticalAlignment="Center" Content="&#xE208;" />
         </Button>
       </Grid>
-      <Label CornerRadius="0" Background="{DynamicResource SecondaryBackground}"
+      <Label CornerRadius="5"
+             Background="{DynamicResource SecondaryBackground}"
+             IsVisible="{Binding IsTemplate}"
+             ToolTip.Tip="This is a template project."
+             Classes="icon-only"
+             Content="&#xEDA0;"
+             VerticalAlignment="Top"
+             HorizontalAlignment="Left">
+      </Label>
+      <Label CornerRadius="5" Background="{DynamicResource SecondaryBackground}"
              Classes.caution="{Binding EngineMissing}"
              Content="{Binding EngineVersion}"
-             ToolTip.Tip="asd"
              ToolTip.ServiceEnabled="{Binding EngineMissing}"
              VerticalAlignment="Top"
              HorizontalAlignment="Right">

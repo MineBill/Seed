@@ -23,6 +23,8 @@ public partial class ProjectViewModel : ViewModelBase
 
     public string EngineVersion => _project.EngineVersion?.ToString() ?? "null";
 
+    public bool IsTemplate => _project.IsTemplate;
+
     public string ProjectName => _project.Name;
 
     public string IconPath => Path.Exists(_project.IconPath)
@@ -38,6 +40,7 @@ public partial class ProjectViewModel : ViewModelBase
         new DummyEngineManager(),
         new DummyFileService())
     {
+        _project.IsTemplate = true;
     }
 
     /// <inheritdoc/>
