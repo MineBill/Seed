@@ -17,7 +17,9 @@
       <Grid>
         <Label Classes="page-header" Content="Projects" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
-          <Button Classes="page-button" Content="Download Samples" Command="{Binding DownloadSamplesCommand}" />
+          <Button IsVisible="{Binding !HasFlaxSamples}"
+                  Classes="page-button" Content="Download Samples"
+                  Command="{Binding DownloadSamplesCommand}" />
           <Button Classes="page-button" Content="Add">
             <Button.Flyout>
               <Flyout Placement="BottomEdgeAlignedLeft" ShowMode="Transient">

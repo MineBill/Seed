@@ -40,6 +40,9 @@ public partial class ProjectsPageViewModel : PageViewModel
     [ObservableProperty]
     private IEnumerable<ProjectViewModel> _filteredProjects = [];
 
+    [ObservableProperty]
+    private bool _hasFlaxSamples = false;
+
     public ProjectsPageViewModel() : this(
         new DummyEngineManager(),
         new DummyProjectManager(),
@@ -92,6 +95,10 @@ public partial class ProjectsPageViewModel : PageViewModel
         }
 
         FilteredProjects = Projects;
+
+        HasFlaxSamples =
+            Directory.Exists(Path.Combine(_preferencesManager.Preferences.NewProjectLocation ?? string.Empty,
+                "FlaxSamples"));
     }
 
     [RelayCommand]
@@ -199,19 +206,27 @@ public partial class ProjectsPageViewModel : PageViewModel
                 Path.Combine(_preferencesManager.Preferences.NewProjectLocation ?? Globals.GetDefaultProjectLocation(),
                     "FlaxSamples");
             Logger.Debug("Downloading flax samples to {FlaxSamplesDestination}", destination);
-            Repository.Clone("https://github.com/FlaxEngine/FlaxSamples", destination, options);
-            _downloadManager.RemoveDownload(download);
-
-            foreach (var samplePath in Directory.EnumerateDirectories(destination))
+            try
             {
-                var projectFiles = Directory.GetFiles(samplePath).Where(f => f.EndsWith("flaxproj")).ToArray();
-                if (projectFiles.Length != 1) continue;
-                if (_projectManager.ParseProject(projectFiles[0]) is not { } project) continue;
+                Repository.Clone("https://github.com/FlaxEngine/FlaxSamples", destination, options);
+                foreach (var samplePath in Directory.EnumerateDirectories(destination))
+                {
+                    var projectFiles = Directory.GetFiles(samplePath).Where(f => f.EndsWith("flaxproj")).ToArray();
+                    if (projectFiles.Length != 1) continue;
+                    if (_projectManager.ParseProject(projectFiles[0]) is not { } project) continue;
 
-                Logger.Info("Adding flax sample {SampleName}", project.Name);
-                project.IsTemplate = true;
-                _projectManager.AddProject(project);
+                    Logger.Info("Adding flax sample {SampleName}", project.Name);
+                    project.IsTemplate = true;
+                    _projectManager.AddProject(project);
+                }
             }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Exception while cloning sampled repo");
+            }
+
+            _downloadManager.RemoveDownload(download);
+            HasFlaxSamples = true;
         });
     }
 
