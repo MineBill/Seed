@@ -42,8 +42,8 @@ jobs:
 
     - name: Create artifact
       run: |
-        echo $GIT_TAG_NAME
-        dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=$GIT_TAG_NAME
+        echo ${{ steps.tag_name.outputs.tag }}
+        dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=${{ steps.tag_name.outputs.tag }}
 
     - name: Compress Artifact
       if: ${{ startsWith(matrix.runtime, 'win-') }}
