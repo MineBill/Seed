@@ -25,6 +25,9 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Get git tag
+      uses: little-core-labs/get-git-tag@v3.0.2
+
     - name: Install .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -34,7 +37,7 @@ jobs:
       run: dotnet restore
 
     - name: Create artifact
-      run: dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=$VERSION
+      run: dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=$GIT_TAG_NAME
 
     - name: Create AppImage
       if: ${{ startsWith(matrix.runtime, 'linux-') }}
