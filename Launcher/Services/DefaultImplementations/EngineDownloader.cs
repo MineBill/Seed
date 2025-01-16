@@ -24,7 +24,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
     public const string FlaxLauncherApiUrl = "https://api.flaxengine.com/launcher/engine";
 
     public const string GithubWorkflowApiUrl =
-        "https://api.github.com/repos/FlaxEngine/FlaxEngine/actions/workflows/cd.yml/runs?per_page=1";
+        "https://api.github.com/repos/FlaxEngine/FlaxEngine/actions/workflows/cd.yml/runs?per_page=1&status=success";
 
     private readonly HttpClient _client = new();
 
