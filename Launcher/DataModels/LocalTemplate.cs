@@ -35,10 +35,16 @@ public class LocalTemplate : ProjectTemplate
         var projectFolder = Path.Combine(parentFolder, name);
         CopyDirectory(Project.Path, projectFolder, true);
 
-        // We prefer to delete unneeded folders instead of only copying the needed ones
-        // because we don't know if this template projects has extra folders that are needed.
-        Directory.Delete(Path.Combine(projectFolder, "Cache"), recursive: true);
-        Directory.Delete(Path.Combine(projectFolder, "Binaries"), recursive: true);
+        try
+        {
+            // We prefer to delete unneeded folders instead of only copying the needed ones
+            // because we don't know if this template projects has extra folders that are needed.
+            Directory.Delete(Path.Combine(projectFolder, "Cache"), recursive: true);
+            Directory.Delete(Path.Combine(projectFolder, "Binaries"), recursive: true);
+        }
+        catch (DirectoryNotFoundException)
+        {
+        }
 
         var flaxProj = Path.GetRelativePath(Project.Path, Project.FlaxProj);
         var jsonText = await File.ReadAllTextAsync(Project.FlaxProj);
