@@ -148,8 +148,14 @@ public partial class EnginesPageViewModel : PageViewModel
         FilterEngineVersions(versions);
         if (versions.Count == 0)
         {
-            var dialog = new MessageBoxDialogModel("Already have the latest master version installed",
-                MessageDialogActions.Ok);
+            var message = "Already have the latest master version installed.";
+            var gitEnginesCount = _engineManager.Engines.Count(e => e.Version is GitVersion);
+            if (gitEnginesCount == 0)
+            {
+                message = "Could not locate a recent CI Build.";
+            }
+
+            var dialog = new MessageBoxDialogModel(message, MessageDialogActions.Ok);
             await dialog.ShowDialog();
             return;
         }
