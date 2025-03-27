@@ -12,7 +12,7 @@
       <Grid>
         <Label Classes="page-header" Content="Installs" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
-          <Button Classes="page-button" Content="Locate" />
+          <!-- <Button Classes="page-button" Content="Locate" /> -->
           <Button Classes="page-button primary" Content="Download">
             <Button.Flyout>
               <controls:CustomFlyout Placement="BottomEdgeAlignedLeft" ShowMode="Transient">
