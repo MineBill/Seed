@@ -29,6 +29,7 @@
       <Button Grid.Row="1"
               IsEnabled="{Binding !HasErrors}"
               Classes="primary"
+              Classes.disabled="{Binding HasErrors}"
               Content="Clone"
               Command="{Binding CloneRepoCommand}"
               HorizontalAlignment="Center" VerticalAlignment="Bottom" />
