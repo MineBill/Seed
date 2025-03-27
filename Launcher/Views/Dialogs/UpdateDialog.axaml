@@ -29,7 +29,7 @@
           MinHeight="100"
           Markdown="{Binding Body}" />
       </Border>
-      <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Content="Skip" />
+      <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Content="Skip" Command="{Binding CloseDialogCommand}" />
       <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Classes="primary" Content="Download"
               Command="{Binding DownloadUpdateCommand}" />
     </Grid>
