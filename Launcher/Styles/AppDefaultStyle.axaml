@@ -113,8 +113,8 @@
   </Style>
 
   <Style Selector="Button:pointerover.flyout /template/ ContentPresenter">
-    <!-- <Setter Property="Background" Value="{DynamicResource PrimaryAccentColor}" /> -->
-    <Setter Property="Foreground" Value="WhiteSmoke" />
+    <Setter Property="Background" Value="{DynamicResource SelectedBackground}" />
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
   </Style>
 
   <Style Selector="FlyoutPresenter">
