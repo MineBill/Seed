@@ -206,7 +206,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
         download.CurrentAction = "Done!";
 
         downloadManager.RemoveDownload(download);
-        return new Engine
+        var newEngine = new Engine
         {
             Name = engine.Name,
             Path = editorInstallFolder,
@@ -220,6 +220,8 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
                 Engine.Configuration.Release
             }
         };
+        newEngine.EnsureMarkedExecutable();
+        return newEngine;
     }
 
     /// <inheritdoc />
@@ -288,7 +290,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
         download.CurrentAction = "Done!";
 
         downloadManager.RemoveDownload(download);
-        return new Engine
+        var newEngine = new Engine
         {
             Name = $"CI Build {workflow.CommitHash[..5]}",
             Path = editorInstallFolder,
@@ -302,5 +304,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
                 Engine.Configuration.Release
             }
         };
+        newEngine.EnsureMarkedExecutable();
+        return newEngine;
     }
 }

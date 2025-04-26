@@ -72,6 +72,8 @@ public class EngineManager : IEngineManager
                 continue;
             }
 
+            engine.EnsureMarkedExecutable();
+
             foreach (var package in engine.InstalledPackages.ToList())
             {
                 if (!package.ValidateInstallation())
