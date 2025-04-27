@@ -17,6 +17,8 @@
   <UserControl.Resources>
     <controls:CustomFlyout x:Key="ContextMenu" Placement="BottomEdgeAlignedLeft" ShowMode="Standard">
       <StackPanel>
+        <Button Classes="flyout" Content="Open"
+                Command="{Binding LaunchProjectCommand}" />
         <Button Classes="flyout" Content="Configure"
                 Command="{Binding OpenConfigurationCommand}" />
         <Button Classes="flyout" Content="Open Directory"
