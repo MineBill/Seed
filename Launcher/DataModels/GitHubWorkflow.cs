@@ -29,6 +29,12 @@ public class GitHubWorkflow
     public string CommitHash { get; set; } = string.Empty;
 
     /// <summary>
+    /// Returns only the first 6 characters of the commit hash.
+    /// </summary>
+    [JsonIgnore]
+    public string ShortCommitHash => CommitHash[..6];
+
+    /// <summary>
     /// The status of the run.
     /// </summary>
     [JsonPropertyName("status")]

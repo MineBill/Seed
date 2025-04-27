@@ -239,7 +239,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
             new AuthenticationHeaderValue("Bearer", preferencesManager.Preferences.GithubAccessToken);
 
         var tempEditorFile = Path.GetTempFileName();
-        download.Title = $"Downloading {workflow.CommitHash}";
+        download.Title = $"Downloading {workflow.ShortCommitHash}";
         download.CurrentAction = $"Downloading...";
         var editorUrl = workflow.EditorArtifact.DownloadUrl;
         await using (var file = new FileStream(tempEditorFile, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -292,7 +292,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
         downloadManager.RemoveDownload(download);
         var newEngine = new Engine
         {
-            Name = $"CI Build {workflow.CommitHash[..5]}",
+            Name = $"CI Build {workflow.ShortCommitHash}",
             Path = editorInstallFolder,
             Version = new GitVersion(workflow.CommitHash, workflow.CreatedAt),
             InstalledPackages = installedPackages,
