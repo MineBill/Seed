@@ -103,13 +103,6 @@
   <Style Selector="Button.flyout /template/ ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
     <Setter Property="Foreground" Value="{DynamicResource SecondaryForeground}" />
-
-    <Setter Property="Transitions">
-      <Transitions>
-        <BrushTransition Property="Background" Duration="0:0:0.1" Easing="SineEaseIn" />
-        <BrushTransition Property="Foreground" Duration="0:0:0.1" Easing="SineEaseIn" />
-      </Transitions>
-    </Setter>
   </Style>
 
   <Style Selector="Button:pointerover.flyout /template/ ContentPresenter">
