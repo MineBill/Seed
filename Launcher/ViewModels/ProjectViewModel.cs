@@ -27,6 +27,8 @@ public partial class ProjectViewModel : ViewModelBase
 
     public string ProjectName => _project.Name;
 
+    public Project Project => _project;
+
     public string IconPath => Path.Exists(_project.IconPath)
         ? _project.IconPath
         : "avares://Launcher/Assets/Images/BasicScene.png";

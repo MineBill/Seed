@@ -88,13 +88,15 @@ public partial class ProjectsPageViewModel : PageViewModel
                     }
                 }
             }
+
+            ResetProjectsView();
         };
         foreach (var project in _projectManager.Projects)
         {
             Projects.Add(new ProjectViewModel(project, projectManager, _engineManager, _filesService));
         }
 
-        FilteredProjects = Projects;
+        ResetProjectsView();
 
         HasFlaxSamples =
             Directory.Exists(Path.Combine(_preferencesManager.Preferences.NewProjectLocation ?? string.Empty,
@@ -124,7 +126,9 @@ public partial class ProjectsPageViewModel : PageViewModel
                 return;
             }
 
-            _projectManager.AddProject(result.Result);
+            var engine = result.Result!;
+            engine.LastOpenedTime = DateTime.Now;
+            _projectManager.AddProject(engine);
         }
     }
 
@@ -234,7 +238,7 @@ public partial class ProjectsPageViewModel : PageViewModel
     {
         if (value == string.Empty)
         {
-            FilteredProjects = Projects;
+            ResetProjectsView();
             return;
         }
 
@@ -247,5 +251,10 @@ public partial class ProjectsPageViewModel : PageViewModel
         var vm = new MessageBoxDialogModel("No engine installation detected. Please install an engine first.",
             MessageDialogActions.Ok);
         await vm.ShowDialog();
+    }
+
+    private void ResetProjectsView()
+    {
+        FilteredProjects = Projects.OrderByDescending(model => model.Project.LastOpenedTime);
     }
 }
