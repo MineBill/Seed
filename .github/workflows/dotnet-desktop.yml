@@ -45,10 +45,10 @@ jobs:
         echo ${{ steps.tag_name.outputs.tag }}
         dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=${{ steps.tag_name.outputs.tag }}
 
-    - name: Compress Artifact
-      if: ${{ startsWith(matrix.runtime, 'win-') }}
-      run: |
-        Compress-Archive Publish Seed-win64.zip
+    # - name: Compress Artifact
+    #   if: ${{ startsWith(matrix.runtime, 'win-') }}
+    #   run: |
+    #     Compress-Archive Publish Seed-win64.zip
 
     - name: Create AppImage
       if: ${{ startsWith(matrix.runtime, 'linux-') }}
@@ -59,6 +59,19 @@ jobs:
         mkdir -p AppDir/usr/bin
         cp Publish/* AppDir/usr/bin
         ARCH=x86_64 ./appimagetool-x86_64.AppImage AppDir Seed.AppImage
+
+    - name: Install Inno Setup 6.4.3 and Add to PATH
+      if: ${{ startsWith(matrix.runtime, 'win-') }}
+      run: |
+        $installer = "is.exe"
+        Invoke-WebRequest -Uri "https://files.jrsoftware.org/is/6/innosetup-6.4.3.exe" -OutFile $installer
+        Start-Process -Wait -FilePath ".\$installer" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-"
+        echo "C:\Program Files (x86)\Inno Setup 6" | Out-File -Append -Encoding ascii $env:GITHUB_PATH
+
+    - name: Create Installer
+      if: ${{ startsWith(matrix.runtime, 'win-') }}
+      run:
+        ISCC.exe /dversion=${{ steps.tag_name.outputs.tag }} InnoSetup\Setup.iss
 
     - name: Upload artifact
       if: ${{ startsWith(matrix.runtime, 'linux-') }}
@@ -72,4 +85,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Seed.${{ matrix.runtime }}
-        path: Seed-win64.zip
+        path: InnoSetup/Output/Seed_v${{ steps.tag_name.outputs.tag }}.exe
