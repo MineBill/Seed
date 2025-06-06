@@ -62,6 +62,10 @@
         <AvaloniaResource Include="Assets\Fonts\Nunito.ttf"/>
         <None Remove="Assets\Images\logo.png"/>
         <AvaloniaResource Include="Assets\Images\logo.png"/>
+        <None Remove="Assets\Images\logo.ico"/>
+        <AvaloniaResource Include="Assets\Images\logo.ico"/>
+        <None Remove="Assets\Images\logo32.ico"/>
+        <AvaloniaResource Include="Assets\Images\logo32.ico"/>
         <None Remove="Assets\Images\project_icon.png"/>
         <AvaloniaResource Include="Assets\Images\project_icon.png"/>
         <None Update="NLog.config">

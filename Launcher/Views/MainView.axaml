@@ -11,7 +11,7 @@
         x:DataType="vm:MainViewModel"
         d:DataContext="{x:Static launcher:DesignData.DesignMainViewModel}"
         UseLayoutRounding="True"
-        Icon="/Assets/Images/logo.png"
+        Icon="/Assets/Images/logo32.ico"
         Title="Seed Launcher">
   <dialogHost:DialogHost
     DialogMargin="0"
