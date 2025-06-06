@@ -42,7 +42,7 @@ jobs:
 
     - name: Create artifact
       run: |
-        dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=${{ steps.tag_name.outputs.tag }}
+        dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=${{ steps.tag_name.outputs.tag || '0.0.0' }}
 
     # - name: Compress Artifact
     #   if: ${{ startsWith(matrix.runtime, 'win-') }}
@@ -70,7 +70,7 @@ jobs:
     - name: Create Installer
       if: ${{ startsWith(matrix.runtime, 'win-') }}
       run:
-        ISCC.exe /dversion=${{ steps.tag_name.outputs.tag }} InnoSetup\Setup.iss
+        ISCC.exe /dversion=${{ steps.tag_name.outputs.tag || '0.0.0' }} InnoSetup\Setup.iss
 
     - name: Upload artifact
       if: ${{ startsWith(matrix.runtime, 'linux-') }}
@@ -84,4 +84,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Seed.${{ matrix.runtime }}
-        path: InnoSetup/Output/Seed_v${{ steps.tag_name.outputs.tag }}.exe
+        path: InnoSetup/Output/Seed_v${{ steps.tag_name.outputs.tag || '0.0.0' }}.exe
