@@ -10,3 +10,5 @@ global.json
 *.DotSettings.user
 .DirIcon
 Publish/
+InnoSetup/Publish
+InnoSetup/Output
