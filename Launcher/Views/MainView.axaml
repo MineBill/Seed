@@ -11,7 +11,7 @@
         x:DataType="vm:MainViewModel"
         d:DataContext="{x:Static launcher:DesignData.DesignMainViewModel}"
         UseLayoutRounding="True"
-        Icon="/Assets/Images/logo32.ico"
+        Icon="/Assets/Images/logo.ico"
         Title="Seed Launcher">
   <dialogHost:DialogHost
     DialogMargin="0"
@@ -34,10 +34,10 @@
         <Grid ShowGridLines="{Binding IsDebugging}" RowDefinitions="*, *, Auto">
           <StackPanel Spacing="5">
             <Image PointerPressed="InputElement_OnPointerPressed" IsVisible="{Binding !SidebarExtended}"
-                   Source="avares://Launcher/Assets/Images/logo.png" Width="32">
+                   Source="avares://Launcher/Assets/Images/logo.ico" Width="32">
             </Image>
             <Image PointerPressed="InputElement_OnPointerPressed" IsVisible="{Binding SidebarExtended}"
-                   Source="avares://Launcher/Assets/Images/logo.png" Width="64">
+                   Source="avares://Launcher/Assets/Images/logo.ico" Width="64">
             </Image>
             <Button
               Classes="sidebar"
