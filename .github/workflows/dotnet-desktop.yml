@@ -69,7 +69,7 @@ jobs:
 
     - name: Create Installer
       if: ${{ startsWith(matrix.runtime, 'win-') }}
-      run:
+      run: |
         Copy-Item -Recurse .\Publish\ .\InnoSetup\Publish
         ISCC.exe /dversion=${{ steps.tag_name.outputs.tag || '0.0.0' }} InnoSetup\Setup.iss
 
