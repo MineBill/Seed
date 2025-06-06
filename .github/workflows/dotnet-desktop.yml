@@ -42,7 +42,6 @@ jobs:
 
     - name: Create artifact
       run: |
-        echo ${{ steps.tag_name.outputs.tag }}
         dotnet publish -c ReleaseAOT --runtime ${{ matrix.runtime }} Launcher --output Publish/ /p:AssemblyVersion=${{ steps.tag_name.outputs.tag }}
 
     # - name: Compress Artifact
