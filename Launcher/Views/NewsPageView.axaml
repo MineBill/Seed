@@ -27,7 +27,8 @@
                 ClipToBounds="True"
                 CornerRadius="4">
                 <Grid RowDefinitions="*, Auto" ZIndex="-10">
-                  <Image asyncImageLoader:ImageLoader.Source="{Binding BackgroundUrl}" Stretch="Uniform" />
+                  <Image asyncImageLoader:ImageLoader.Source="{Binding BackgroundUrl}" Stretch="Uniform"
+                         PointerPressed="InputElement_OnPointerPressed" Tag="{Binding NewsPageUrl}" Cursor="Hand" />
                   <Grid Grid.Row="1"
                         ColumnDefinitions="Auto, *, *"
                         Background="{DynamicResource SecondaryBackground}"
