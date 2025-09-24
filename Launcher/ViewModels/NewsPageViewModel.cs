@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Launcher.Services;
@@ -19,7 +20,7 @@ public partial class NewsPageViewModel : PageViewModel
     {
         PageName = PageNames.News;
         _files = files;
-        Items = new ObservableCollection<NewsItem>(itemsFactory.Invoke());
+        Task.Run(() => { Items = new ObservableCollection<NewsItem>(itemsFactory.Invoke()); });
     }
 
     [RelayCommand]
