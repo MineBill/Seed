@@ -275,7 +275,7 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
             var installFolder = Path.Combine(editorInstallFolder, tools.TargetPath);
             download.CurrentAction = $"Extracting {tools.Name} artifact";
 
-            var nestedPlatformZipPath = Path.GetRandomFileName();
+            var nestedPlatformZipPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             await ZipHelpers.ExtractToDirectoryAsync(tmpFile, nestedPlatformZipPath, download.Progress,
                 cancellationToken);
 
@@ -297,12 +297,12 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
             Version = new GitVersion(workflow.CommitHash, workflow.CreatedAt),
             InstalledPackages = installedPackages,
             PreferredConfiguration = Engine.Configuration.Release,
-            AvailableConfigurations = new List<Engine.Configuration>
-            {
+            AvailableConfigurations =
+            [
                 Engine.Configuration.Debug,
                 Engine.Configuration.Development,
                 Engine.Configuration.Release
-            }
+            ]
         };
         newEngine.EnsureMarkedExecutable();
         return newEngine;
