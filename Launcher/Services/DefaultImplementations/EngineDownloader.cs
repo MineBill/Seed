@@ -184,9 +184,17 @@ public class EngineDownloader(IPreferencesManager preferencesManager, IDownloadM
         // TODO: Check for errors
         // ZipFile.ExtractToDirectory(tempEditorFile, editorInstallFolder);
         download.CurrentAction = "Extracting editor";
-        await ZipHelpers.ExtractToDirectoryAsync(tempEditorFile, editorInstallFolder, download.Progress,
-            cancellationToken);
 
+        if (OperatingSystem.IsMacOS())
+        {
+            await DmgHelpers.ExtractToDirectoryAsync(tempEditorFile, editorInstallFolder, download.Progress,
+                cancellationToken);
+        }
+        else
+        {
+            await ZipHelpers.ExtractToDirectoryAsync(tempEditorFile, editorInstallFolder, download.Progress,
+                cancellationToken);
+        }
         var installedPackages = new List<Package>(platformTools.Count);
         foreach (var tools in platformTools)
         {

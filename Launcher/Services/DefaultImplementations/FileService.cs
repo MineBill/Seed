@@ -48,7 +48,7 @@ public class FilesService(Window target) : IFilesService
     {
         var info = new ProcessStartInfo
         {
-            FileName = OperatingSystem.IsLinux() ? "xdg-open" : "explorer.exe",
+            FileName = OperatingSystem.IsLinux() ? "xdg-open" : OperatingSystem.IsMacOS() ? "open" : "explorer.exe",
             ArgumentList = { path },
         };
         Process.Start(info);
