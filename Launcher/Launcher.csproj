@@ -14,16 +14,22 @@
         <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <RuntimeIdentifier Condition="'$(IsWindows)' == 'true'">win-x64</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(IsLinux)' == 'true'">linux-x64</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(IsOSX)' == 'true'">osx-arm64</RuntimeIdentifier>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    </PropertyGroup>
+
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <PlatformTarget>x64</PlatformTarget>
+        <Optimize>true</Optimize>
         <DebugType>none</DebugType>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <PlatformTarget>x64</PlatformTarget>
-    </PropertyGroup>
+
     <PropertyGroup Condition=" '$(Configuration)' == 'ReleaseAOT' ">
         <Optimize>true</Optimize>
-        <PlatformTarget>x64</PlatformTarget>
         <PublishAot>true</PublishAot>
         <DebugType>none</DebugType>
     </PropertyGroup>

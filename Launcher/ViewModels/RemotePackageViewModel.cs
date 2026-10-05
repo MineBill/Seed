@@ -22,6 +22,8 @@ public partial class RemotePackageViewModel(RemotePackage package) : ViewModelBa
                 return PackageName.Contains("Linux");
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return PackageName.Contains("Windows");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                return false;
             throw new ArgumentException($"Unsupported os platform: {Environment.OSVersion}");
         }
     }

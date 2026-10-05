@@ -134,13 +134,21 @@ public class ProjectManager : IProjectManager
 
             Process.Start(info);
         }
-        else if (OperatingSystem.IsWindows())
+        else if (OperatingSystem.IsWindows() || OperatingSystem.IsMacOS())
         {
             var info = new ProcessStartInfo
             {
                 FileName = enginePath,
-                Arguments = $"-project \"{Path.GetFullPath(project.Path)}\" {project.ProjectArguments ?? string.Empty}",
             };
+
+            info.ArgumentList.Add("-project");
+            info.ArgumentList.Add(Path.GetFullPath(project.Path));
+
+            if (!string.IsNullOrWhiteSpace(project.ProjectArguments))
+                info.ArgumentList.Add(project.ProjectArguments);
+
+            Console.WriteLine($"Executable: [{info.FileName}]");
+            Console.WriteLine($"Arguments: [{string.Join(" | ", info.ArgumentList)}]");
 
             Process.Start(info);
         }

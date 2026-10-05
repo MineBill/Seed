@@ -61,6 +61,10 @@ public class RemoteEngine : IComparable<RemoteEngine>
             return package.IsLinuxTools || package.IsAndroidTools;
         }
 
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
+            return package.IsAndroidTools;
+        }
+
         return false;
     }
 }

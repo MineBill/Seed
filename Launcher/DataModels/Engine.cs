@@ -69,7 +69,17 @@ public class Engine
     public bool ValidateInstallation()
     {
         // TODO: Also check if the all of the available configurations are present.
-        return File.Exists(System.IO.Path.Combine(Path, "Flax.flaxproj"));
+        var projectPath = OperatingSystem.IsMacOS()
+            ? System.IO.Path.Combine(
+                Path,
+                "FlaxEditor.app",
+                "Contents",
+                "Flax.flaxproj")
+            : System.IO.Path.Combine(
+                Path,
+                "Flax.flaxproj");
+
+        return File.Exists(projectPath);
     }
 
     /// <summary>
@@ -82,12 +92,18 @@ public class Engine
 
         try
         {
-            var toolPath = System.IO.Path.Combine(Path, "Binaries", "Tools", "Flax.Build");
+            var root = Path;
+            if (OperatingSystem.IsMacOS())
+                root = System.IO.Path.Combine(root, "FlaxEditor.app", "Contents");
+
+            var toolPath = System.IO.Path.Combine(root, "Binaries", "Tools", "Flax.Build");
             Process.Start("chmod", $"+x \"{toolPath}\"");
+
+            var platform = OperatingSystem.IsMacOS() ? "Mac" : "Linux";
 
             foreach (var config in AvailableConfigurations)
             {
-                var path = System.IO.Path.Combine(Path, "Binaries", "Editor", "Linux", config.ToString(), "FlaxEditor");
+                var path = System.IO.Path.Combine(root, "Binaries", "Editor", platform, config.ToString(), "FlaxEditor");
                 Process.Start("chmod", $"+x \"{path}\"");
             }
         }
@@ -101,6 +117,12 @@ public class Engine
     {
         var os = string.Empty;
         var exe = string.Empty;
+
+        if (OperatingSystem.IsMacOS())
+        {
+            return System.IO.Path.Combine(Path, "FlaxEditor.app", "Contents", "Binaries", "Editor", "Mac", configuration.ToString(), "FlaxEditor");
+        }
+
         if (OperatingSystem.IsWindows())
         {
             os = "Win64";
@@ -109,11 +131,6 @@ public class Engine
         else if (OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD())
         {
             os = "Linux";
-            exe = "FlaxEditor";
-        }
-        else if (OperatingSystem.IsMacOS())
-        {
-            os = "MacOS"; // TODO: Is this the correct folder name for macs?
             exe = "FlaxEditor";
         }
 

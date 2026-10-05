@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <!-- Native executable inside Contents/MacOS -->
+    <key>CFBundleExecutable</key>
+    <string>Launcher</string>
+
+    <!-- Unique application identifier -->
+    <key>CFBundleIdentifier</key>
+    <string>com.seedlauncher.app</string>
+
+    <key>CFBundleIconFile</key>
+    <string>SeedLauncher</string>
+
+    <!-- Application name -->
+    <key>CFBundleName</key>
+    <string>Seed Launcher</string>
+
+    <key>CFBundleDisplayName</key>
+    <string>Seed Launcher</string>
+
+    <!-- Application bundle -->
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+
+    <!-- Version -->
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+
+    <key>CFBundleVersion</key>
+    <string>1</string>
+
+    <!-- Minimum macOS version -->
+    <key>LSMinimumSystemVersion</key>
+    <string>12.0</string>
+
+    <!-- HiDPI -->
+    <key>NSHighResolutionCapable</key>
+    <true/>
+
+</dict>
+</plist>
